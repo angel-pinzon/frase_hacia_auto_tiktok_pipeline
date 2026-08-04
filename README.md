@@ -4,6 +4,7 @@ Pipeline automatizado de código abierto para la generación y publicación de c
 
 ## Estructura del Proyecto
 
+
 auto_tiktok_pipeline/
 ├── assets/
 │   ├── personaje_1/
@@ -20,6 +21,7 @@ auto_tiktok_pipeline/
 ├── 2_generate_voice.py      # Módulo 2: Creación de WAV con OmniVoice
 ├── 3_generate_video.py      # Módulo 3: Creación de video vertical (Avatar + Sincronización)
 └── 4_upload_tiktok.py       # Módulo 4: Carga automática a TikTok
+
 
 ## Fases y Detalles Técnicos de los Módulos
 
