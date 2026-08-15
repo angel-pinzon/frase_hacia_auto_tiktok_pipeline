@@ -1,0 +1,121 @@
+{
+  "active_character": "VicenteFernandez",
+  "characters": {
+    "DiomedesDiaz": {
+      "name": "Diomedes Díaz",
+      "audio_path": "assets/DiomedesDiaz/ref_audio.wav",
+      "audio_text": "Texto exacto que se dice en el audio de referencia.",
+      "image_path": "assets/DiomedesDiaz/avatar.jpg",
+      "lyrics_dir": "lyrics/DiomedesDiaz",
+      "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante vallenato colombiano Diomedes Díaz.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
+      "top_songs": [
+        "sin-medir-distancias",
+        "tu-eres-la-reina",
+        "amarte-mas-no-pude",
+        "la-suerte-esta-echada",
+        "la-plata",
+        "ron-pa-todo-el-mundo-part-joe-arroyo",
+        "el-condor-herido",
+        "mi-primera-cana",
+        "a-un-carino-del-alma",
+        "los-recuerdos-de-ella",
+        "asi-me-hizo-dios"
+      ],
+      "text_suffix": ". Con mucho Gusto"
+    },
+    "YeisonJimenez": {
+      "name": "Yeison Jiménez",
+      "audio_path": "assets/YeisonJimenez/ref_audio.wav",
+      "audio_text": "Mi papá tenía mucho dinero, pero él no tenía educación financiera, tenía más astucia.",
+      "image_path": "assets/YeisonJimenez/avatar.jpg",
+      "lyrics_dir": "lyrics/YeisonJimenez",
+      "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante popular colombiano Yeison Jiménez.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
+      "top_songs": [
+        "aventurero",
+        "ya-no-mi-amor",
+        "destino-final-part-luis-alfonso",
+        "vete",
+        "vuelve-y-me-pasa",
+        "hasta-la-madre-part-pasabordo",
+        "el-mejor-remix-part-chayin-rubio",
+        "mlp",
+        "maldita-traga",
+        "que-dia-es-hoy",
+        "ni-tengo-ni-necesito",
+        "tenias-razon"
+      ],
+      "text_suffix": ". Con el Corazón"
+    },
+    "VicenteFernandez": {
+      "name": "Vicente Fernández",
+      "audio_path": "assets/VicenteFernandez/ref_audio.wav",
+      "audio_text": "Pues mi vida es cantar, pero Gustavo hay que tener talento hasta para eso, para decir me voy",
+      "image_path": "assets/VicenteFernandez/avatar3.jpg",
+      "lyrics_dir": "lyrics/VicenteFernandez",
+      "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante de rancheras mexicano Vicente Fernández.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
+      "top_songs": [],
+      "text_suffix": ""
+    }
+  },
+  "output_dir": "output",
+  "gemini": {
+    "model": "gemini-3.6-flash",
+    "use_search": false,
+    "max_attempts": 5,
+    "api_retries": 4,
+    "retry_wait": 20,
+    "min_words": 14
+  },
+  "omnivoice": {
+    "python": "/home/sixto/omni_voice_project/venv/bin/python",
+    "module": "omnivoice.cli.infer",
+    "cwd": "/home/sixto/omni_voice_project/OmniVoice",
+    "text_suffix": ". Con mucho Gusto",
+    "cut_threshold": 250,
+    "max_attempts": 3,
+    "args": [
+      "--text",
+      "{gen_text}",
+      "--ref_audio",
+      "{ref_audio}",
+      "--output",
+      "{output}",
+      "--language",
+      "Spanish"
+    ],
+    "min_word_duration": 0.13
+  },
+  "video": {
+    "sadtalker_dir": "/home/sixto/sadtalker_project/SadTalker",
+    "python": "/home/sixto/sadtalker_project/venv/bin/python",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "size": 512,
+    "enhancer": "gfpgan",
+    "crop_to_face": true,
+    "text": {
+      "enabled": true,
+      "font": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "size": 39,
+      "max_chars": 46,
+      "line_spacing": 14,
+      "border": 4,
+      "verse_y": 0.62,
+      "scrim": 0.5,
+      "scrim_top": 0.55,
+      "title_color": "gold",
+      "title_margin": 130
+    },
+    "max_source": 1600,
+    "still": false,
+    "expression_scale": 1.3,
+    "pose_style": 0
+  },
+  "tiktok": {
+    "headless": false,
+    "storage_state": ".tiktok_session.json",
+    "caption": "",
+    "dry_run": true
+  }
+}

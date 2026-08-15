@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+output/
+.tiktok_session.json
+.env
+
+# Material con derechos de autor: no se versiona en un repo publico.
+# Letras de canciones y fotos de prensa de los artistas.
+lyrics/**/*.txt
+assets/**/*.wav
+assets/**/*.png
+assets/**/*.jpg
+assets/**/*.jpeg
+
+# Restos de copiar archivos desde Windows y paginas web guardadas.
+*Zone.Identifier
+*.html
+*_files/
