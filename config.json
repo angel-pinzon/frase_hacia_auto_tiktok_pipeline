@@ -1,11 +1,11 @@
 {
-  "active_character": "VicenteFernandez",
+  "active_character": "DiomedesDiaz",
   "characters": {
     "DiomedesDiaz": {
       "name": "Diomedes Díaz",
       "audio_path": "assets/DiomedesDiaz/ref_audio.wav",
       "audio_text": "Texto exacto que se dice en el audio de referencia.",
-      "image_path": "assets/DiomedesDiaz/avatar.jpg",
+      "image_path": "assets/DiomedesDiaz/avatar2.png",
       "lyrics_dir": "lyrics/DiomedesDiaz",
       "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante vallenato colombiano Diomedes Díaz.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
       "top_songs": [
@@ -21,7 +21,8 @@
         "los-recuerdos-de-ella",
         "asi-me-hizo-dios"
       ],
-      "text_suffix": ". Con mucho Gusto"
+      "text_suffix": ". Con mucho Gusto",
+      "prompt_libre": "A continuación tienes varias letras del cantante vallenato colombiano Diomedes Díaz, solo como referencia de su forma de hablar.\n\n--- LETRAS DE REFERENCIA ---\n{lyrics}\n--- FIN ---\n\nEscribe un texto ORIGINAL, como si él estuviera hablando a cámara, con dos o tres frases de optimismo, aguante ante la adversidad o sabiduría costumbrista.\n\nReglas:\n- NO copies versos de las letras. Son solo referencia de vocabulario, giros y tono.\n- Entre {min} y {max} palabras, en primera persona, hablado y natural.\n- Español costeño colombiano, cercano y cálido, sin sonar a discurso.\n- Cada frase en una línea aparte, terminada en punto.\n- Sin emojis, sin comillas, sin hashtags, sin nombrar canciones ni a sí mismo.\n- Devuelve únicamente el texto, sin introducción ni explicación."
     },
     "YeisonJimenez": {
       "name": "Yeison Jiménez",
@@ -53,8 +54,25 @@
       "image_path": "assets/VicenteFernandez/avatar3.jpg",
       "lyrics_dir": "lyrics/VicenteFernandez",
       "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante de rancheras mexicano Vicente Fernández.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
-      "top_songs": [],
+      "top_songs": [
+        "mujeres-divinas-part-la-adictiva",
+        "estos-celos-part-christian-nodal",
+        "la-diferencia-part-banda-el-recodo-de-cruz-lizarraga",
+        "volver-volver",
+        "el-rey-part-alejandro-fernandez",
+        "la-derrota-part-josi-cuen"
+      ],
       "text_suffix": ""
+    },
+    "RafaelPoveda": {
+      "name": "Rafael Poveda",
+      "audio_path": "assets/RafaelPoveda/ref_audio.wav",
+      "audio_text": "Liliana, gracias por estar con nosotros. Gracias por estar aquí en nuestro estudio en Bogotá. ¿Con cuántas chicas trabajaste tú, Liliana?",
+      "image_path": "assets/RafaelPoveda/avatar6.png",
+      "lyrics_dir": "",
+      "prompt": "",
+      "top_songs": [],
+      "text_suffix": " ¿Eh?"
     }
   },
   "output_dir": "output",
@@ -64,7 +82,10 @@
     "max_attempts": 5,
     "api_retries": 4,
     "retry_wait": 20,
-    "min_words": 14
+    "min_words": 14,
+    "context_songs": 6,
+    "free_min_words": 40,
+    "free_max_words": 70
   },
   "omnivoice": {
     "python": "/home/sixto/omni_voice_project/venv/bin/python",

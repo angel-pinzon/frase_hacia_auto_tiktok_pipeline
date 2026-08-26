@@ -91,12 +91,54 @@ Sobre la resolución, lo que importa no es el tamaño absoluto sino **cuánto ha
 
 ## Flujo interactivo (recomendado)
 
+La Fase 3 cuesta unos 10 minutos de GPU, así que **todo se valida antes de renderizar**. El orden real de trabajo es este:
+
+**1. Elegir personaje.** Cambiar `active_character` en `config.json`. Cada uno escribe en su propia carpeta de `output/`, así que no se pisan.
+
+**2. Pedir varias frases y escoger.** En lugar de aceptar la primera, conviene generar tres candidatas de canciones distintas y comparar. Cada una llega ya verificada contra su letra:
+
 ```bash
-.venv/bin/python 1_generate_text.py     # propone una frase verificada
-# revisar output/<Personaje>/script_meta.json, ajustar si hace falta
-.venv/bin/python 2_generate_voice.py    # ~30 s
-.venv/bin/python 3_generate_video.py    # ~10 min con size 512 + GFPGAN
+.venv/bin/python 1_generate_text.py     # una propuesta
 ```
+
+Para tres de un tirón se ejecuta la Fase 1 varias veces, o se recorren varias canciones reutilizando `load_songs()`, `ask_gemini()` e `is_verbatim()` del módulo. Se comparan por longitud, por si el mensaje se entiende fuera de contexto y por lo reconocible que sea la canción.
+
+**3. Ajustar el texto a mano si hace falta.** Es habitual alargar la frase con los versos siguientes o cambiar la puntuación. **Si se edita a mano se pierde la garantía automática de la Fase 1**, así que hay que volver a verificar contra la letra antes de seguir:
+
+```python
+m1.is_verbatim(texto, m1.clean_lyrics(open(ruta_letra).read()))
+```
+
+**4. Generar solo la voz y escucharla.** Es el paso que ahorra tiempo: unos 30 segundos frente a los 10 minutos del render.
+
+```bash
+.venv/bin/python 2_generate_voice.py
+```
+
+Si el resultado no convence, se ajusta y se repite. Los defectos típicos y su arreglo están en la Fase 2. **Nunca llamar a OmniVoice directamente para probar variantes**: se saltan los controles de calidad y el audio sale con la última sílaba cortada sin que nadie avise.
+
+**5. Renderizar el video.**
+
+```bash
+.venv/bin/python 3_generate_video.py
+```
+
+**6. Archivar el resultado**, porque `video.mp4` y `voice.wav` se sobrescriben en la siguiente ejecución. Por convención:
+
+- `output/<Personaje>/opciones/` — frases sacadas de canciones
+- `output/<Personaje>/saludos/` — felicitaciones y encargos
+- `output/<Personaje>/frases/` — frases sueltas y bromas
+
+Se guarda el `.mp4`, el `.wav` y el `.json`, con el nombre de la canción o del destinatario.
+
+### Afinar la entonación
+
+Cuando una frase no suena como se quiere, se prueban variantes de puntuación y se mide en vez de decidir a oído. Dos ejemplos reales:
+
+- Dos preguntas seguidas sonaban como una sola. Separándolas con **puntos suspensivos** (`¿Qué?... ¿Pola o miedo?`) la pausa pasó de 0.13 s a 0.49 s, y Whisper empezó a transcribirlas como dos preguntas distintas. Con punto simple, en cambio, el modelo entendía mal una palabra.
+- Un topónimo mal pronunciado se corrigió con un guion, sin tocar el texto en pantalla.
+
+Para comparar variantes: generarlas, transcribirlas con Whisper y medir las pausas con `silencedetect`. Después **regenerar la elegida por el pipeline**, para que pase por los controles.
 
 Entre fases se puede editar `output/<Personaje>/script_meta.json`:
 
@@ -104,6 +146,25 @@ Entre fases se puede editar `output/<Personaje>/script_meta.json`:
 - **`overrides`**: ajustes que aplican **solo a este video**, mezclados sobre `config.json`.
 
 `script.txt` es lo que se **pronuncia** y va por separado, así que se puede forzar la fonética sin ensuciar el texto visible. Ejemplo real: OmniVoice leía "Soatá" como *"Suatá"*; escribiéndolo **`So-atá`** en `script.txt` lo pronuncia bien, mientras `verses` conserva la grafía correcta. El guion separa las vocales sin añadir consonantes; `So atá` y `Sohatá` dan resultados peores.
+
+### Modo libre: texto original al estilo del personaje
+
+Además de citar versos, la Fase 1 puede **escribir** frases nuevas imitando la forma de hablar del artista, para videos más largos de tono optimista o costumbrista:
+
+```bash
+.venv/bin/python 1_generate_text.py --libre
+```
+
+Toma varias letras suyas como referencia de vocabulario y giros, y redacta un texto original de 40-70 palabras. Requiere un `prompt_libre` en la ficha del personaje.
+
+**La diferencia de fondo con el modo cita:** aquí no hay nada que verificar contra una fuente, porque el texto es inventado. Dos decisiones de diseño lo compensan:
+
+- **No se atribuye ninguna canción.** `song` queda vacío, así que no sale rótulo y el video no presenta como cita algo que no lo es. En `context_songs` queda registrado qué letras se usaron de referencia.
+- **Se comprueba lo contrario que en el modo cita**: que ninguna línea sea textual de las letras. Si el modelo copia un verso pese a la prohibición, se descarta y reintenta. Sin ese control existe el riesgo de publicar un verso real como si fuera texto propio.
+
+Ajustes en `gemini`: `context_songs` (cuántas letras de referencia), `free_min_words` y `free_max_words`.
+
+Ten en cuenta dos consecuencias de los textos largos: el render crece en proporción —GFPGAN procesa fotograma a fotograma, así que 30 s pueden rondar la media hora— y el texto en pantalla, que hoy es estático, deja de caber. Para esas duraciones harían falta subtítulos sincronizados, que aún no están implementados.
 
 ### Saludos personalizados
 
@@ -119,16 +180,26 @@ Cada frase tiene su ritmo, así que a veces hace falta afinar una sola. Ejemplo 
 
 ```json
 {
-  "song": "La Plata",
-  "verses": "Pero me doy cuenta que la vida es un sueño.\nY antes de morir, es mejor aprovecharla",
+  "song": "Título de la canción",
+  "verses": "Primer verso.\nSegundo verso.",
   "overrides": {
-    "omnivoice": { "speed": 0.85 },
+    "omnivoice": { "speed": 0.85, "max_attempts": 6 },
     "video": { "text": { "size": 42 } }
   }
 }
 ```
 
 La mezcla es recursiva: solo se pisa lo que se nombra, el resto de `config.json` se conserva. Ojo, **volver a ejecutar la Fase 1 reescribe `script_meta.json`** y se pierden los `overrides`.
+
+Los valores que funcionaron quedan guardados en el `.json` archivado, así que conviene consultarlos al hacer otro video parecido. Ajustes que se repiten:
+
+| Síntoma | Ajuste |
+|---|---|
+| Atropella palabras cortas | `speed` 0.85-0.9 |
+| Frase corta que se corta al final | `max_attempts` 6-10, y coletilla en el personaje |
+| Verso largo que se parte en pantalla | `video.text.max_chars` y `size` |
+
+El rótulo de la canción sale de `song`, no del nombre del archivo. Si la letra viene de una colaboración (`...-part-otro-artista.txt`), conviene poner en `song` solo el título limpio; el campo `source` conserva la ruta real y con ella la trazabilidad.
 
 ## Las cuatro fases
 
@@ -219,10 +290,16 @@ Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El
 
 ## Añadir un personaje
 
-1. `assets/<Id>/` con `ref_audio.wav` y `avatar.jpg`.
+1. `assets/<Id>/` con `ref_audio.wav` y su avatar.
 2. `lyrics/<Id>/` con las letras, **nombradas con el título de la canción**.
-3. Entrada en `characters` de `config.json`, con su `prompt` y `top_songs`.
+3. Entrada en `characters` de `config.json`, con su `prompt`, su `top_songs` y su `text_suffix`.
 4. Cambiar `active_character`.
+
+Para llenar `top_songs` conviene mirar los datos reales de reproducciones —kworb publica los de Spotify— en vez de fiarse de la memoria, y comprobar cuáles de esas canciones están en el corpus.
+
+**Personajes sin canciones.** No todos son cantantes: `RafaelPoveda` es un periodista, así que su `lyrics_dir`, `prompt` y `top_songs` van vacíos. Funciona solo con las fases 2 y 3, escribiendo el texto a mano. Un personaje así **necesita coletilla igualmente**, porque sin ella el truncado muerde la última palabra del contenido: sin canciones que citar, las frases suelen ser cortas, y ahí el corte es más probable.
+
+**Avatares generados con IA.** Cuando no hay una foto buena —frontal, boca cerrada, resolución suficiente— se puede transformar una existente con un modelo de imagen. Funciona bien pidiendo explícitamente que conserve los rasgos, la edad y el peinado, con fondo liso y encuadre vertical 9:16. Dos avisos: estos modelos tienden a **rejuvenecer y alisar la piel**, así que hay que elegir por parecido y no por belleza; y algunos dejan una **marca de agua** que acabará en todos los videos, lo que puede ser un problema o una ventaja según cómo quieras señalar que el contenido es generado.
 
 ## Consideraciones legales
 

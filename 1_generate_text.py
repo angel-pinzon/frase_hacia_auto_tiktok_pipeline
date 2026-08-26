@@ -140,9 +140,75 @@ def generate_text(config):
     )
 
 
+def generate_free_text(config):
+    """Modo libre: escribe frases al estilo del personaje, sin citar una cancion.
+
+    No hay verificacion literal porque no es una cita. Para no atribuir algo
+    inventado a una obra concreta, 'song' se deja vacio y no sale rotulo.
+    """
+    from google import genai
+
+    load_env()
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("Falta GEMINI_API_KEY. Definela en el entorno o en un .env")
+
+    character = active_character(config)
+    if not character.get("prompt_libre"):
+        raise KeyError(
+            f"El personaje activo no tiene 'prompt_libre' en config.json"
+        )
+
+    settings = config["gemini"]
+    songs = load_songs(character)
+    muestras = random.sample(songs, min(settings.get("context_songs", 6), len(songs)))
+    contexto = "\n\n---\n\n".join(
+        f'CANCIÓN "{song_title(p)}":\n{clean_lyrics(p.read_text(encoding="utf-8"))}'
+        for p in muestras
+    )
+    print("Letras usadas como contexto:")
+    for p in muestras:
+        print(f"  - {song_title(p)}")
+
+    minimo = settings.get("free_min_words", 40)
+    maximo = settings.get("free_max_words", 70)
+    prompt = (character["prompt_libre"]
+              .replace("{lyrics}", contexto)
+              .replace("{min}", str(minimo))
+              .replace("{max}", str(maximo)))
+
+    # El modelo puede copiar versos aunque se le prohiba: aqui se comprueba
+    # lo contrario que en el modo cita, que NADA sea textual.
+    corpus = " ".join(clean_lyrics(p.read_text(encoding="utf-8")) for p in songs)
+
+    client = genai.Client(api_key=api_key)
+    for intento in range(1, settings.get("max_attempts", 5) + 1):
+        texto = ask_gemini(client, config, prompt)
+        palabras = len(texto.split()) if texto else 0
+
+        copiadas = [l for l in texto.splitlines()
+                    if len(l.split()) >= 5 and is_verbatim(l, corpus)]
+        if copiadas:
+            print(f"  intento {intento}: copio {len(copiadas)} linea(s) de las letras")
+            continue
+
+        if minimo <= palabras <= maximo:
+            return texto, {
+                "song": "",
+                "source": "generado en modo libre",
+                "verbatim": False,
+                "mode": "libre",
+                "context_songs": [song_title(p) for p in muestras],
+            }
+        print(f"  intento {intento}: {palabras} palabras, fuera de {minimo}-{maximo}")
+
+    raise RuntimeError(f"No se logro un texto de {minimo}-{maximo} palabras")
+
+
 def main():
     config = load_config()
-    phrase, meta = generate_text(config)
+    libre = "--libre" in sys.argv
+    phrase, meta = generate_free_text(config) if libre else generate_text(config)
     out = output_dir(config)
 
     # El TTS lee una sola linea; los versos se conservan para los subtitulos.
@@ -154,7 +220,10 @@ def main():
 
     print(f"\n[1/4] Guion generado -> {out / 'script.txt'}")
     print(f"\n  {phrase}\n")
-    print(f"  Fuente verificada: {meta['song']}")
+    if meta.get("mode") == "libre":
+        print(f"  Texto original ({len(phrase.split())} palabras), sin atribuir a ninguna cancion")
+    else:
+        print(f"  Fuente verificada: {meta['song']}")
     return 0
 
 
