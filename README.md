@@ -288,6 +288,48 @@ Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El
 | `video.crop_to_face` | Recorte 9:16 centrado en la cara |
 | `video.text.*` | Fuente, tamaño, ancho de línea, oscurecido y posición |
 
+## Particularidades de cada personaje
+
+Cada voz y cada foto tienen sus manías. Lo que costó descubrir, para no repetirlo:
+
+### Diomedes Díaz
+
+- **Coletilla `". Con mucho Gusto"`**, que era muletilla suya real. Funciona doblemente: da identidad al cierre y absorbe el truncado.
+- **`speed` 0.9**. Atropella palabras átonas cortas —"pero", "sido"— hasta hacerlas ininteligibles. Con velocidad normal falló los tres intentos; con 0.9 salió a la primera.
+- **Dos avatares disponibles.** El de estudio generado con IA rinde bastante mejor que la foto original con acordeón: boca cerrada y solo 1.15x de ampliación frente a 1.80x. La foto original aporta más contexto vallenato, así que sirve para rotar.
+- Sus mayores éxitos estaban entre los archivos **sin título** del corpus original. Al descartarlos por no poder atribuirlos, se perdían sus tres canciones más escuchadas; hubo que recuperarlos identificándolos por el estribillo.
+
+### Yeison Jiménez
+
+- **Coletilla `". Con el Corazón"`**, título de una de sus canciones.
+- No necesita ajuste de velocidad en general, aunque alguna toma suelta atropella una palabra y se regenera sola.
+- Su avatar de 2804x3737 **reventaba el detector de puntos faciales** de SadTalker con un error críptico de OpenCV. De ahí salió la reducción automática por `max_source`.
+
+### Vicente Fernández
+
+- **Sin coletilla definida.** Es una carencia: sin escudo, el truncado muerde la última palabra del verso y hay que confiar solo en los reintentos.
+- Su audio de referencia venía **muy bajo, a -27 dB de media**, casi 10 dB por debajo de lo normal. Sin `loudnorm` la clonación sale pobre.
+- Su corpus es **casi todo colaboraciones** (`...-part-otro-artista.txt`), así que el rótulo hay que limpiarlo a mano en `song`. Y solo 6 de sus 15 canciones más escuchadas están presentes: faltan varios de sus clásicos en solitario.
+- Su foto con sombrero **dejaba ciego al detector Haar**, porque el ala sombrea la frente. Fue el caso que motivó cambiar a RetinaFace.
+
+### Rafael Poveda
+
+- **No es cantante**: sin letras, sin `prompt` y sin `top_songs`. Funciona solo con texto escrito a mano.
+- **Coletilla `" ¿Eh?"`**, añadida precisamente porque sin ella las frases cortas se cortaban una y otra vez. Pasamos de cuatro rondas peleando con umbrales a resolverlo en dos intentos.
+- Para frases de pocos segundos: **`speed` 0.8 y `max_attempts` 8-10**. Es el peor caso del pipeline.
+- Su audio sale de un podcast **de entrevistas**, así que hay que transcribir con marcas de tiempo y elegir tramos donde hable él y no su invitado.
+- Su avatar está **generado con IA** y lleva marca de agua visible, que acaba en todos los videos.
+
+### Pronunciación: casos resueltos
+
+`script.txt` es lo que se pronuncia y `verses` lo que se ve, así que la fonética se fuerza sin ensuciar el texto en pantalla:
+
+| Se escribía | Sonaba | Solución |
+|---|---|---|
+| Soatá | "Suatá" | `So-atá` — el guion separa las vocales |
+| ¿Qué? ¿Pola...? | una sola pregunta | `¿Qué?... ¿Pola` — los suspensivos separan |
+| Wiliam | "William", a la inglesa | escribirlo fonéticamente |
+
 ## Añadir un personaje
 
 1. `assets/<Id>/` con `ref_audio.wav` y su avatar.
