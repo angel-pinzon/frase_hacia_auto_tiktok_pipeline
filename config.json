@@ -28,7 +28,7 @@
       "name": "Yeison Jiménez",
       "audio_path": "assets/YeisonJimenez/ref_audio.wav",
       "audio_text": "Mi papá tenía mucho dinero, pero él no tenía educación financiera, tenía más astucia.",
-      "image_path": "assets/YeisonJimenez/avatar.jpg",
+      "image_path": "assets/YeisonJimenez/avatar2.png",
       "lyrics_dir": "lyrics/YeisonJimenez",
       "prompt": "A continuación tienes la letra de la canción \"{song}\" del cantante popular colombiano Yeison Jiménez.\n\n--- INICIO DE LA LETRA ---\n{lyrics}\n--- FIN DE LA LETRA ---\n\nExtrae de esa letra UN fragmento que funcione como frase motivadora por sí solo.\n\nReglas:\n- El fragmento debe estar copiado TEXTUALMENTE de la letra de arriba, palabra por palabra. No inventes, no parafrasees, no unas versos que estén separados.\n- Entre 14 y 30 palabras: normalmente dos o más versos seguidos, no uno suelto. Debe entenderse solo, sin conocer el resto de la canción.\n- Elige el que más inspire o deje enseñanza: sobre seguir adelante, el amor, la amistad, el valor de la vida.\n- Si esta letra no contiene ningún fragmento que sirva, responde exactamente: SIN_FRAGMENTO\n- Devuelve únicamente el fragmento, sin comillas, sin título, sin explicación.",
       "top_songs": [
@@ -138,5 +138,12 @@
     "storage_state": ".tiktok_session.json",
     "caption": "",
     "dry_run": true
+  },
+  "escenas": {
+    "model": "veo-3.1-lite-generate-preview",
+    "dir": "output/escenas",
+    "corte_s": 4.0,
+    "duracion_clip_s": 8,
+    "timeout_checks": 60
   }
 }

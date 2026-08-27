@@ -1,0 +1,26 @@
+Retrato fotográfico de este hombre, conservando EXACTAMENTE sus rasgos
+faciales: la forma de la cara, los ojos, la nariz, la boca, las cejas, el
+peinado y su edad. NO rejuvenecer, NO adelgazar, NO idealizar, NO cambiar
+la identidad. Debe ser inconfundiblemente la misma persona de la foto.
+
+Escenario: retrato de estudio con fondo liso azul oscuro degradado.
+
+Requisitos:
+- Boca completamente cerrada, labios juntos, sonrisa leve y natural.
+- Cara frontal, mirando directamente a la cámara, cabeza recta.
+- Encuadre vertical 9:16, plano medio corto: cabeza y hombros, con aire
+  sobre la cabeza y sin cortar la barbilla.
+- Iluminación suave y uniforme sobre el rostro, sin sombras duras.
+- Máxima resolución y detalle: textura de piel realista, con sus arrugas
+  y sus poros. Sin alisado plástico.
+- Fondo limpio y sin elementos que distraigan: nada de texto, logotipos
+  ni marcas de agua.
+
+Estilo: fotografía profesional real, tomada con cámara réflex y objetivo
+de retrato. NO ilustración, NO render 3D, NO pintura digital, NO estilo
+caricatura.
+
+Escenario: retrato de estudio con fondo liso gris neutro.
+Escenario: sobre un escenario de concierto, con luces cálidas desenfocadas al fondo.
+Escenario: exterior al atardecer, fondo desenfocado en tonos cálidos.
+Escenario: primer plano cerrado del rostro, fondo negro.

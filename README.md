@@ -27,12 +27,15 @@ auto_tiktok_pipeline/
 │       ├── video.mp4
 │       ├── opciones/            # Frases de canciones conservadas
 │       └── saludos/             # Saludos personalizados conservados
+├── output/escenas/              # Clips de Veo cacheados, con su prompt
+├── output/dialogos/             # Guiones y montajes multi-personaje
 ├── config.json                  # Configuración global y personajes
 ├── main.py                      # Orquestador de las cuatro fases
 ├── pipeline_utils.py            # Config, rutas y mezcla de ajustes
 ├── 1_generate_text.py           # Fase 1: frase extraída de las letras
 ├── 2_generate_voice.py          # Fase 2: voz clonada
 ├── 3_generate_video.py          # Fase 3: video vertical con texto
+├── 3b_add_scenes.py             # Fase 3b: escenas con Veo (opcional)
 └── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
 ```
 
@@ -261,6 +264,24 @@ Por defecto queda `still: false` con `expression_scale: 1.3`. Subir mucho la exp
 
 `size: 512` + `enhancer: gfpgan` da la mejor calidad pero sube el render a ~10 min. Con `size: 256` y sin enhancer baja a menos de un minuto, útil para iterar y para comparar ajustes.
 
+### Fase 3b — Escenas generadas (`3b_add_scenes.py`, opcional)
+
+El retrato fijo hablando se hace monótono. Esta fase sustituye parte del video por una **escena generada con Veo**, mientras la voz clonada sigue por debajo: el avatar establece quién habla durante unos segundos y luego la imagen pasa a ilustrar lo que dice.
+
+```bash
+.venv/bin/python 3b_add_scenes.py     # despues de la fase 3
+```
+
+El prompt de la escena **se deriva del propio texto**: Gemini lee los versos y escribe la descripción, así que no hay que redactar nada. El resultado va a `video_escena.mp4`, dejando intacto el `video.mp4` original.
+
+**Por qué texto a video y no imagen a video.** Veo rechaza las imágenes de entrada que contienen personas reconocibles: *"we can't create videos from input images containing celebrity or their likenesses"*. Por eso no se puede animar el avatar en una escena real. Lo que sí funciona es generar escenas con **gente anónima o solo paisaje**, y el prompt incluye esa instrucción explícita.
+
+**Coste y límites.** Cada clip son 8 segundos y cuesta unos $0.24 con el modelo Lite. Requiere **facturación activada** en el proyecto de Google Cloud: el plan gratuito da cuota cero para video e imagen. Lo más seguro es comprar saldo prepago **con la recarga automática desactivada**, que actúa como tope real de gasto — un presupuesto de Cloud solo avisa, no detiene nada.
+
+Las escenas se cachean en `output/escenas/` con el prompt en un `.json` al lado: repetir un prompt no se vuelve a pagar, y un resultado bueno se puede reproducir.
+
+**Dos costuras conocidas.** Veo entrega 720x1280 y hay que ampliar a 1080x1920, así que la escena se ve algo más blanda que el avatar. Y si el audio dura más que los 8 segundos del clip, se congela el último fotograma; el módulo avisa por consola cuántos segundos quedan congelados. Para textos largos conviene subir `corte_s` o generar dos escenas.
+
 ### Fase 4 — Subida a TikTok (`4_upload_tiktok.py`)
 
 Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El flujo recomendado es subir a mano: los selectores de TikTok cambian sin aviso y no compensa depurar un scraper mientras el formato aún se está afinando.
@@ -287,6 +308,9 @@ Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El
 | `video.max_source` | Lado mayor al que se reduce el avatar (1600 px) |
 | `video.crop_to_face` | Recorte 9:16 centrado en la cara |
 | `video.text.*` | Fuente, tamaño, ancho de línea, oscurecido y posición |
+| `escenas.model` | Modelo de Veo; el Lite es el más barato |
+| `escenas.corte_s` | Segundos de avatar antes de pasar a la escena (4.0) |
+| `escenas.duracion_clip_s` | Duración del clip que devuelve Veo, para avisar del congelado |
 
 ## Particularidades de cada personaje
 
