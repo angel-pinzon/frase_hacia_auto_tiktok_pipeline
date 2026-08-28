@@ -1,0 +1,28 @@
+{
+  "tema": "entereza estoica",
+  "personajes": [
+    "VicenteFernandez",
+    "YeisonJimenez"
+  ],
+  "tono": "estoico",
+  "origen": "modo libre, texto original verificado como no textual",
+  "palabras": 117,
+  "turnos": [
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Mire muchacho, cuando la vida pega duro no hay que andar chillando por los rincones. Uno nomás aguanta la vara en silencio y cumple con su deber hasta el final."
+    },
+    {
+      "personaje": "YeisonJimenez",
+      "texto": "Así es, Don Vicente, a mí me tocó guerrear desde abajo y pararme duro. Si la suerte se tuerce, uno se traga el dolor y sigue trabajando sin chillidos."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Bien dicho, mijo, pues lo que murmure la gente a uno debe valerle gorro. Al final, lo único importante es sostener la palabra y recibir el golpe de frente."
+    },
+    {
+      "personaje": "YeisonJimenez",
+      "texto": "De acuerdo, maestro, aquí no vinimos a buscar excusas sino a cumplir la tarea. La vida quita y da, pero mientras haya aliento hay que apretar dientes y cantar."
+    }
+  ]
+}

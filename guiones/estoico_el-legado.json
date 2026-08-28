@@ -1,0 +1,28 @@
+{
+  "tema": "Lo que uno deja",
+  "personajes": [
+    "VicenteFernandez",
+    "YeisonJimenez"
+  ],
+  "tono": "estoico",
+  "palabras": 118,
+  "origen": "modo libre, verificado como no textual",
+  "turnos": [
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Mire, muchacho, cuando a uno le toca partir, los aplausos se apagan cerquita del escenario. Lo único que se queda es la huella de haber sido de una sola pieza."
+    },
+    {
+      "personaje": "YeisonJimenez",
+      "texto": "Es verdad, don Vicente, uno trabaja duro para dejar una buena siembra en el camino. Al final, solo quiero que sepan que anduve siempre de frente y con lealtad."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Así mero, a la muerte no hay que tenerle miedo ni andar haciéndole tanto drama. Uno se va tranquilo si supo cumplir en la vida con dignidad y sin rajarse."
+    },
+    {
+      "personaje": "YeisonJimenez",
+      "texto": "Entendido, maestro, lo valioso no son riquezas sino lo sembrado en el corazón ajeno. El día que me toque partir, me iré tranquilo sabiendo que viví con absoluta verdad."
+    }
+  ]
+}

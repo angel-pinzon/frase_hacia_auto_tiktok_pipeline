@@ -1,0 +1,28 @@
+{
+  "tema": "desamor",
+  "personajes": [
+    "DiomedesDiaz",
+    "VicenteFernandez"
+  ],
+  "tono": "resignado",
+  "origen": "modo libre, texto original verificado como no textual",
+  "palabras": 112,
+  "turnos": [
+    {
+      "personaje": "DiomedesDiaz",
+      "texto": "Nombe, compadre, esa mujer me dejó limpio de plata y con el alma hecha un desastre. Ahora ando ahogando la pena en ron para reírme de mi desgracia."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Te entiendo, Diomedes, a mí también me pagaron mal y me dejaron bien pelón las ingratas. Sirve ese tequila, que con el orgullo pisoteado la borrachera sabe mejor."
+    },
+    {
+      "personaje": "DiomedesDiaz",
+      "texto": "Ajá, compa, nos exprimen hasta el último aliento y luego nos cambian por cualquier aparecido. Pero qué carajo, sirva más trago que la vida es corta para llorar."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Tienes razón, cantador, que llorar jamás nos va a devolver los años gastados en vano. Salud por los necios que siempre volvemos a caer en garras de mujeres."
+    }
+  ]
+}

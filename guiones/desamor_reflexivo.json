@@ -1,0 +1,28 @@
+{
+  "tema": "desamor",
+  "personajes": [
+    "DiomedesDiaz",
+    "VicenteFernandez"
+  ],
+  "tono": "reflexivo",
+  "origen": "modo libre, texto original verificado como no textual",
+  "palabras": 110,
+  "turnos": [
+    {
+      "personaje": "DiomedesDiaz",
+      "texto": "Ay, compadre, cuando una mujer niega el cariño, de nada vale andar amargado buscando culpables. Toca apretarse el pecho, servirse un trago helado y seguir la parranda."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Tiene razón, compa, porque el dolor enseña a perder como los hombres, sin hacer aspavientos. Al final, haber amado con el alma vale más que cualquier trago amargo."
+    },
+    {
+      "personaje": "DiomedesDiaz",
+      "texto": "Es verdad, compadre, a nuestra edad los recuerdos ya no queman, solo hacen compañía. Uno aprende a agradecer lo bailao y a desearle suerte a la mujer."
+    },
+    {
+      "personaje": "VicenteFernandez",
+      "texto": "Así se habla, nomás nos queda brindar por su recuerdo y cantar con el alma. Dios las bendiga, pues aun con espinas, las mujeres son lo más lindo."
+    }
+  ]
+}

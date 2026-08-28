@@ -27,8 +27,10 @@ auto_tiktok_pipeline/
 │       ├── video.mp4
 │       ├── opciones/            # Frases de canciones conservadas
 │       └── saludos/             # Saludos personalizados conservados
-├── output/escenas/              # Clips de Veo cacheados, con su prompt
-├── output/dialogos/             # Guiones y montajes multi-personaje
+├── guiones/                     # Diálogos generados (texto propio, versionado)
+├── prompts/                     # Prompt de avatares y fichas de escenas
+├── output/escenas/              # Clips de Veo cacheados (pesados, no versionados)
+├── output/dialogos/             # Montajes multi-personaje
 ├── config.json                  # Configuración global y personajes
 ├── main.py                      # Orquestador de las cuatro fases
 ├── pipeline_utils.py            # Config, rutas y mezcla de ajustes
