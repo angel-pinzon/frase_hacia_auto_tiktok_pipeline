@@ -38,6 +38,7 @@ auto_tiktok_pipeline/
 ├── 2_generate_voice.py          # Fase 2: voz clonada
 ├── 3_generate_video.py          # Fase 3: video vertical con texto
 ├── 3b_add_scenes.py             # Fase 3b: escenas con Veo (opcional)
+├── 3c_lipsync.py                # Fase 3c: boca rehecha con MuseTalk (opcional)
 └── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
 ```
 
@@ -45,13 +46,14 @@ auto_tiktok_pipeline/
 
 - **Ubuntu** (WSL2 en Windows) con GPU NVIDIA y CUDA. Probado en RTX 4060 de 8 GB.
 - **FFmpeg** con `libfreetype` (para el texto en pantalla).
-- **Tres entornos de Python separados**, porque sus dependencias son incompatibles entre sí:
+- **Cuatro entornos de Python separados**, porque sus dependencias son incompatibles entre sí:
 
 | Entorno | Python | Para qué |
 |---|---|---|
 | `.venv` del proyecto | 3.12 | Orquestación, Gemini, yt-dlp |
 | `~/omni_voice_project/venv` | 3.12 | OmniVoice + PyTorch 2.6 |
 | `~/sadtalker_project/venv` | **3.11** | SadTalker + PyTorch 2.1.2 |
+| `~/musetalk_project/venv` | **3.11** | MuseTalk + PyTorch 2.0.1 |
 
 ### Por qué SadTalker necesita Python 3.11
 
@@ -283,6 +285,32 @@ El prompt de la escena **se deriva del propio texto**: Gemini lee los versos y e
 Las escenas se cachean en `output/escenas/` con el prompt en un `.json` al lado: repetir un prompt no se vuelve a pagar, y un resultado bueno se puede reproducir.
 
 **Dos costuras conocidas.** Veo entrega 720x1280 y hay que ampliar a 1080x1920, así que la escena se ve algo más blanda que el avatar. Y si el audio dura más que los 8 segundos del clip, se congela el último fotograma; el módulo avisa por consola cuántos segundos quedan congelados. Para textos largos conviene subir `corte_s` o generar dos escenas.
+
+### Fase 3c — Sincronía labial con MuseTalk (`3c_lipsync.py`, opcional)
+
+SadTalker genera el video entero; MuseTalk **rehace solo la región labial** a partir del audio, y lo hace mejor. Se aplica encima del render sin tocar la voz ni el encuadre.
+
+```bash
+.venv/bin/python 3c_lipsync.py     # despues de la fase 3
+```
+
+Sale a `video_lipsync.mp4` y deja intacto el `video.mp4` original.
+
+**Necesita un cuarto entorno**, con Python 3.11 y torch 2.0.1+cu118. Su instalación tiene varias trampas encadenadas:
+
+- `chumpy`, dependencia de `mmpose`, no compila con setuptools moderno. Se instala `mmpose` con `--no-deps` y se añaden a mano sus dependencias reales; `chumpy` es para modelos corporales SMPL y no hace falta.
+- `xtcocotools` viene compilado contra numpy 2, y todo el stack espera numpy 1.23.5. Hay que compilarlo desde fuente **con `--no-deps`**: sin eso, pip vuelve a subir numpy a 2.x en cada intento y el error se repite en bucle.
+- `pkg_resources` desapareció de setuptools moderno: hace falta `setuptools<81`, igual que en SadTalker.
+- El argumento `--unet_config` apunta por defecto al modelo v1 **aunque se pida `--version v15`**. Hay que pasarle la ruta a mano.
+
+**Sobre la calidad y el tiempo.** MuseTalk tarda unos 5 minutos por clip, casi independientemente de la calidad del render de entrada: la mayor parte es cargar el modelo de 3.4 GB y detectar la cara en cada fotograma, no la inferencia en sí. Las dos rutas posibles:
+
+| Ruta | SadTalker | MuseTalk | Total |
+|---|---|---|---|
+| 256 sin enhancer | ~2 min | ~5 min | ~7 min |
+| 512 + GFPGAN | ~10 min | ~5 min | ~15 min |
+
+La segunda se ve mejor, así que la mejora de MuseTalk **se suma** a la del enhancer en vez de sustituirla.
 
 ### Fase 4 — Subida a TikTok (`4_upload_tiktok.py`)
 

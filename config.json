@@ -1,5 +1,5 @@
 {
-  "active_character": "VicenteFernandez",
+  "active_character": "YeisonJimenez",
   "characters": {
     "DiomedesDiaz": {
       "name": "Diomedes Díaz",
@@ -145,5 +145,13 @@
     "corte_s": 4.0,
     "duracion_clip_s": 8,
     "timeout_checks": 60
+  },
+  "lipsync": {
+    "musetalk_dir": "/home/sixto/musetalk_project/MuseTalk",
+    "python": "/home/sixto/musetalk_project/venv/bin/python",
+    "version": "v15",
+    "unet_config": "./models/musetalkV15/musetalk.json",
+    "unet_model_path": "./models/musetalkV15/unet.pth",
+    "bbox_shift": null
   }
 }
