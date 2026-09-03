@@ -312,6 +312,45 @@ Sale a `video_lipsync.mp4` y deja intacto el `video.mp4` original.
 
 La segunda se ve mejor, así que la mejora de MuseTalk **se suma** a la del enhancer en vez de sustituirla.
 
+### El video "completo"
+
+La combinación de mayor calidad encadena todo lo anterior, en este orden:
+
+```
+Fase 1 → Fase 2 → Fase 3 → Fase 3c → Fase 3b
+texto     voz      retrato   lipsync   escena + montaje
+```
+
+**El orden importa.** El lipsync va sobre el retrato **antes** de montar la escena: así MuseTalk trabaja sobre la cara completa, y no sobre un video donde el rostro solo aparece los primeros segundos.
+
+Unos 20 minutos por clip de 15-20 s, y unos $0.24 si la escena es nueva. MuseTalk **escala con la duración** del clip, no es un coste fijo: los turnos cortos salen bastante más baratos en tiempo.
+
+### Escribir monólogos inspirados en las canciones
+
+El modo libre acepta cualquier tema si se le cambia el prompt. Dos técnicas que mejoran mucho el resultado:
+
+**Elegir las canciones de referencia por análisis, no al azar.** En lugar de pasarle seis letras cualesquiera, se puntúa el corpus por campo semántico —términos de caída (`olvid`, `dolor`, `herid`, `adios`) frente a los de recuperación (`levant`, `seguir`, `volver`, `aprend`)— y se usan las que puntúan alto en ambos. Con 146 canciones, la diferencia entre una referencia temática y una aleatoria se nota mucho.
+
+**Pedir el registro correcto.** Es fácil obtener tres cosas distintas según cómo se pida:
+
+| Si se pide | Sale |
+|---|---|
+| "consejo en su estilo" | máximas encadenadas con su vocabulario |
+| "que hable desde lo vivido" | anécdota con una escena concreta |
+| "reflexión estoica" | principio aplicado, con serenidad |
+
+Conviene decir explícitamente lo que **no** se quiere: nada de refranes encadenados, nada de contar una anécdota, y prohibir los arranques que el modelo repite por defecto.
+
+### Repartir el texto sin cambiar el audio
+
+`verses` alimenta a la vez el texto en pantalla y —vía `to_speech()`— lo que se pronuncia. Cuando una frase larga se parte y deja palabras huérfanas, la solución no es bajar el tamaño de letra: es **cortar la frase por sus comas** en líneas separadas.
+
+Como `to_speech()` solo añade una coma a las líneas que no acaban en puntuación, partir por una coma existente deja el audio **idéntico** y arregla el reparto en pantalla. Merece la pena verificarlo antes de renderizar:
+
+```python
+m1.to_speech(antes) == m1.to_speech(despues)
+```
+
 ### Fase 4 — Subida a TikTok (`4_upload_tiktok.py`)
 
 Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El flujo recomendado es subir a mano: los selectores de TikTok cambian sin aviso y no compensa depurar un scraper mientras el formato aún se está afinando.
