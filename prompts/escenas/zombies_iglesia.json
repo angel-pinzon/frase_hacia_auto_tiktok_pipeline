@@ -1,0 +1,9 @@
+{
+  "archivo": "zombies_iglesia.mp4",
+  "modelo": "veo-3.1-lite-generate-preview",
+  "modo": "imagen a video",
+  "imagen_origen": "assets/iglesia_soata.jpg",
+  "prompt": "La misma plaza y la misma iglesia de la fotografía, sin cambiar la arquitectura. Atardecer nublado, luz gris y fría, niebla baja entre los árboles. Una horda de figuras humanas avanza lentamente por la plaza frente a la iglesia: caminan encorvadas, con paso torpe y desacompasado, ropas sucias y rasgadas. Se mueven todas en la misma dirección, arrastrando los pies. Cámara fija a la altura de la calle, plano general. Ligero movimiento de las hojas por el viento. Ambiente desolado, sin nadie más. Atmósfera de terror cinematográfico: tensión, quietud inquietante, sonido ambiente grave y sostenido. Estilo: cine de terror realista, no caricatura ni videojuego.",
+  "coste_aprox_usd": 0.24,
+  "nota": "Foto de arquitectura, sin personas reconocibles: el filtro de celebridades no aplica."
+}

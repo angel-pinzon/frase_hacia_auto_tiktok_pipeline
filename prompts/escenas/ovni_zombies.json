@@ -1,0 +1,11 @@
+{
+  "archivo": "ovni_zombies_24s.mp4",
+  "modelo": "veo-3.1-lite-generate-preview",
+  "modo": "imagen a video, tres clips encadenados por ultimo fotograma",
+  "imagen_origen": "assets/iglesia_soata.jpg",
+  "clip_1": "Nave pequena del tamano de una camioneta desciende y aterriza en la plaza frente a la iglesia. Luces giratorias, polvo, rampa que se abre.",
+  "clip_2": "De la rampa bajan figuras encorvadas de paso torpe que caminan en fila y entran por la puerta oscura del edificio blanco, junto al carro estacionado.",
+  "clip_3": "La plaza queda vacia, la rampa se cierra y la nave se eleva girando hasta perderse en el cielo nocturno.",
+  "coste_aprox_usd": 0.72,
+  "nota": "Estructura de tres actos: llegada, accion y salida. Cada clip parte del ultimo fotograma del anterior."
+}

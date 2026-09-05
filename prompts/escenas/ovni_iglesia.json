@@ -1,0 +1,10 @@
+{
+  "archivo": "ovni_iglesia_16s.mp4",
+  "modelo": "veo-3.1-lite-generate-preview",
+  "modo": "imagen a video, dos clips encadenados por ultimo fotograma",
+  "imagen_origen": "assets/iglesia_soata.jpg",
+  "clip_1": "Noche, plaza vacia, farolas encendidas. Nave espacial enorme y silenciosa desciende sobre la plaza flotando por encima de la iglesia, con haz de luz azul hacia el suelo empedrado. Farolas parpadean, arboles agitados. Camara fija, plano general. Ciencia ficcion realista, luz volumetrica.",
+  "clip_2": "Continua la escena. Figuras alienigenas altas y delgadas descienden por el haz, caminan en fila hacia la puerta abierta de la iglesia y entran una detras de otra. La nave permanece flotando. Camara fija, plano general.",
+  "coste_aprox_usd": 0.48,
+  "nota": "La continuidad se logra usando el ultimo fotograma del clip 1 como imagen de entrada del clip 2."
+}
