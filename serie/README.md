@@ -135,16 +135,22 @@ gastar una generación. Y suele mejorar el plano: al cerrar el encuadre la
 fachada gana tamaño. En el capítulo 2 se resolvió así, y de paso arregló el
 guion — las figuras salen de cuadro y ya no hace falta explicar dónde entran.
 
-**Los defectos con figuras aparecen al final del clip.** En el mismo capítulo, al
-despegar la nave se llevaba pegado al costado medio cuerpo de una de las figuras,
-fusionado con el fuselaje. Empieza a los 17.8 s de una secuencia de 24, y hasta
-ahí todo estaba limpio: el modelo aguanta bien mientras la escena es estable y se
-rompe cuando tiene que mover un objeto grande y una figura a la vez.
+**Los defectos con figuras aparecen al final del clip, y se degradan por fases.**
+En el mismo capítulo, al despegar la nave se llevaba pegado al costado medio
+cuerpo de una figura, fusionado con el fuselaje. Pero eso era solo lo más
+visible: hacia atrás, la misma figura ya venía rota desde bastante antes — a los
+15.5 s aparecía dudosa junto a la rampa, a los 16.9 era un torso truncado y a los
+17.8 iba incrustada en el casco.
 
-Por eso conviene **revisar el último tercio fotograma a fotograma**, y cortar con
-`--hasta` en el último instante bueno en lugar de regenerar. En este caso el
-capítulo acaba con la nave todavía posada, que además funciona mejor como
-final — que se quede inquieta más que verla marcharse.
+De ahí la lección de verdad: **no basta con encontrar dónde el defecto salta a la
+vista, hay que retroceder hasta el último fotograma realmente limpio.** En esta
+secuencia estaba en 15.0, casi tres segundos antes de lo que parecía a simple
+vista. Conviene ampliar la zona sospechosa, porque a tamaño de reproducción un
+torso truncado se confunde con una figura agachada.
+
+Cortar con `--hasta` sale más barato que regenerar. Aquí el capítulo acaba con la
+nave todavía posada, que además funciona mejor como final: que se quede inquieta
+más que verla marcharse.
 
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su
