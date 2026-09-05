@@ -90,6 +90,8 @@ def main():
     p.add_argument("--recorte", default=None, metavar="W:H:X:Y",
                    help="Recorte extra, para dejar fuera lo que Veo se invento "
                         "y no esta en la foto original")
+    p.add_argument("--hasta", type=float, default=None, metavar="SEGUNDOS",
+                   help="Corta el capitulo antes de que aparezca un defecto")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -112,12 +114,18 @@ def main():
         print(f"recorte extra -> crop={args.recorte}")
         filtros.append(f"crop={args.recorte}")
 
-    if filtros:
+    if filtros or args.hasta:
         recortado = tmp / "recortado.mp4"
-        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(entrada),
-                        "-vf", ",".join(filtros), "-c:v", "libx264", "-crf", "18",
-                        "-pix_fmt", "yuv420p", "-c:a", "copy", str(recortado)],
-                       check=True)
+        orden = ["ffmpeg", "-y", "-v", "error", "-i", str(entrada)]
+        if args.hasta:
+            print(f"corte          -> {args.hasta}s")
+            orden += ["-t", str(args.hasta)]
+        if filtros:
+            orden += ["-vf", ",".join(filtros)]
+        # el audio se recodifica: al cortar ya no vale copiarlo tal cual
+        orden += ["-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
+                  "-c:a", "aac", "-b:a", "192k", str(recortado)]
+        subprocess.run(orden, check=True)
         entrada = recortado
 
     base = ancho / 22          # el tamano de letra se adapta al video

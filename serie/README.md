@@ -42,8 +42,8 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | # | Capítulo | Momento | Qué se ve | Qué ocurre en realidad |
 |---|---|---|---|---|
 | 1 | La horda ✅ | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
-| 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza, bajan dos figuras que se pierden hacia el pueblo, y la nave despega | La lanzadera deja pasajeros y se va. No entran a ningún sitio: se dispersan |
-| 3 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. Al fondo, una figura se quedó | La gente huyó. Uno no huyó: se quedó esperando |
+| 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza y bajan dos figuras, que se pierden hacia el pueblo. La nave sigue ahí, con los motores encendidos | La lanzadera deja pasajeros. No entran a ningún sitio: se dispersan |
+| 3 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
 | 4 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
 | 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
 | 6 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
@@ -134,6 +134,17 @@ Cuando pasa, casi siempre se arregla encuadrando más cerrado con `--recorte`, s
 gastar una generación. Y suele mejorar el plano: al cerrar el encuadre la
 fachada gana tamaño. En el capítulo 2 se resolvió así, y de paso arregló el
 guion — las figuras salen de cuadro y ya no hace falta explicar dónde entran.
+
+**Los defectos con figuras aparecen al final del clip.** En el mismo capítulo, al
+despegar la nave se llevaba pegado al costado medio cuerpo de una de las figuras,
+fusionado con el fuselaje. Empieza a los 17.8 s de una secuencia de 24, y hasta
+ahí todo estaba limpio: el modelo aguanta bien mientras la escena es estable y se
+rompe cuando tiene que mover un objeto grande y una figura a la vez.
+
+Por eso conviene **revisar el último tercio fotograma a fotograma**, y cortar con
+`--hasta` en el último instante bueno en lugar de regenerar. En este caso el
+capítulo acaba con la nave todavía posada, que además funciona mejor como
+final — que se quede inquieta más que verla marcharse.
 
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su
