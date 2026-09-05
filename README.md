@@ -293,7 +293,7 @@ El prompt de la escena **se deriva del propio texto**: Gemini lee los versos y e
 
 **Por qué texto a video y no imagen a video.** Veo rechaza las imágenes de entrada que contienen personas reconocibles: *"we can't create videos from input images containing celebrity or their likenesses"*. Por eso no se puede animar el avatar en una escena real. Lo que sí funciona es generar escenas con **gente anónima o solo paisaje**, y el prompt incluye esa instrucción explícita.
 
-**Coste y límites.** Cada clip son 8 segundos y cuesta unos $0.24 con el modelo Lite. Requiere **facturación activada** en el proyecto de Google Cloud: el plan gratuito da cuota cero para video e imagen. Lo más seguro es comprar saldo prepago **con la recarga automática desactivada**, que actúa como tope real de gasto — un presupuesto de Cloud solo avisa, no detiene nada.
+**Coste y límites.** Cada clip son 8 segundos y cuesta unos **COP 1.500** (~$0.38) con el modelo Lite, medido sobre facturación real. Además del saldo hay un tope duro de cuota: el plan Tier 1 permite **10 generaciones de video al día** y 2 por minuto, y se renueva a medianoche del Pacífico —las 3 de la madrugada en Colombia—. Un 429 casi siempre es la cuota, no el saldo. Requiere **facturación activada** en el proyecto de Google Cloud: el plan gratuito da cuota cero para video e imagen. Lo más seguro es comprar saldo prepago **con la recarga automática desactivada**, que actúa como tope real de gasto — un presupuesto de Cloud solo avisa, no detiene nada.
 
 Las escenas se cachean en `output/escenas/` con el prompt en un `.json` al lado: repetir un prompt no se vuelve a pagar, y un resultado bueno se puede reproducir.
 
@@ -336,7 +336,7 @@ texto     voz      retrato   lipsync   escena + montaje
 
 **El orden importa.** El lipsync va sobre el retrato **antes** de montar la escena: así MuseTalk trabaja sobre la cara completa, y no sobre un video donde el rostro solo aparece los primeros segundos.
 
-Unos 20 minutos por clip de 15-20 s, y unos $0.24 si la escena es nueva. MuseTalk **escala con la duración** del clip, no es un coste fijo: los turnos cortos salen bastante más baratos en tiempo.
+Unos 20 minutos por clip de 15-20 s, y unos COP 1.500 si la escena es nueva. MuseTalk **escala con la duración** del clip, no es un coste fijo: los turnos cortos salen bastante más baratos en tiempo.
 
 ### Escribir monólogos inspirados en las canciones
 
@@ -367,6 +367,45 @@ m1.to_speech(antes) == m1.to_speech(despues)
 ### Fase 4 — Subida a TikTok (`4_upload_tiktok.py`)
 
 Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El flujo recomendado es subir a mano: los selectores de TikTok cambian sin aviso y no compensa depurar un scraper mientras el formato aún se está afinando.
+
+## Módulo de serie (`serie_placas.py`)
+
+Segunda línea de contenido, **independiente de las cuatro fases**: una serie corta de terror y ciencia ficción ambientada en lugares reales de Soatá, generada a partir de fotografías del pueblo. No hay voz clonada, ni avatar, ni texto extraído de letras — no interviene ni OmniVoice ni SadTalker ni MuseTalk.
+
+Comparte con el resto del proyecto la clave de Gemini, el modelo de Veo, la carpeta `prompts/escenas/` y —lo que más limita— la **misma cuota diaria de video**. Un capítulo de la serie son tres clips menos para los videos de artistas ese día.
+
+La historia, el arco de ocho capítulos y la forma de publicarla están en **[serie/README.md](serie/README.md)**. Aquí queda solo la mecánica.
+
+### El ciclo de producción
+
+Un capítulo son dos o tres clips de 8 segundos generados con Veo en **imagen a video**, encadenados y montados. A diferencia de la fase 3b, aquí la imagen de entrada sí se acepta: son fotos de arquitectura, sin personas reconocibles, así que no las bloquea el filtro de parecidos.
+
+**La continuidad se consigue con el último fotograma.** Se extrae el último frame de un clip y se usa como entrada del siguiente, de modo que la escena continúa en vez de cortar:
+
+```bash
+ffmpeg -sseof -0.1 -i clip1.mp4 -vframes 1 -q:v 2 frame.jpg
+```
+
+Las placas se añaden al final, y esto **no gasta cuota ni saldo**: es solo FFmpeg.
+
+```bash
+.venv/bin/python serie_placas.py output/escenas/cap2.mp4 \
+    --numero 2 --titulo "El rastro" --vertical
+```
+
+Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, y un cierre con CONTINUARÁ. El tamaño de letra se deriva del ancho del video, así que sirve igual para 720p que para 1080p. Con `--vertical` produce además la versión 9:16, que **encaja el apaisado sobre su propia imagen desenfocada** en lugar de recortar, para no perder los lados del plano.
+
+Los clips crudos van a `output/escenas/` y los capítulos terminados a `output/serie/`; ninguno se versiona, por peso. Los prompts sí, en `prompts/escenas/`: con ellos cualquier clip se puede regenerar.
+
+### Lo que se aprendió generando
+
+**Una acción, no un ambiente.** Las postales bonitas —niebla, procesiones, amaneceres— no retienen. Hace falta que ocurra algo con principio y final.
+
+**Lo importante va en el primer acto**, porque cada clip encadenado parte del anterior y la deriva se acumula: al tercero la arquitectura ya empieza a deformarse.
+
+**Cantidades exactas y destinos por su aspecto.** "Varias figuras" da cualquier cosa; "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por cómo se ve —"la iglesia de piedra de la derecha, la del portón bajo el arco"— nunca por su posición en el encuadre. El recorrido conviene narrarlo paso a paso: si se da por supuesto, el modelo se lo salta.
+
+Con 10 generaciones al día, un intento fallido cuesta una décima parte de la jornada. Compensa afinar el prompt sobre papel antes de gastarlo.
 
 ## Configuración (`config.json`)
 
