@@ -22,6 +22,12 @@ De ahí se derivan dos decisiones:
 El portón de la iglesia es una puerta que se abre cada cierto tiempo. Cuando se
 abre, algo pasa a través.
 
+**La nave es el transporte; la iglesia es la puerta.** No vienen del espacio a
+Soatá a merodear: vienen a atravesar. Por eso la nave es pequeña y se marcha
+enseguida — es una lanzadera que deja pasajeros. Se entra por el cielo y se sale
+por el portón, así que el pueblo no está siendo atacado, está siendo usado como
+escala. De ahí que el título esté en presente: por Soatá **pasan** cosas.
+
 **El pueblo lo sabe.** Lleva generaciones lidiando con ello: espera a que
 termine, tapia el portón y sigue con su vida sin mencionarlo. La serie es una
 sola noche de eso ocurriendo.
@@ -35,14 +41,16 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 
 | # | Capítulo | Momento | Qué se ve | Qué ocurre en realidad |
 |---|---|---|---|---|
-| 1 | La horda | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
-| 2 | El rastro | anochecer | La plaza vacía, cosas tiradas, el carro abierto. Al fondo, una figura se quedó | La gente huyó. Uno no huyó: se quedó esperando |
-| 3 | El que se quedó | noche | Esa figura, inmóvil, gira la cabeza hacia el portón | Oye algo que el espectador no oye. Está a punto de abrirse |
-| 4 | El llamado | noche cerrada | El portón se abre solo, sale luz, la figura entra | Se confirma que la puerta funciona, y que llama |
-| 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche |
+| 1 | La horda ✅ | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
+| 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza, bajan dos figuras que se pierden hacia el pueblo, y la nave despega | La lanzadera deja pasajeros y se va. No entran a ningún sitio: se dispersan |
+| 3 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. Al fondo, una figura se quedó | La gente huyó. Uno no huyó: se quedó esperando |
+| 4 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
+| 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
 | 6 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
-| 7 | El pueblo | primeras luces | Una calle con las puertas abiertas. Algo se mete en un zaguán | No todos volvieron a entrar. Algo se quedó de este lado |
+| 7 | El pueblo | primeras luces | Una calle con las puertas abiertas. Algo se mete en un zaguán | No todos alcanzaron a salir. Algo se quedó de este lado |
 | 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo | El pueblo lo cerró, como cada vez |
+
+Los dos primeros ya están montados, en `output/serie/`.
 
 **El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
 abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
@@ -52,9 +60,14 @@ Ese es el remate: no lo taparon anoche, lo tapan cada vez. Ha pasado antes y
 volverá a pasar. Por eso la serie se llama *Algo pasa en Soatá* en presente. El
 plano final es un vecino que pasa frente al portón tapiado sin mirarlo siquiera.
 
-Los capítulos 2, 3 y 6 casi no tienen figuras en movimiento. Son los que más
+Los capítulos 3 y 6 casi no tienen figuras en movimiento. Son los que más
 inquietud crean y los más baratos de producir, porque el movimiento humano es lo
 que peor se le da al modelo.
+
+**El orden no es el que parece.** Los capítulos lentos —la plaza vacía, el que se
+quedó— rinden mucho más *después* de que haya algo en juego. Por eso la nave va
+de segunda y no en mitad de la serie: primero se establece que esto va en serio,
+y luego se sostiene el silencio.
 
 ## Cómo se produce
 
@@ -81,6 +94,21 @@ Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, 
 un cierre con CONTINUARÁ. Con `--vertical` produce además la versión 9:16, que
 encaja el apaisado sobre su propia imagen desenfocada en lugar de recortar.
 
+**Las barras negras se quitan solas.** Veo rellena a 16:9 las fotos que no lo
+son, y la de la plaza es 4:3: todos los clips vuelven como 960x720 útiles dentro
+de un cuadro de 1280x720. En apaisado apenas se nota, pero en vertical esas
+barras entran en la capa de primer plano y aparecen como dos cuñas negras sobre
+el fondo desenfocado, que es justo lo que el encuadre 9:16 pretendía evitar. La
+herramienta las detecta con `cropdetect` y las recorta antes de montar.
+
+**Y lo inventado se deja fuera con `--recorte`.** Ver más abajo por qué hace
+falta:
+
+```bash
+.venv/bin/python serie_placas.py clip.mp4 --numero 2 --titulo "La llegada" \
+    --vertical --recorte 780:720:180:0
+```
+
 ## Lo aprendido generando
 
 **Una acción, no un ambiente.** Los primeros intentos fueron postales bonitas —
@@ -90,6 +118,22 @@ algo con principio y final: el espectador se queda a ver cómo termina.
 **Lo importante va en el primer acto.** Cada clip encadenado parte del anterior,
 así que la deriva se acumula: el tercero ya va por la tercera generación y la
 arquitectura empieza a deformarse.
+
+**Y no solo se deforma: se inventa.** En la secuencia de la nave apareció pegado
+al borde izquierdo un edificio de dos plantas con balcones de hierro que no
+existe — en la foto real ese lado es de una sola planta, con tejado de teja. Y
+las dos figuras se metían justo ahí.
+
+Eso es más grave que un defecto visual, porque la serie entera se sostiene en que
+el sitio sea reconocible: quien conozca la plaza nota al instante que esa casa no
+es de allí. **Hay que revisar cada clip contra la foto original antes de darlo
+por bueno**, con la foto al lado, y mirando sobre todo los bordes y el último
+acto, que es donde más aparece.
+
+Cuando pasa, casi siempre se arregla encuadrando más cerrado con `--recorte`, sin
+gastar una generación. Y suele mejorar el plano: al cerrar el encuadre la
+fachada gana tamaño. En el capítulo 2 se resolvió así, y de paso arregló el
+guion — las figuras salen de cuadro y ya no hace falta explicar dónde entran.
 
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su
