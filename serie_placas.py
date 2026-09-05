@@ -6,6 +6,7 @@ No usa GPU ni API: es solo FFmpeg, asi que no gasta cuota ni saldo.
 """
 
 import argparse
+import re
 import subprocess
 import sys
 import tempfile
@@ -26,6 +27,26 @@ def sonda(video, campo):
 def escapa(texto):
     """drawtext trata como sintaxis los dos puntos, comillas y barras."""
     return texto.replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'")
+
+
+def barras(video):
+    """Devuelve el recorte util, o None si no hay barras negras.
+
+    Veo rellena a 16:9 las fotos que no lo son: una foto 4:3 vuelve con
+    160 px de barra a cada lado. Si esas barras entran en el montaje
+    vertical aparecen como cunas negras sobre el fondo desenfocado.
+    """
+    salida = subprocess.run(
+        ["ffmpeg", "-v", "info", "-i", str(video), "-vf", "cropdetect=24:2:0",
+         "-frames:v", "90", "-f", "null", "-"],
+        capture_output=True, text=True)
+    encontrados = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", salida.stderr)
+    if not encontrados:
+        return None
+    w, h, x, y = max(set(encontrados), key=encontrados.count)
+    if (x, y) == ("0", "0"):
+        return None                # ocupa todo el cuadro, no hay que recortar
+    return f"crop={w}:{h}:{x}:{y}", int(w), int(h)
 
 
 def placa(destino, ancho, alto, fps, segundos, lineas):
@@ -68,15 +89,26 @@ def main():
     p.add_argument("--vertical", action="store_true", help="Ademas, version 9:16")
     args = p.parse_args()
 
-    entrada = Path(args.video)
+    entrada = original = Path(args.video)
     if not entrada.exists():
         raise FileNotFoundError(entrada)
 
     ancho, alto = int(sonda(entrada, "width")), int(sonda(entrada, "height"))
     fps = sonda(entrada, "r_frame_rate").split("/")[0]
-    base = ancho / 22          # el tamano de letra se adapta al video
-
     tmp = Path(tempfile.mkdtemp(prefix="placas_"))
+
+    recorte = barras(entrada)
+    if recorte:
+        filtro, ancho, alto = recorte
+        print(f"barras negras -> {filtro}")
+        sin_barras = tmp / "recortado.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(entrada),
+                        "-vf", filtro, "-c:v", "libx264", "-crf", "18",
+                        "-pix_fmt", "yuv420p", "-c:a", "copy", str(sin_barras)],
+                       check=True)
+        entrada = sin_barras
+
+    base = ancho / 22          # el tamano de letra se adapta al video
     inicio = placa(tmp / "inicio.mp4", ancho, alto, fps, 2.5, [
         (SERIE, int(base), "white", "-60"),
         (f"Capítulo {args.numero}", int(base * 0.7), "0xD4AF37", "+30"),
@@ -86,8 +118,8 @@ def main():
         ("CONTINUARÁ", int(base * 0.9), "white", "+0"),
     ])
 
-    salida = Path(args.salida) if args.salida else entrada.with_name(
-        f"{entrada.stem}_cap{args.numero}.mp4")
+    salida = Path(args.salida) if args.salida else original.with_name(
+        f"{original.stem}_cap{args.numero}.mp4")
     subprocess.run(["ffmpeg", "-y", "-v", "error",
                     "-i", str(inicio), "-i", str(entrada), "-i", str(fin),
                     "-filter_complex",
