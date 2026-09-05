@@ -29,8 +29,10 @@ auto_tiktok_pipeline/
 │       └── saludos/             # Saludos personalizados conservados
 ├── guiones/                     # Diálogos generados (texto propio, versionado)
 ├── prompts/                     # Prompt de avatares y fichas de escenas
+├── serie/                       # "Algo pasa en Soatá": historia y arco
 ├── output/escenas/              # Clips de Veo cacheados (pesados, no versionados)
 ├── output/dialogos/             # Montajes multi-personaje
+├── output/serie/                # Capítulos terminados con sus placas
 ├── config.json                  # Configuración global y personajes
 ├── main.py                      # Orquestador de las cuatro fases
 ├── pipeline_utils.py            # Config, rutas y mezcla de ajustes
@@ -39,8 +41,19 @@ auto_tiktok_pipeline/
 ├── 3_generate_video.py          # Fase 3: video vertical con texto
 ├── 3b_add_scenes.py             # Fase 3b: escenas con Veo (opcional)
 ├── 3c_lipsync.py                # Fase 3c: boca rehecha con MuseTalk (opcional)
+├── serie_placas.py              # Placas de serie y versión 9:16
 └── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
 ```
+
+### Serie: *Algo pasa en Soatá*
+
+Además de los videos de artistas, el repo aloja una **segunda línea de contenido**
+que no usa voz ni avatares: una serie corta de terror y ciencia ficción generada
+a partir de fotografías reales del pueblo, con Veo y FFmpeg.
+
+Comparte la clave de Gemini, `prompts/escenas/` y la cuota de video, pero es
+independiente de las cuatro fases. Su historia, el arco de ocho capítulos, los
+costes y la forma de publicarla están en **[serie/README.md](serie/README.md)**.
 
 ## Requisitos
 
