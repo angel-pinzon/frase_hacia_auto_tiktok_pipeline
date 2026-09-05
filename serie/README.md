@@ -17,22 +17,40 @@ De ahí se derivan dos decisiones:
 - **El nombre del pueblo va en el título**, para que el propio rótulo haga parte
   del trabajo de difusión.
 
+## La historia
+
+El portón de la iglesia es una puerta que se abre cada cierto tiempo. Cuando se
+abre, algo pasa a través.
+
+**El pueblo lo sabe.** Lleva generaciones lidiando con ello: espera a que
+termine, tapia el portón y sigue con su vida sin mencionarlo. La serie es una
+sola noche de eso ocurriendo.
+
+Nada de esto se explica nunca en pantalla. Se deduce.
+
 ## El arco
 
-Ocho capítulos que transcurren en **una sola noche**. La luz avanza con la
-historia, lo que da una cuenta atrás implícita: algo tiene que pasar antes de
-que amanezca.
+Ocho capítulos en **una sola noche**. La luz avanza con la historia, lo que da
+una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 
-| # | Capítulo | Momento | Qué se ve |
-|---|---|---|---|
-| 1 | La horda | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo |
-| 2 | El rastro | anochecer | La plaza vacía, cosas tiradas, el carro abierto. Al fondo, una figura se quedó |
-| 3 | El que se quedó | noche | Esa figura, inmóvil, gira la cabeza hacia el portón |
-| 4 | El llamado | noche cerrada | El portón se abre solo, sale luz, la figura entra |
-| 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila |
-| 6 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe |
-| 7 | El pueblo | primeras luces | Una calle con las puertas abiertas. Algo se mete en un zaguán |
-| 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo |
+| # | Capítulo | Momento | Qué se ve | Qué ocurre en realidad |
+|---|---|---|---|---|
+| 1 | La horda | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
+| 2 | El rastro | anochecer | La plaza vacía, cosas tiradas, el carro abierto. Al fondo, una figura se quedó | La gente huyó. Uno no huyó: se quedó esperando |
+| 3 | El que se quedó | noche | Esa figura, inmóvil, gira la cabeza hacia el portón | Oye algo que el espectador no oye. Está a punto de abrirse |
+| 4 | El llamado | noche cerrada | El portón se abre solo, sale luz, la figura entra | Se confirma que la puerta funciona, y que llama |
+| 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche |
+| 6 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
+| 7 | El pueblo | primeras luces | Una calle con las puertas abiertas. Algo se mete en un zaguán | No todos volvieron a entrar. Algo se quedó de este lado |
+| 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo | El pueblo lo cerró, como cada vez |
+
+**El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
+abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
+ladrillo está viejo, con musgo, como si llevara cuarenta años ahí.
+
+Ese es el remate: no lo taparon anoche, lo tapan cada vez. Ha pasado antes y
+volverá a pasar. Por eso la serie se llama *Algo pasa en Soatá* en presente. El
+plano final es un vecino que pasa frente al portón tapiado sin mirarlo siquiera.
 
 Los capítulos 2, 3 y 6 casi no tienen figuras en movimiento. Son los que más
 inquietud crean y los más baratos de producir, porque el movimiento humano es lo
