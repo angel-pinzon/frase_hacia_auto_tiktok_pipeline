@@ -87,6 +87,9 @@ def main():
     p.add_argument("--titulo", required=True)
     p.add_argument("--salida", default=None)
     p.add_argument("--vertical", action="store_true", help="Ademas, version 9:16")
+    p.add_argument("--recorte", default=None, metavar="W:H:X:Y",
+                   help="Recorte extra, para dejar fuera lo que Veo se invento "
+                        "y no esta en la foto original")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -97,16 +100,25 @@ def main():
     fps = sonda(entrada, "r_frame_rate").split("/")[0]
     tmp = Path(tempfile.mkdtemp(prefix="placas_"))
 
+    filtros = []
     recorte = barras(entrada)
     if recorte:
         filtro, ancho, alto = recorte
         print(f"barras negras -> {filtro}")
-        sin_barras = tmp / "recortado.mp4"
+        filtros.append(filtro)
+    if args.recorte:
+        w, h, *_ = args.recorte.split(":")
+        ancho, alto = int(w), int(h)
+        print(f"recorte extra -> crop={args.recorte}")
+        filtros.append(f"crop={args.recorte}")
+
+    if filtros:
+        recortado = tmp / "recortado.mp4"
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(entrada),
-                        "-vf", filtro, "-c:v", "libx264", "-crf", "18",
-                        "-pix_fmt", "yuv420p", "-c:a", "copy", str(sin_barras)],
+                        "-vf", ",".join(filtros), "-c:v", "libx264", "-crf", "18",
+                        "-pix_fmt", "yuv420p", "-c:a", "copy", str(recortado)],
                        check=True)
-        entrada = sin_barras
+        entrada = recortado
 
     base = ancho / 22          # el tamano de letra se adapta al video
     inicio = placa(tmp / "inicio.mp4", ancho, alto, fps, 2.5, [
