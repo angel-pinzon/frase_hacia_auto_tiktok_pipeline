@@ -1,0 +1,43 @@
+{
+  "capitulo": 5,
+  "titulo": "El llamado",
+  "momento": "noche cerrada",
+  "locacion": "Plaza principal de Soata, encuadre ancho desde la explanada",
+  "foto": "assets/iglesia_soata5.jpg",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "El ser nunca se muestra: es una silueta a contraluz, sin rasgos. No es pudor, es produccion -la anatomia es lo que peor genera el modelo y una criatura a media distancia sale deforme-. Ademas asusta mas lo que no se ve. Por la misma razon ninguna figura toca a otra en ningun plano.",
+
+  "riesgo": "La foto es de mediodia con cielo azul intenso, y aqui la noche no es opcional como en el capitulo 3: la escena entera depende de que este oscuro para que la luz se vea. Si el acto 1 vuelve de dia, aplicar --noche al montar, que para eso esta la receta. La luz pulsante ayuda, porque le da al modelo un motivo para oscurecer el resto.",
+
+  "arquitectura": "Conserva exactamente el lugar: una plaza muy amplia pavimentada en ladrillo rosado con franjas de cemento gris, con una gran explanada vacia en primer plano. A la izquierda del centro, la iglesia de piedra gris con su reloj, dos espadanas con campanas y una estatua de Cristo con los brazos abiertos en lo alto de la fachada. A su derecha, la cupula azul y blanca con una estatua blanca encima. Mas a la derecha, un edificio largo de dos plantas, de color crema y tejado de teja roja. En medio de la plaza, palmeras plantadas en jardineras circulares de ladrillo. A la izquierda, arboles altos y faroles negros de hierro.",
+
+  "comun": "Es noche cerrada, sin sol y sin cielo azul: el cielo esta negro y la plaza a oscuras, iluminada solo por los faroles. Camara fija a la altura de la plaza, plano general amplio, sin acercarse. Ciencia ficcion realista y cinematografica, no caricatura. Ninguna figura toca a otra en ningun momento.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la senal",
+      "prompt": "La plaza esta completamente desierta en plena noche, sin una sola persona ni vehiculo. En el cielo negro, justo encima de la iglesia de piedra, aparece un punto de luz blanca que empieza a latir despacio, encendiendose y apagandose con un ritmo regular. Con cada latido, la luz baña la fachada de la iglesia y el suelo de la plaza. No ocurre nada mas: la plaza sigue vacia y en silencio."
+    },
+    {
+      "n": 2,
+      "nombre": "la silueta",
+      "prompt": "Continua la misma escena sin cortes. En mitad de la explanada vacia, entre la camara y la iglesia, se recorta UNA figura solitaria de pie, completamente a contraluz: se ve unicamente su silueta negra recortada contra la luz que late detras, sin rasgos, sin cara y sin detalle alguno. Permanece inmovil un momento y despues levanta un brazo hacia la luz. El latido de la luz se vuelve mas rapido."
+    },
+    {
+      "n": 3,
+      "nombre": "los que acuden",
+      "prompt": "Continua la misma escena sin cortes. Por los bordes de la plaza empiezan a entrar figuras humanas caminando, unas por la izquierda entre los arboles y otras por la derecha desde el edificio de tejado rojo, todas separadas entre si y avanzando despacio hacia el centro de la explanada. Caminan encorvadas, con paso torpe, sin correr y sin tocarse. Cuando ya son muchas, la luz del cielo se apaga de golpe y la plaza queda completamente a oscuras."
+    }
+  ],
+
+  "montaje": "python serie_placas.py <clip> --numero 5 --titulo \"El llamado\" --vertical --hasta <ultimo fotograma limpio> [--noche si el acto 1 volvio de dia]",
+
+  "revision": [
+    "Ampliar cada figura en el ultimo tercio de cada acto: a tamano de reproduccion un torso truncado pasa por una figura agachada.",
+    "Comprobar que la silueta sigue siendo silueta y no se le dibujo una cara.",
+    "Comparar con la foto original: vigilar la cupula azul, la estatua de Cristo y el tejado rojo del edificio largo, que son lo que hace reconocible la plaza.",
+    "Comprobar que ninguna figura llega a tocar a otra."
+  ]
+}

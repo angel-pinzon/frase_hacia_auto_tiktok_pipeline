@@ -99,6 +99,9 @@ def main():
     p.add_argument("--recorte", default=None, metavar="W:H:X:Y",
                    help="Recorte extra, para dejar fuera lo que Veo se invento "
                         "y no esta en la foto original")
+    p.add_argument("--desde", type=float, default=None, metavar="SEGUNDOS",
+                   help="Descarta el arranque, p.ej. la disolvencia de dia a "
+                        "noche con la que Veo entra desde una foto de mediodia")
     p.add_argument("--hasta", type=float, default=None, metavar="SEGUNDOS",
                    help="Corta el capitulo antes de que aparezca un defecto")
     p.add_argument("--noche", action="store_true",
@@ -129,12 +132,18 @@ def main():
         print("noche         -> noche americana")
         filtros.append(NOCHE)
 
-    if filtros or args.hasta:
+    if filtros or args.hasta or args.desde:
         recortado = tmp / "recortado.mp4"
-        orden = ["ffmpeg", "-y", "-v", "error", "-i", str(entrada)]
+        orden = ["ffmpeg", "-y", "-v", "error"]
+        if args.desde:
+            print(f"arranque      -> descarta {args.desde}s")
+            orden += ["-ss", str(args.desde)]
+        orden += ["-i", str(entrada)]
         if args.hasta:
-            print(f"corte          -> {args.hasta}s")
-            orden += ["-t", str(args.hasta)]
+            # -hasta es un instante del clip original, no una duracion
+            dur = args.hasta - (args.desde or 0)
+            print(f"corte         -> {args.hasta}s")
+            orden += ["-t", str(dur)]
         if filtros:
             orden += ["-vf", ",".join(filtros)]
         # el audio se recodifica: al cortar ya no vale copiarlo tal cual

@@ -28,6 +28,16 @@ enseguida — es una lanzadera que deja pasajeros. Se entra por el cielo y se sa
 por el portón, así que el pueblo no está siendo atacado, está siendo usado como
 escala. De ahí que el título esté en presente: por Soatá **pasan** cosas.
 
+**Y hay alguien que los guía.** No van sueltos: en el capítulo 5 una luz late
+sobre la iglesia y una silueta los convoca a la plaza. Eso convierte lo que
+parecían sucesos inconexos en una operación con horario — llegan, se dispersan,
+son llamados, y se van todos por la misma puerta antes del amanecer.
+
+**Nunca se le ve.** La silueta va siempre a contraluz, sin rasgos, y es una
+decisión de producción antes que de estilo: la anatomía es lo que peor genera el
+modelo, y una criatura a media distancia sale deforme. Que no se vea la hace
+mejor, no peor.
+
 **El pueblo lo sabe.** Lleva generaciones lidiando con ello: espera a que
 termine, tapia el portón y sigue con su vida sin mencionarlo. La serie es una
 sola noche de eso ocurriendo.
@@ -45,7 +55,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza y bajan dos figuras, que se pierden hacia el pueblo. La nave sigue ahí, con los motores encendidos | La lanzadera deja pasajeros. No entran a ningún sitio: se dispersan |
 | 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
 | 4 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
-| 5 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
+| 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
 | 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
 | 7 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
 | 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo | El pueblo lo cerró, como cada vez |
@@ -54,9 +64,9 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
 quien no reconoció la plaza reconoce su calle, y esa es la gente que lo comparte.
 
-Los tres primeros ya están montados, en `output/serie/`. El 3 transcurre entero
-al caer la tarde: empieza con el sol ya puesto y termina de noche, lo que cubre
-por sí solo el tramo entre el capítulo 2 y el 4.
+Montados el 1, 2, 3 y 5, en `output/serie/`; falta el 4. El 3 transcurre entero
+al caer la tarde —empieza con el sol ya puesto y termina de noche—, así que cubre
+él solo el tramo de luz entre el 2 y el 4.
 
 **El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
 abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
@@ -100,9 +110,9 @@ Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, 
 un cierre con CONTINUARÁ. Con `--vertical` produce además la versión 9:16, que
 encaja el apaisado sobre su propia imagen desenfocada en lugar de recortar.
 
-Las otras tres opciones corrigen lo que Veo devuelve mal: `--recorte` deja fuera
-lo que se inventó, `--hasta` corta antes de un defecto y `--noche` lleva a
-anochecida un clip que volvió de día.
+Las otras opciones corrigen lo que Veo devuelve mal: `--recorte` deja fuera lo
+que se inventó, `--desde` y `--hasta` recortan por delante y por detrás, y
+`--noche` lleva a anochecida un clip que volvió de día.
 
 **Las barras negras se quitan solas.** Veo rellena a 16:9 las fotos que no lo
 son, y la de la plaza es 4:3: todos los clips vuelven como 960x720 útiles dentro
@@ -132,6 +142,16 @@ algo con principio y final: el espectador se queda a ver cómo termina.
 **Lo importante va en el primer acto.** Cada clip encadenado parte del anterior,
 así que la deriva se acumula: el tercero ya va por la tercera generación y la
 arquitectura empieza a deformarse.
+
+**Si la escena necesita noche, dásela como motivo.** Al capítulo 3 se le pidió la
+anochecida y volvió de día. Al 5 se le pidió noche cerrada y la dio entera, con
+un brillo medio de 28 frente a los 100 del parque. La diferencia es que en el 5
+había **una luz que latía en el cielo**: el modelo tenía una razón para oscurecer
+todo lo demás. Pedir "de noche" a secas funciona mal; pedir algo que solo se ve
+de noche funciona.
+
+Eso sí, **entra disolviendo desde la foto**: el capítulo 5 arranca con 1.8 s de
+mediodía que se funden a noche. Se descartan con `--desde`.
 
 **La hora del día la pone la foto, no el prompt.** Al capítulo 3 se le pidió el
 último resto de luz sobre una foto de mediodía y volvió con cielo azul. Pero la
@@ -239,9 +259,13 @@ reciba el capítulo 4 suelto sabrá que hay tres antes.
 
 ## Material
 
-En `assets/` hay dos locaciones: `iglesia_soata.jpg`, la plaza, y
-`ParqueJuanJoseRondon.jpg`, el parque del capítulo 3. Falta **la plaza de día**
-para el capítulo 8, el del portón tapiado.
+En `assets/` hay tres encuadres útiles: `iglesia_soata.jpg`, la plaza cerrada de
+los capítulos 1 y 2; `ParqueJuanJoseRondon.jpg`, el parque del 3; y
+`iglesia_soata5.jpg`, la plaza en ancho con la explanada vacía, que es la del 5 y
+servirá para el 6. Falta **la plaza de día** para el capítulo 8.
+
+Descarta las que lleven **marca de agua**: el logo se queda dentro del video y
+además deformado, porque el modelo lo redibuja en cada fotograma.
 
 Sirve cualquier encuadre con un punto de fuga claro —un camino, una calle— y
 algún elemento que ancle el sitio: en el parque, el obelisco del fondo y el
