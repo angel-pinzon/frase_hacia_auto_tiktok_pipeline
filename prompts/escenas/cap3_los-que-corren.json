@@ -1,0 +1,40 @@
+{
+  "capitulo": 3,
+  "titulo": "Los que corren",
+  "momento": "noche, poco despues de La llegada",
+  "locacion": "PENDIENTE: una calle de Soata, con puertas y zaguanes a la vista",
+  "foto": "assets/PENDIENTE.jpg",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "El titulo es a proposito ambiguo: los que corren son los que huyen y los que persiguen. Nadie se toca en ningun plano: el contacto cercano entre figuras es lo que peor genera el modelo, y todos los defectos del capitulo 2 salieron de ahi. El miedo lo carga la gente que huye, no los perseguidores.",
+
+  "arquitectura": "PENDIENTE: describir la calle por lo que se ve en la foto -ancho, color de las fachadas, si sube o baja, las puertas de madera, los zaguanes, las farolas-. Va copiado igual en los tres actos, porque es lo que evita que el modelo se invente edificios al encadenar.",
+
+  "comun": "Es de noche, farolas encendidas, la calle mojada. Camara fija a la altura de la calle, plano general, sin acercarse a las caras. Terror realista y cinematografico, no caricatura. Ninguna figura toca a otra en ningun momento.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "el que huye",
+      "prompt": "Una calle vacia de pueblo por la noche. Al fondo aparece UNA persona corriendo hacia la camara, un vecino en ropa de casa. Corre desesperado, mirando hacia atras por encima del hombro cada pocos pasos. Se acerca hasta pasar cerca de la camara y sale de cuadro. La calle queda vacia otra vez, con el fondo en penumbra."
+    },
+    {
+      "n": 2,
+      "nombre": "los que persiguen",
+      "prompt": "Continua la misma escena sin cortes, la misma calle vacia. Al fondo, en la penumbra de donde vino el vecino, aparecen EXACTAMENTE CUATRO figuras corriendo hacia la camara. Corren rapido pero con el paso descoordinado y el cuerpo encorvado, brazos sueltos, ropas sucias y rasgadas. Vienen calle abajo separadas entre si, sin tocarse, y se mantienen a media distancia sin llegar nunca a la camara."
+    },
+    {
+      "n": 3,
+      "nombre": "las puertas",
+      "prompt": "Continua la misma escena sin cortes. A ambos lados de la calle, varias puertas de madera se cierran de golpe una tras otra, y detras de las ventanas se apagan las luces. Las cuatro figuras siguen calle abajo sin detenerse en ninguna casa y se pierden de cuadro. La calle queda vacia y en silencio, con una sola puerta entreabierta moviendose despacio."
+    }
+  ],
+
+  "montaje": "python serie_placas.py <clip> --numero 3 --titulo \"Los que corren\" --vertical --recorte <si hace falta> --hasta <ultimo fotograma limpio>",
+
+  "revision": [
+    "Ampliar cada figura en el ultimo tercio de cada acto: a tamano de reproduccion un torso truncado pasa por una figura agachada.",
+    "Comparar los bordes con la foto original: al encadenar el modelo inventa edificios.",
+    "Comprobar que ninguna figura llega a tocar a otra ni a la camara."
+  ]
+}

@@ -43,12 +43,16 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 |---|---|---|---|---|
 | 1 | La horda ✅ | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
 | 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza y bajan dos figuras, que se pierden hacia el pueblo. La nave sigue ahí, con los motores encendidos | La lanzadera deja pasajeros. No entran a ningún sitio: se dispersan |
-| 3 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
-| 4 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
-| 5 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
-| 6 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
-| 7 | El pueblo | primeras luces | Una calle con las puertas abiertas. Algo se mete en un zaguán | No todos alcanzaron a salir. Algo se quedó de este lado |
+| 3 | Los que corren | noche | **Otra calle.** Un vecino huye corriendo, detrás vienen cuatro figuras, y las puertas se cierran de golpe a su paso | No persiguen al vecino: van de paso y él se cruzó. El pueblo se encierra |
+| 4 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
+| 5 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
+| 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
+| 7 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
 | 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo | El pueblo lo cerró, como cada vez |
+
+**Cambiar de locación a partir del 3.** Con una sola foto la serie se agota
+visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
+quien no reconoció la plaza reconoce su calle, y esa es la gente que lo comparte.
 
 Los dos primeros ya están montados, en `output/serie/`.
 
@@ -151,6 +155,18 @@ torso truncado se confunde con una figura agachada.
 Cortar con `--hasta` sale más barato que regenerar. Aquí el capítulo acaba con la
 nave todavía posada, que además funciona mejor como final: que se quede inquieta
 más que verla marcharse.
+
+**Nadie toca a nadie.** Los tres defectos del capítulo 2 —el cuerpo fusionado al
+casco, el torso truncado, la figura rota junto a la rampa— salieron todos de
+figuras humanas pegadas a un objeto o a otra figura. El modelo sostiene bien la
+arquitectura y se rompe con las personas.
+
+De ahí una regla de guion, no de producción: **el contacto se sugiere, no se
+muestra**. Una persecución en plano general —alguien corriendo, figuras detrás,
+puertas cerrándose de golpe— da el mismo miedo que un mordisco y sale a la
+primera. Un mordisco son dos cuerpos juntos en primer plano, el caso más difícil
+que existe, y se llevaría varias generaciones de las diez del día para acabar
+recortándolo igualmente.
 
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su
