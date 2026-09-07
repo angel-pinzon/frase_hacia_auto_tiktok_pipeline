@@ -43,7 +43,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 |---|---|---|---|---|
 | 1 | La horda ✅ | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
 | 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza y bajan dos figuras, que se pierden hacia el pueblo. La nave sigue ahí, con los motores encendidos | La lanzadera deja pasajeros. No entran a ningún sitio: se dispersan |
-| 3 | Los que corren | noche | **Otra calle.** Un vecino huye corriendo, detrás vienen cuatro figuras, y las puertas se cierran de golpe a su paso | No persiguen al vecino: van de paso y él se cruzó. El pueblo se encierra |
+| 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
 | 4 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
 | 5 | El llamado | noche cerrada | Esa figura gira la cabeza, el portón se abre solo y sale luz. Entra | La puerta funciona, y llama |
 | 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
@@ -54,7 +54,9 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
 quien no reconoció la plaza reconoce su calle, y esa es la gente que lo comparte.
 
-Los dos primeros ya están montados, en `output/serie/`.
+Los tres primeros ya están montados, en `output/serie/`. El 3 transcurre entero
+al caer la tarde: empieza con el sol ya puesto y termina de noche, lo que cubre
+por sí solo el tramo entre el capítulo 2 y el 4.
 
 **El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
 abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
@@ -98,12 +100,20 @@ Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, 
 un cierre con CONTINUARÁ. Con `--vertical` produce además la versión 9:16, que
 encaja el apaisado sobre su propia imagen desenfocada en lugar de recortar.
 
+Las otras tres opciones corrigen lo que Veo devuelve mal: `--recorte` deja fuera
+lo que se inventó, `--hasta` corta antes de un defecto y `--noche` lleva a
+anochecida un clip que volvió de día.
+
 **Las barras negras se quitan solas.** Veo rellena a 16:9 las fotos que no lo
 son, y la de la plaza es 4:3: todos los clips vuelven como 960x720 útiles dentro
 de un cuadro de 1280x720. En apaisado apenas se nota, pero en vertical esas
 barras entran en la capa de primer plano y aparecen como dos cuñas negras sobre
 el fondo desenfocado, que es justo lo que el encuadre 9:16 pretendía evitar. La
 herramienta las detecta con `cropdetect` y las recorta antes de montar.
+
+No siempre pasa: con la foto vertical del parque, Veo devolvió apaisado pero
+**extendiendo la escena** en lugar de rellenarla con negro, así que se ve más
+parque que en la foto original y no hubo nada que recortar.
 
 **Y lo inventado se deja fuera con `--recorte`.** Ver más abajo por qué hace
 falta:
@@ -122,6 +132,21 @@ algo con principio y final: el espectador se queda a ver cómo termina.
 **Lo importante va en el primer acto.** Cada clip encadenado parte del anterior,
 así que la deriva se acumula: el tercero ya va por la tercera generación y la
 arquitectura empieza a deformarse.
+
+**La hora del día la pone la foto, no el prompt.** Al capítulo 3 se le pidió el
+último resto de luz sobre una foto de mediodía y volvió con cielo azul. Pero la
+lección no es esa, sino lo que pasó después: lo di por fallado y me puse a
+graduarlo a noche, y al medirlo resultó que el acto 1 y el acto 2 tienen
+prácticamente el mismo brillo —97 y 96—, que lo que cambia entre ellos es el
+cielo y no la luz, y que **el propio clip ya oscurecía solo**: su último
+fotograma era idéntico al arranque del siguiente.
+
+Cada grado que le apliqué lo empeoró, el frío además tirando en dirección
+contraria al camino cálido de las farolas. Acabó yendo sin tocar. Antes de
+corregir una luz, **medir los dos extremos de la unión** con `signalstats`: si
+coinciden, el problema es de color o de cielo, y casi nunca hace falta hacer
+nada. La receta de noche americana quedó en `--noche` para cuando de verdad
+haga falta.
 
 **Y no solo se deforma: se inventa.** En la secuencia de la nave apareció pegado
 al borde izquierdo un edificio de dos plantas con balcones de hierro que no
@@ -214,11 +239,20 @@ reciba el capítulo 4 suelto sabrá que hay tres antes.
 
 ## Material
 
-Fotografías necesarias, además de la plaza que ya está en `assets/`:
+En `assets/` hay dos locaciones: `iglesia_soata.jpg`, la plaza, y
+`ParqueJuanJoseRondon.jpg`, el parque del capítulo 3. Falta **la plaza de día**
+para el capítulo 8, el del portón tapiado.
 
-- Una calle del pueblo con zaguanes, para el capítulo 7.
-- La plaza de día, para el capítulo 8.
+Sirve cualquier encuadre con un punto de fuga claro —un camino, una calle— y
+algún elemento que ancle el sitio: en el parque, el obelisco del fondo y el
+tobogán amarillo. Esos son los que hay que vigilar al revisar, porque son lo que
+hace reconocible el lugar.
 
 Los clips generados viven en `output/escenas/` y los capítulos terminados en
 `output/serie/`, ninguno versionado por peso. Los prompts sí se guardan en
 `prompts/escenas/`: con ellos cualquier clip se puede volver a generar.
+
+**Las fotos son la excepción.** `assets/**/*.jpg` está en el `.gitignore` desde
+los avatares, así que las locaciones no se versionan — y son lo único
+irreemplazable de la serie: todo lo demás se regenera a partir de ellas. Conviene
+guardarlas fuera del repositorio.
