@@ -15,6 +15,15 @@ from pathlib import Path
 SERIE = "ALGO PASA EN SOATÁ"
 FUENTE = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
+# Noche americana. Veo no lleva a noche cerrada una foto tomada a pleno sol -la
+# devuelve de dia por mucho que se le insista-, asi que la noche se hace despues:
+# se bajan luces y medios, se vira todo a azul y se apaga el cielo. Sale gratis y
+# no gasta una generacion en reintentos que tampoco iban a funcionar.
+NOCHE = ("curves=r='0/0 0.5/0.28 1/0.62':g='0/0 0.5/0.30 1/0.66':"
+         "b='0/0.04 0.5/0.42 1/0.80',"
+         "eq=saturation=0.55:contrast=1.12:brightness=-0.06,"
+         "vignette=PI/4")
+
 
 def sonda(video, campo):
     salida = subprocess.run(
@@ -92,6 +101,9 @@ def main():
                         "y no esta en la foto original")
     p.add_argument("--hasta", type=float, default=None, metavar="SEGUNDOS",
                    help="Corta el capitulo antes de que aparezca un defecto")
+    p.add_argument("--noche", action="store_true",
+                   help="Noche americana: lleva a anochecida un clip que Veo "
+                        "devolvio de dia")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -113,6 +125,9 @@ def main():
         ancho, alto = int(w), int(h)
         print(f"recorte extra -> crop={args.recorte}")
         filtros.append(f"crop={args.recorte}")
+    if args.noche:
+        print("noche         -> noche americana")
+        filtros.append(NOCHE)
 
     if filtros or args.hasta:
         recortado = tmp / "recortado.mp4"

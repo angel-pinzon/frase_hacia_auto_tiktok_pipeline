@@ -9,7 +9,9 @@
 
   "nota": "El titulo es ambiguo a proposito: los que corren son los que huyen y los que persiguen. Nadie se toca en ningun plano. El miedo lo cargan los vecinos que huyen, no los perseguidores.",
 
-  "luz": "La foto es de mediodia, con sol duro y cielo azul. Pedir noche cerrada es una transformacion demasiado grande y vuelve irreconocible el sitio, asi que se pide el ultimo resto de luz: el sol ya detras de la montana, el cielo apagandose y las farolas del parque recien encendidas. Encaja entre el capitulo 2 y el 4 sin forzar nada.",
+  "luz": "NOTA, no va en el prompt: la foto es de mediodia, con sol duro y cielo azul. Pedir noche cerrada es una transformacion demasiado grande y vuelve irreconocible el sitio, asi que se pide el ultimo resto de luz. Encaja entre el capitulo 2 y el 4 sin forzar nada.",
+
+  "luz_prompt": "Es el ultimo resto de luz del dia: el sol ya se ha puesto detras de la montana, el cielo se esta apagando y las farolas del parque acaban de encenderse.",
 
   "arquitectura": "Conserva exactamente el lugar: un camino ancho de adoquin de arcilla rosada que se aleja recto de la camara, con bordillo de cemento a los lados. A la izquierda, arboles viejos y altos de troncos pintados de blanco en la base, con musgo colgando de las ramas. Al fondo del camino, un obelisco blanco de piedra. A la derecha, sobre el cesped, un parque infantil con un tobogan amarillo sobre una plataforma circular, aparatos de ejercicio metalicos de color rojo y azul, y asientos de colores. Mas a la derecha, un kiosco de tejado de teja. Al fondo, la montana.",
 
