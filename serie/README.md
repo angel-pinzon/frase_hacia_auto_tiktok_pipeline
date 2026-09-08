@@ -63,7 +63,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
 | 4 | Lo que buscaban ✅ | noche | **El parque de las piedras talladas.** Seis figuras rebuscan entre los bloques; el más grande se desplaza solo y del hueco sale luz. Una se incorpora sosteniendo una pieza alargada que brilla en frío | Esto era la misión. Todo lo anterior era una búsqueda |
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
-| 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila por el portón | No es una salida, es un embarque: están subiendo a bordo |
+| 6 | Los que vuelven | madrugada | La horda regresa y entra en fila por el portón. Cuando la plaza queda vacía, **los vitrales de la cúpula se encienden uno tras otro** | No es una salida, es un embarque. Y algo se está encendiendo |
 | 7 | La cúpula | antes del alba | Las campanas suenan solas, sale vapor del anillo del tejado y **la cúpula se desprende y sube** hasta desaparecer. Queda un hueco circular | La cúpula era la nave. Llevaba ahí desde siempre |
 | 8 | El amanecer | sale el sol | La iglesia sin cúpula. La cúpula baja del cielo y **encaja** en su sitio. Abren las tiendas, pasa gente, nadie mira hacia arriba | No se fue: volvió. Y el pueblo sigue |
 
@@ -99,6 +99,12 @@ termina de noche—, así que cubre él solo el tramo de luz entre el 2 y el 4.
 capítulos —al fondo de la plaza, detrás de la nave, sobre la silueta—, así que el
 espectador lleva siete capítulos mirándola sin verla. Que resulte ser la nave
 reordena hacia atrás todo lo que ya vio.
+
+**Pero se avisa un capítulo antes.** El 6 termina con los vitrales de la cúpula
+encendiéndose uno tras otro desde dentro, ya con todos embarcados. Eso hace dos
+cosas: le da remate a un capítulo que si no acababa con ellos entrando y nada
+más, y planta la cúpula como el objeto a vigilar. Así el despegue del 7 no llega
+de la nada — el espectador ya la había mirado.
 
 Y arregla la premisa. El portón deja de ser una puerta a otro sitio y pasa a ser
 **la puerta de embarque**: el interior de la iglesia es la bodega, y la pieza que

@@ -1,0 +1,46 @@
+{
+  "capitulo": 6,
+  "titulo": "Los que vuelven",
+  "momento": "madrugada",
+  "locacion": "Plaza principal de Soata, encuadre ancho desde la explanada",
+  "foto": "assets/iglesia_soata5.jpg",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "No es una salida, es un embarque: estan subiendo a bordo. El capitulo cierra con los vitrales de la cupula encendiendose desde dentro, que es lo que planta la cupula como el objeto a vigilar justo antes de que en el 7 se desprenda. Sin ese remate, el capitulo terminaba con ellos entrando y nada mas.",
+
+  "riesgo": "Es el capitulo con mas figuras humanas juntas de la temporada, y la anatomia es lo que peor genera el modelo. Van en fila y separadas, nunca en contacto, y la camara se queda lejos. Si el acto 2 sale con cuerpos rotos, se corta antes con --hasta: el remate de los vitrales esta en el acto 3 y es lo que de verdad importa.",
+
+  "luz": "La foto es de mediodia. Aqui la noche es imprescindible -si no esta oscuro, los vitrales no se ven encenderse-, asi que se pide de forma explicita y se apoya en la propia luz de los vitrales, que le da al modelo un motivo para oscurecer el resto. Es lo que funciono en el capitulo 5.",
+
+  "arquitectura": "Conserva exactamente el lugar: una plaza muy amplia pavimentada en ladrillo rosado con franjas de cemento gris, con una gran explanada vacia en primer plano. A la izquierda del centro, la iglesia de piedra gris con su reloj, dos espadanas con campanas y una estatua de Cristo con los brazos abiertos en lo alto de la fachada; en el centro de la fachada, un porton de madera bajo un arco de piedra. A su derecha, la cupula azul y blanca con ventanas altas y estrechas y una estatua blanca encima. Mas a la derecha, un edificio largo de dos plantas, de color crema y tejado de teja roja. En medio de la plaza, palmeras en jardineras circulares de ladrillo, y a la izquierda arboles altos y faroles negros de hierro.",
+
+  "comun": "Es de madrugada, noche cerrada: el cielo esta negro y la plaza a oscuras, iluminada solo por los faroles. Camara fija a la altura de la plaza, plano general amplio, sin acercarse a las caras. Ciencia ficcion realista y cinematografica, no caricatura. Ninguna figura toca a otra en ningun momento.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "el regreso",
+      "prompt": "La plaza esta vacia en plena madrugada. Por los bordes empiezan a aparecer figuras humanas que entran caminando en la explanada desde varios lados a la vez, separadas entre si y sin tocarse. Caminan encorvadas y despacio, todas en la misma direccion: hacia el porton de madera de la iglesia. No corren y no se detienen."
+    },
+    {
+      "n": 2,
+      "nombre": "entran en fila",
+      "prompt": "Continua la misma escena sin cortes. Las figuras se han ordenado en una fila unica que avanza despacio hacia el porton de madera de la iglesia, que ahora esta abierto. Van una detras de otra, con separacion entre ellas y sin tocarse en ningun momento, suben los escalones y desaparecen de una en una en la oscuridad del interior. La plaza se va quedando vacia a medida que entran."
+    },
+    {
+      "n": 3,
+      "nombre": "los vitrales",
+      "prompt": "Continua la misma escena sin cortes. La plaza ha quedado completamente vacia, sin una sola figura, y el porton de madera se cierra despacio. Un momento despues, las ventanas altas y estrechas de la cupula azul y blanca se van iluminando una tras otra desde dentro, con una luz blanca y fria, hasta quedar todas encendidas. La cupula queda brillando sobre el pueblo dormido y a oscuras. Nada mas se mueve."
+    }
+  ],
+
+  "montaje": "python serie_placas.py <clip> --numero 6 --titulo \"Los que vuelven\" --vertical --desde <disolvencia inicial> [--hasta si el acto 2 sale roto]",
+
+  "revision": [
+    "Ampliar las figuras del acto 2, que es el plano con mas gente de la temporada.",
+    "Comprobar que nadie toca a nadie en la fila.",
+    "Que los vitrales se enciendan de forma progresiva y no todos de golpe: el uno tras otro es lo que da la sensacion de encendido de una maquina.",
+    "Que la cupula quede identica a la foto original, porque el capitulo 7 encadena desde aqui.",
+    "Medir el brillo del arranque y descartar la disolvencia de dia con --desde."
+  ]
+}
