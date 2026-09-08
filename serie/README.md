@@ -63,8 +63,8 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 4 | Lo que buscaban ✅ | noche | **El parque de las piedras talladas.** Seis figuras rebuscan entre los bloques; el más grande se desplaza solo y del hueco sale luz. Una se incorpora sosteniendo una pieza alargada que brilla en frío | Esto era la misión. Todo lo anterior era una búsqueda |
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
 | 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
-| 7 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
-| 8 | El amanecer | sale el sol | Todo normal, salvo que el portón está tapiado con ladrillo | El pueblo lo cerró, como cada vez |
+| 7 | La cúpula | antes del alba | Las campanas suenan solas, sale vapor del anillo del tejado y **la cúpula se desprende y sube** hasta desaparecer. Queda un hueco circular | La cúpula era la nave. Llevaba ahí desde siempre |
+| 8 | El amanecer | sale el sol | La iglesia sin cúpula. La cúpula baja del cielo y **encaja** en su sitio. Abren las tiendas, pasa gente, nadie mira hacia arriba | No se fue: volvió. Y el pueblo sigue |
 
 **Cambiar de locación a partir del 3.** Con una sola foto la serie se agota
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
@@ -80,27 +80,43 @@ quien no reconoció la plaza reconoce su calle, y esa es la gente que lo compart
 | 4 · Lo que buscaban | montado | martes 15 |
 | 5 · El llamado | montado | viernes 18 |
 | 6 · Los que vuelven | por producir | martes 22 |
-| 7 · Las campanas | por producir | viernes 25 |
+| 7 · La cúpula | por producir | viernes 25 |
 | 8 · El amanecer | por producir | martes 29 |
 
 Los montados están en `output/serie/`, cada uno en vertical para Reel y apaisado
-para muro. El 6 puede usar `iglesia_soata5.jpg`, la misma foto ancha del 5, así
-que solo falta conseguir **la plaza de día** para el 8.
+para muro. El 6 puede usar `iglesia_soata5.jpg`, la misma foto ancha del 5.
+
+Falta **una foto con la cúpula grande en el encuadre**, para los capítulos 7 y 8.
+En las que hay queda pequeña y al fondo, y si se despega ahí no se aprecia: hace
+falta un plano desde más cerca o mirando hacia arriba. Con una sola se resuelven
+los dos capítulos, porque el 8 continúa el encuadre del 7.
 
 El capítulo 3 transcurre entero al caer la tarde —empieza con el sol ya puesto y
 termina de noche—, así que cubre él solo el tramo de luz entre el 2 y el 4.
 
-**El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
-abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
-ladrillo está viejo, con musgo, como si llevara cuarenta años ahí.
+**El golpe está en el capítulo 7.** La cúpula azul y blanca sale en todos los
+capítulos —al fondo de la plaza, detrás de la nave, sobre la silueta—, así que el
+espectador lleva siete capítulos mirándola sin verla. Que resulte ser la nave
+reordena hacia atrás todo lo que ya vio.
 
-Ese es el remate: no lo taparon anoche, lo tapan cada vez. Ha pasado antes y
-volverá a pasar. Por eso la serie se llama *Algo pasa en Soatá* en presente. El
-plano final es un vecino que pasa frente al portón tapiado sin mirarlo siquiera.
+Y arregla la premisa. El portón deja de ser una puerta a otro sitio y pasa a ser
+**la puerta de embarque**: el interior de la iglesia es la bodega, y la pieza que
+sacaron de debajo de la piedra en el capítulo 4 es lo que la enciende. La trama
+cierra sin cabos sueltos.
 
-Los capítulos 3 y 6 casi no tienen figuras en movimiento. Son los que más
-inquietud crean y los más baratos de producir, porque el movimiento humano es lo
-que peor se le da al modelo.
+**El final está en el 8, y es lo contrario del espectáculo.** La cúpula vuelve y
+**encaja** —no aterriza: ajusta, como una pieza—, y eso dice sin explicar nada
+que siempre fue una máquina y que lleva ahí desde antes de que naciera nadie del
+pueblo. Después sale el sol, abren las tiendas, cruza gente, y nadie mira hacia
+arriba.
+
+Ese es el remate: no se fue, volvió. Ha pasado antes y volverá a pasar. Por eso
+la serie se llama *Algo pasa en Soatá* en presente.
+
+Los capítulos 7 y 8 casi no tienen figuras: lo que se mueve es la cúpula. Son los
+más seguros de producir, porque un objeto arquitectónico elevándose es
+justamente lo que mejor genera el modelo — sin anatomía, sin contacto y sin nada
+de lo que ha fallado en los demás.
 
 **El orden no es el que parece.** Los capítulos lentos —la plaza vacía, el que se
 quedó— rinden mucho más *después* de que haya algo en juego. Por eso la nave va

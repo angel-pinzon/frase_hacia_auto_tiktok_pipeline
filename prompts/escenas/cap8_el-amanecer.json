@@ -1,0 +1,43 @@
+{
+  "capitulo": 8,
+  "titulo": "El amanecer",
+  "momento": "sale el sol",
+  "locacion": "Plaza principal de Soata, mismo encuadre que el capitulo 7",
+  "foto": "PENDIENTE: la misma foto del capitulo 7, con la cupula grande en el encuadre. Sirve para los dos.",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "El remate de la temporada. Encadena desde el ultimo fotograma del capitulo 7, con la iglesia sin cupula, que es una imagen que se entiende sola: algo va mal y nadie lo ha explicado.",
+
+  "por_que_encaja_y_no_aterriza": "Que la cupula ENCAJE, y no que aterrice, es lo que remata la serie: si ajusta como una pieza es que siempre fue una maquina, y llevaba ahi desde antes de que naciera nadie del pueblo. El detalle vale mas que cualquier explicacion.",
+
+  "el_final": "Y despues, la indiferencia. Sale el sol, abren las tiendas, la gente cruza la plaza y nadie mira hacia arriba. No lo taparon anoche: pasa cada cierto tiempo y el pueblo sigue. De ahi el presente del titulo de la serie.",
+
+  "arquitectura": "PENDIENTE: la misma descripcion del capitulo 7, segun la foto nueva.",
+
+  "comun": "Amanece: el cielo pasa de gris azulado a la primera luz dorada. Camara fija, plano general, sin acercarse. Ciencia ficcion realista y cinematografica, no caricatura.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la iglesia sin cupula",
+      "prompt": "Primera luz del dia sobre la plaza vacia. La iglesia esta sin su cupula: donde estaba solo queda un hueco circular oscuro en el tejado, con los bordes limpios. Todo lo demas esta intacto y en calma. No hay nadie en la plaza. Unos pajaros cruzan el cielo."
+    },
+    {
+      "n": 2,
+      "nombre": "vuelve y encaja",
+      "prompt": "Continua la misma escena sin cortes. La cupula azul y blanca baja despacio desde el cielo, entera y girando muy lentamente, y desciende hasta el hueco circular del tejado. Encaja en su sitio con un movimiento preciso, como una pieza que ajusta, levantando un poco de polvo del tejado. La estatua blanca queda otra vez en lo alto, exactamente como estaba. Un ultimo destello recorre la union y se apaga."
+    },
+    {
+      "n": 3,
+      "nombre": "el pueblo",
+      "prompt": "Continua la misma escena sin cortes, ya con el sol saliendo. La plaza se llena de vida normal: se abren las puertas de los locales, pasan vecinos caminando, alguien cruza en bicicleta, un perro atraviesa la plaza. La iglesia esta entera, con su cupula azul y blanca en su sitio como siempre. Nadie mira hacia arriba. Nadie se detiene. Todo transcurre con absoluta normalidad."
+    }
+  ],
+
+  "revision": [
+    "Que la cupula baje ENTERA y encaje limpiamente, sin deformarse al posarse.",
+    "Que al final quede identica a la foto original: si queda torcida o distinta, se pierde el remate.",
+    "En el acto 3 hay gente caminando: ampliar las figuras, que es donde el modelo se rompe.",
+    "Que nadie del acto 3 mire hacia la iglesia. Si alguien la senala, se cae el final."
+  ]
+}

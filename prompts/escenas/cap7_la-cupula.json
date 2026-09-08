@@ -1,0 +1,42 @@
+{
+  "capitulo": 7,
+  "titulo": "La cúpula",
+  "momento": "antes del alba",
+  "locacion": "Plaza principal de Soata, con la cupula grande en el encuadre",
+  "foto": "PENDIENTE: hace falta un plano donde la cupula ocupe buena parte del cuadro. En las que hay queda pequena y al fondo, y si se despega ahi no se aprecia.",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "El golpe de la serie. La cupula azul y blanca sale en todos los capitulos, al fondo de la plaza, detras de la nave, sobre la silueta: el espectador lleva siete capitulos mirandola sin verla. Que resulte ser la nave reordena hacia atras todo lo que ya vio.",
+
+  "por_que_funciona": "Es ademas lo que mejor genera el modelo -un objeto arquitectonico que se eleva-, sin anatomia, sin contacto y sin nada de lo que ha fallado en los otros capitulos. Las campanas se integran aqui en vez de ser capitulo propio: suenan cuando la cupula se separa.",
+
+  "logica": "Esto cambia la premisa y la mejora: el porton no es una puerta a otro sitio, es la puerta de embarque, y el interior de la iglesia es la bodega. La pieza que sacaron de debajo de la piedra en el capitulo 4 es lo que la enciende.",
+
+  "arquitectura": "PENDIENTE: describir segun la foto nueva. Conservar la cupula azul y blanca con la estatua blanca encima, la fachada de piedra gris de la iglesia con su reloj y sus espadanas, y el suelo de la plaza.",
+
+  "comun": "Es de madrugada, poco antes del amanecer: el cielo empieza a clarear por el horizonte pero todavia es de noche. Camara fija, plano general, sin acercarse. Ciencia ficcion realista y cinematografica, no caricatura. La plaza esta vacia, sin una sola persona.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "las campanas",
+      "prompt": "La plaza esta completamente vacia y en silencio. Las campanas de la iglesia empiezan a sonar solas, y con cada toque la cupula azul y blanca vibra ligeramente. Del anillo donde la cupula se apoya sobre el tejado empieza a salir vapor a presion, en chorros regulares, y una linea de luz recorre la union entre la cupula y el edificio."
+    },
+    {
+      "n": 2,
+      "nombre": "se desprende",
+      "prompt": "Continua la misma escena sin cortes. La cupula azul y blanca se separa limpiamente del edificio y se eleva despacio, entera y sin romperse, dejando debajo un hueco circular oscuro en el tejado de la iglesia. Sube recta y en silencio, girando muy despacio sobre si misma. Las campanas se detienen de golpe."
+    },
+    {
+      "n": 3,
+      "nombre": "se va",
+      "prompt": "Continua la misma escena sin cortes. La cupula, ya muy alta sobre el pueblo, se convierte en un punto de luz y desaparece en el cielo. La plaza queda vacia y en silencio, con la iglesia decapitada: donde estaba la cupula solo queda el hueco circular oscuro. Empieza a clarear."
+    }
+  ],
+
+  "revision": [
+    "Comprobar que la cupula sube ENTERA y no se deshace: es lo unico que puede estropear el plano.",
+    "Que el hueco que queda sea limpio y circular, no un destrozo.",
+    "Comparar con la foto original: la estatua blanca de la cupula y el reloj de la fachada son lo que ancla el sitio."
+  ]
+}
