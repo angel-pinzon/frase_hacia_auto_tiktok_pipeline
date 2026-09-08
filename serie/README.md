@@ -70,9 +70,25 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
 quien no reconoció la plaza reconoce su calle, y esa es la gente que lo comparte.
 
-Montados del 1 al 5, en `output/serie/`. El 3 transcurre entero al caer la tarde
-—empieza con el sol ya puesto y termina de noche—, así que cubre él solo el tramo
-de luz entre el 2 y el 4.
+### Dónde va la temporada
+
+| Capítulo | Estado | Fecha |
+|---|---|---|
+| 1 · La horda | publicado | 4 sep |
+| 2 · La llegada | publicado | 7 sep |
+| 3 · Los que corren | montado | viernes 11 |
+| 4 · Lo que buscaban | montado | martes 15 |
+| 5 · El llamado | montado | viernes 18 |
+| 6 · Los que vuelven | por producir | martes 22 |
+| 7 · Las campanas | por producir | viernes 25 |
+| 8 · El amanecer | por producir | martes 29 |
+
+Los montados están en `output/serie/`, cada uno en vertical para Reel y apaisado
+para muro. El 6 puede usar `iglesia_soata5.jpg`, la misma foto ancha del 5, así
+que solo falta conseguir **la plaza de día** para el 8.
+
+El capítulo 3 transcurre entero al caer la tarde —empieza con el sol ya puesto y
+termina de noche—, así que cubre él solo el tramo de luz entre el 2 y el 4.
 
 **El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
 abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
@@ -108,8 +124,8 @@ ffmpeg -sseof -0.1 -i clip1.mp4 -vframes 1 -q:v 2 frame.jpg
 no gasta cuota ni saldo:
 
 ```bash
-.venv/bin/python serie_placas.py output/escenas/cap2.mp4 \
-    --numero 2 --titulo "El rastro" --vertical
+.venv/bin/python serie_placas.py output/escenas/cap3_los-que-corren_24s.mp4 \
+    --numero 3 --titulo "Los que corren" --vertical
 ```
 
 Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, y
@@ -256,23 +272,55 @@ estacionado frente a ella" en vez de "el edificio de la izquierda".
 **Describir el recorrido paso a paso.** Que salgan del interior, bajen la rampa,
 crucen la plaza y entren. Si se da por hecho, el modelo se lo salta.
 
+## Cambiar de modelo
+
+Todo lo de aquí se generó con Veo, pero **el montaje no depende de él**.
+`serie_placas.py` no sabe de dónde salió el mp4: las placas, el recorte de
+barras, la portada, el vertical y las correcciones de luz funcionan igual con un
+clip de cualquier origen. Lo único atado al modelo es el script de generación,
+que son treinta líneas.
+
+Para probar otro conviene medirlo contra lo que ya está hecho, no en abstracto:
+misma foto, mismo prompt de `prompts/escenas/`, y comparar con el clip de Veo que
+está en `output/escenas/`. Lo que hay que mirar sale de lo que aquí costó caro:
+
+- **Si sostiene la arquitectura al encadenar tres clips.** Es lo que más daño
+  hizo — un edificio inventado obligó a recortar el encuadre del capítulo 2.
+- **Si rompe las figuras humanas.** Los tres defectos de la temporada fueron de
+  anatomía. Un modelo que aguante eso permitiría contar cosas que aquí hubo que
+  esquivar, empezando por el contacto entre personas.
+- **Cuántas generaciones al día.** El límite real nunca fue el dinero. Un modelo
+  algo peor con el triple de cuota puede rendir más.
+- **La duración del clip.** Los 8 segundos son la causa de la deriva: con 15 o 20
+  un capítulo sale de una sola generación y el problema desaparece.
+
+Nada impide mezclar: un modelo para las escenas quietas y otro para las que
+tienen gente.
+
 ## Costes y límites
 
-| | Clips | Coste aproximado |
+Medido sobre los capítulos 3, 4 y 5, que se produjeron seguidos:
+
+| Capítulo | Generaciones | Por qué |
 |---|---|---|
-| Un capítulo de 3 actos | 3 | COP 4.500 |
-| Con reintentos, realista | 4-5 | COP 7.000 |
-| Temporada de 8 capítulos | 32-40 | COP 56.000 |
+| 3 · Los que corren | 3 | a la primera |
+| 4 · Lo que buscaban | 4 | el acto 3 volvió con fuego y hubo que rehacerlo |
+| 5 · El llamado | 3 | a la primera |
 
-Cada clip de 8 segundos sale por unos **COP 1.500**.
+**3,3 generaciones por capítulo**, unos COP 5.000. Menos de lo que estimé al
+principio, y la razón es que los prompts fueron mejorando: las reglas de la
+sección anterior —cantidades exactas, nadie se toca, describir el destino por su
+aspecto— se pagan solas.
 
-**La restricción real no es el dinero, es la cuota.** El plan Tier 1 permite
-**10 generaciones de video al día** y 2 por minuto, así que salen unos dos
-capítulos diarios contando reintentos. Una temporada lleva cuatro o cinco días.
-La cuota se renueva a medianoche del Pacífico, las 3 de la madrugada en Colombia.
+Una temporada de ocho capítulos sale por unos **COP 45.000**.
 
-Conviene afinar el prompt sobre papel antes de gastar una petición: un intento
-fallido cuesta una de las diez.
+**La restricción no es el dinero, es la cuota.** El plan Tier 1 da **10
+generaciones de video al día** y 2 por minuto, así que caben dos o tres capítulos
+diarios. Se renueva a medianoche del Pacífico, las 3 de la madrugada en Colombia.
+
+Y con la cadencia de martes y viernes, la cuota deja de ser un problema: hacen
+falta tres generaciones cada tres días y hay diez cada día. Lo que limita es
+tener fotos de locaciones nuevas, no la máquina.
 
 ## Publicación
 
@@ -290,6 +338,11 @@ semanal desperdicia cuatro días de silencio. Cada tres días exactos daría el
 ritmo justo, pero cae en un día distinto cada vez y no se puede anunciar; dos
 días fijos por semana dan la misma separación —tres y cuatro días— y sí se
 anuncian.
+
+**La portada se fija al subir.** En Reels no se puede cambiar después, así que un
+capítulo publicado con mala miniatura se queda así: la única salida sería borrar
+y volver a subir, perdiendo las visualizaciones. Conviene revisar el primer
+fotograma antes de publicar, no después.
 
 **Dónde.** La versión vertical va como Reel y a TikTok; la apaisada como
 publicación de muro. Las historias desaparecen a las 24 horas, así que sirven
