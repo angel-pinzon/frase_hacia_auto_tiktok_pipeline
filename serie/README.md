@@ -280,9 +280,16 @@ fallido cuesta una de las diez.
 
 ```
 ALGO PASA EN SOATÁ · Capítulo N: Título
-Nuevo capítulo cada martes.
+Nuevo capítulo los martes y los viernes.
 #AlgoPasaEnSoata #Soata #Boyaca
 ```
+
+**Cada cuánto: martes y viernes.** Medido sobre los dos primeros capítulos, las
+visualizaciones se estancan al tercer día de publicado, así que una cadencia
+semanal desperdicia cuatro días de silencio. Cada tres días exactos daría el
+ritmo justo, pero cae en un día distinto cada vez y no se puede anunciar; dos
+días fijos por semana dan la misma separación —tres y cuatro días— y sí se
+anuncian.
 
 **Dónde.** La versión vertical va como Reel y a TikTok; la apaisada como
 publicación de muro. Las historias desaparecen a las 24 horas, así que sirven
