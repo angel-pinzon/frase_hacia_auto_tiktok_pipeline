@@ -24,6 +24,11 @@ NOCHE = ("curves=r='0/0 0.5/0.28 1/0.62':g='0/0 0.5/0.30 1/0.66':"
          "eq=saturation=0.55:contrast=1.12:brightness=-0.06,"
          "vignette=PI/4")
 
+# Lo contrario: a veces la noche sale tan cerrada que el sitio deja de
+# reconocerse, y reconocerlo es de lo que vive la serie. Esto levanta las
+# sombras sin tocar las luces, para que no reviente ninguna farola.
+SOMBRAS = "curves=all='0/0.055 0.25/0.34 0.6/0.66 1/1',eq=saturation=1.05"
+
 
 def sonda(video, campo):
     salida = subprocess.run(
@@ -107,6 +112,9 @@ def main():
     p.add_argument("--noche", action="store_true",
                    help="Noche americana: lleva a anochecida un clip que Veo "
                         "devolvio de dia")
+    p.add_argument("--sombras", action="store_true",
+                   help="Levanta las sombras de una noche tan cerrada que ya "
+                        "no deja reconocer el sitio")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -131,6 +139,9 @@ def main():
     if args.noche:
         print("noche         -> noche americana")
         filtros.append(NOCHE)
+    if args.sombras:
+        print("sombras       -> levantadas")
+        filtros.append(SOMBRAS)
 
     if filtros or args.hasta or args.desde:
         recortado = tmp / "recortado.mp4"

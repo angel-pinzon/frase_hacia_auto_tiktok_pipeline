@@ -28,10 +28,16 @@ enseguida — es una lanzadera que deja pasajeros. Se entra por el cielo y se sa
 por el portón, así que el pueblo no está siendo atacado, está siendo usado como
 escala. De ahí que el título esté en presente: por Soatá **pasan** cosas.
 
-**Y hay alguien que los guía.** No van sueltos: en el capítulo 5 una luz late
-sobre la iglesia y una silueta los convoca a la plaza. Eso convierte lo que
-parecían sucesos inconexos en una operación con horario — llegan, se dispersan,
-son llamados, y se van todos por la misma puerta antes del amanecer.
+**Venían a buscar algo.** Bajo la piedra más grande del parque hay enterrada una
+pieza que abre el portón, y recuperarla es la misión: eso convierte todo lo
+anterior —la horda rondando, la lanzadera dejando dos, las carreras por el
+pueblo— en una sola operación de rescate. La noche entera se explica hacia atrás
+desde el capítulo 4.
+
+**Y hay alguien que los guía.** En el capítulo 5 una luz late sobre la iglesia y
+una silueta los convoca a la plaza. Ya tienen la pieza; ahora los llaman para
+salir. Llegan, buscan, encuentran, son convocados y se van todos por la misma
+puerta antes del amanecer.
 
 **Nunca se le ve.** La silueta va siempre a contraluz, sin rasgos, y es una
 decisión de producción antes que de estilo: la anatomía es lo que peor genera el
@@ -54,7 +60,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 1 | La horda ✅ | atardecer nublado | Una horda cruza la plaza frente a la iglesia y sigue de largo | No van a la iglesia: rondan, esperando a que se abra |
 | 2 | La llegada ✅ | anochecer | Una nave aterriza en la plaza y bajan dos figuras, que se pierden hacia el pueblo. La nave sigue ahí, con los motores encendidos | La lanzadera deja pasajeros. No entran a ningún sitio: se dispersan |
 | 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
-| 4 | El rastro | noche | La plaza vacía, cosas tiradas, el carro abierto. La nave ya no está. Al fondo, una figura se quedó | La nave se fue mientras nadie miraba. La gente huyó, y uno no huyó |
+| 4 | Lo que buscaban ✅ | noche | **El parque de las piedras talladas.** Seis figuras rebuscan entre los bloques; el más grande se desplaza solo y del hueco sale luz. Una se incorpora sosteniendo una pieza alargada que brilla en frío | Esto era la misión. Todo lo anterior era una búsqueda |
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
 | 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
 | 7 | Las campanas | antes del alba | La plaza vacía, las campanas suenan solas y paran de golpe | La puerta se cierra. Se acabó el tránsito |
@@ -64,9 +70,9 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
 quien no reconoció la plaza reconoce su calle, y esa es la gente que lo comparte.
 
-Montados el 1, 2, 3 y 5, en `output/serie/`; falta el 4. El 3 transcurre entero
-al caer la tarde —empieza con el sol ya puesto y termina de noche—, así que cubre
-él solo el tramo de luz entre el 2 y el 4.
+Montados del 1 al 5, en `output/serie/`. El 3 transcurre entero al caer la tarde
+—empieza con el sol ya puesto y termina de noche—, así que cubre él solo el tramo
+de luz entre el 2 y el 4.
 
 **El final.** Sale el sol y la plaza está normal: gente caminando, tiendas
 abriendo, nadie mirando la iglesia. El portón está tapiado con ladrillo, y el
@@ -112,7 +118,9 @@ encaja el apaisado sobre su propia imagen desenfocada en lugar de recortar.
 
 Las otras opciones corrigen lo que Veo devuelve mal: `--recorte` deja fuera lo
 que se inventó, `--desde` y `--hasta` recortan por delante y por detrás, y
-`--noche` lleva a anochecida un clip que volvió de día.
+`--noche` y `--sombras` corrigen la luz en los dos sentidos — el primero
+oscurece un clip que volvió de día, el segundo levanta una noche tan cerrada que
+ya no deja reconocer el sitio, que es lo que le pasó al capítulo 4.
 
 **Las barras negras se quitan solas.** Veo rellena a 16:9 las fotos que no lo
 son, y la de la plaza es 4:3: todos los clips vuelven como 960x720 útiles dentro
@@ -213,6 +221,20 @@ primera. Un mordisco son dos cuerpos juntos en primer plano, el caso más difíc
 que existe, y se llevaría varias generaciones de las diez del día para acabar
 recortándolo igualmente.
 
+**El fotograma de encadenado manda más que el prompt.** Al capítulo 4 se le pidió
+un objeto que emitiera luz dorada y devolvió un cuenco ardiendo: el acto anterior
+terminaba con un resplandor naranja saliendo del hueco, y partiendo de ahí lo más
+parecido a "luz dorada" es una llama. La palabra la puse yo.
+
+Se arregló pidiendo el color contrario —**luz blanca azulada y fría**, que no
+puede fundirse con el naranja—, prohibiendo el fuego por su nombre (llamas,
+antorchas, cuencos) y cambiando la postura: sostenerlo con una mano a la altura
+del pecho en vez de alzarlo con las dos, porque esa pose *es* la del brasero
+ritual y arrastraba el objeto consigo. Salió a la primera.
+
+La lección general: cuando el resultado se desvía, mirar primero **con qué imagen
+entra** el clip, no solo qué se le pidió.
+
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su
 aspecto, no por su posición: "la casa blanca de tejado rojo, con el carro
@@ -259,10 +281,15 @@ reciba el capítulo 4 suelto sabrá que hay tres antes.
 
 ## Material
 
-En `assets/` hay tres encuadres útiles: `iglesia_soata.jpg`, la plaza cerrada de
-los capítulos 1 y 2; `ParqueJuanJoseRondon.jpg`, el parque del 3; y
-`iglesia_soata5.jpg`, la plaza en ancho con la explanada vacía, que es la del 5 y
-servirá para el 6. Falta **la plaza de día** para el capítulo 8.
+En `assets/` hay cuatro encuadres útiles:
+
+- `iglesia_soata.jpg` — la plaza cerrada, capítulos 1 y 2.
+- `ParqueJuanJoseRondon.jpg` — el parque del camino, capítulo 3.
+- `parque_soata1.jpg` — el parque de las piedras talladas, capítulo 4.
+- `iglesia_soata5.jpg` — la plaza en ancho con la explanada vacía, capítulo 5, y
+  servirá para el 6.
+
+Falta **la plaza de día** para el capítulo 8.
 
 Descarta las que lleven **marca de agua**: el logo se queda dentro del video y
 además deformado, porque el modelo lo redibuja en cada fotograma.

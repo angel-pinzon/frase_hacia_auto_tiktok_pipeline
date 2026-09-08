@@ -1,0 +1,46 @@
+{
+  "capitulo": 4,
+  "titulo": "Lo que buscaban",
+  "momento": "noche",
+  "locacion": "Parque de las piedras talladas, Soata",
+  "foto": "assets/parque_soata1.jpg",
+  "modelo": "veo-3.1-lite-generate-preview",
+
+  "nota": "Este capitulo le da proposito a toda la serie hacia atras: si venian a buscar algo, la horda que ronda, la lanzadera que deja dos y la senal que los convoca dejan de ser sucesos sueltos y pasan a ser una operacion. Y enlaza con el 5: encuentran el objeto, y entonces los llaman.",
+
+  "registro": "El objeto NO es una llave de cuento. La serie sostiene una ciencia ficcion seca donde nada se explica y nada es magico, asi que es una pieza tallada y antigua que emite luz. El espectador entiende que abre la puerta sin que nadie lo diga.",
+
+  "riesgo": "Nadie levanta la piedra con las manos. Varios cuerpos en contacto con un objeto y entre si es el peor caso para el modelo, y llevamos tres defectos por ahi. La piedra se desplaza sola y del hueco sale luz: el resplandor hace el trabajo que harian los detalles, igual que la silueta a contraluz del capitulo 5. La luz sirve ademas de motivo para que el modelo oscurezca el resto, que es lo que hizo funcionar la noche en el 5.",
+
+  "arquitectura": "Conserva exactamente el lugar: un parque de suelo empedrado irregular cubierto de grandes bloques de piedra tallada, rectangulares y de superficie plana, repartidos por el suelo como asientos y mesas. En el centro del primer plano, un bloque especialmente grande de piedra clara y cima plana. Alrededor, arboles muy viejos y altos de troncos gruesos pintados de blanco en la base, con ramas horizontales que se extienden por encima y musgo colgando. Al fondo, entre los arboles, las fachadas bajas de las casas del pueblo.",
+
+  "comun": "Es noche cerrada: el cielo esta negro y el parque a oscuras, iluminado solo por alguna farola lejana entre los arboles. Camara fija a la altura del suelo, plano general, sin acercarse a las caras ni a las manos. Terror realista y cinematografico, no caricatura. Ninguna figura toca a otra en ningun momento.",
+
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la busqueda",
+      "prompt": "El parque esta en silencio en plena noche. Entre los bloques de piedra se mueven despacio EXACTAMENTE SEIS figuras humanas, separadas entre si, caminando encorvadas de una piedra a otra. Se detienen sobre cada bloque, se inclinan hacia el como si lo examinaran, y siguen a la siguiente. Buscan algo. No se tocan y no se acercan a la camara."
+    },
+    {
+      "n": 2,
+      "nombre": "la piedra",
+      "prompt": "Continua la misma escena sin cortes. Las figuras se han reunido alrededor del bloque de piedra grande y claro del centro, quietas y separadas entre si, todas mirandolo. El enorme bloque se desplaza solo unos palmos, deslizandose de lado con un movimiento pesado, y levanta una nube de polvo del suelo empedrado. Debajo, donde estaba la piedra, queda al descubierto un hueco oscuro del que sale un resplandor dorado que ilumina desde abajo a las figuras."
+    },
+    {
+      "n": 3,
+      "nombre": "lo que buscaban",
+      "prompt": "Continua la misma escena sin cortes. UNA sola figura se agacha sobre el hueco iluminado, mientras las demas permanecen inmoviles alrededor, sin moverse y sin tocarse. La figura se incorpora despacio sosteniendo en alto un objeto pequeno y alargado que emite una luz dorada intensa, de modo que solo se ve su resplandor y la silueta negra de quien lo sostiene. Todas las figuras se quedan quietas mirandolo. La luz se apaga de golpe y el parque queda completamente a oscuras."
+    }
+  ],
+
+  "montaje": "python serie_placas.py <clip> --numero 4 --titulo \"Lo que buscaban\" --vertical --desde <disolvencia inicial> --hasta <ultimo fotograma limpio>",
+
+  "revision": [
+    "Ampliar cada figura en el ultimo tercio de cada acto: a tamano de reproduccion un torso truncado pasa por una figura agachada.",
+    "Vigilar las manos en el acto 3, que es donde el modelo tiene mas papeletas de romperse.",
+    "Comprobar que el objeto sigue siendo un resplandor y no se convirtio en una llave dibujada.",
+    "Comparar con la foto original: los bloques tallados y los troncos pintados de blanco son lo que hace reconocible el sitio.",
+    "Medir el brillo del arranque: si entra disolviendo desde la foto de dia, descartar esos segundos con --desde."
+  ]
+}
