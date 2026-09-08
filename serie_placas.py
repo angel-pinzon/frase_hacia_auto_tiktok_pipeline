@@ -63,19 +63,77 @@ def barras(video):
     return f"crop={w}:{h}:{x}:{y}", int(w), int(h)
 
 
-def placa(destino, ancho, alto, fps, segundos, lineas):
-    """Genera un clip negro con texto centrado y audio en silencio."""
+def instante_mas_claro(video, salto=4.0):
+    """Segundo con mas luz del clip.
+
+    Es el que mejor deja ver el sitio, y reconocer el sitio es de lo que
+    vive la serie. En capitulos casi a oscuras la diferencia entre un
+    fotograma y otro es la diferencia entre una miniatura negra y una
+    donde se ve la plaza.
+
+    Se saltan los primeros segundos a proposito. Ahi el clip todavia es la
+    foto de partida, que al ser de dia siempre gana en brillo: eligiendola
+    todos los capitulos de una misma locacion salian con la misma portada
+    y en el feed no habia forma de distinguirlos. Buscando dentro de la
+    accion, cada capitulo se lleva su propio momento.
+    """
+    salida = subprocess.run(
+        ["ffprobe", "-v", "error", "-f", "lavfi",
+         f"movie='{video}',fps=2,signalstats",
+         "-show_entries", "frame=pts_time:frame_tags=lavfi.signalstats.YAVG",
+         "-of", "csv=p=0"],
+        capture_output=True, text=True)
+    mejor, brillo = None, -1.0
+    for linea in salida.stdout.splitlines():
+        partes = linea.split(",")
+        if len(partes) < 2:
+            continue
+        try:
+            t, y = float(partes[0]), float(partes[1])
+        except ValueError:
+            continue
+        if t < salto:
+            continue
+        if y > brillo:
+            mejor, brillo = t, y
+    return mejor
+
+
+def portada(video, destino, instante):
+    """Saca el fotograma que hara de fondo de la placa de entrada.
+
+    La placa era negra, y como va delante, las redes tomaban de miniatura
+    un rectangulo negro: en el feed no se ve nada y nadie se detiene. Como
+    la serie vive de que la gente reconozca el sitio, el titulo va ahora
+    sobre un fotograma del propio capitulo.
+    """
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", str(instante),
+                    "-i", str(video), "-vframes", "1", "-q:v", "2", str(destino)],
+                   check=True)
+    return destino
+
+
+def placa(destino, ancho, alto, fps, segundos, lineas, fondo=None):
+    """Clip con texto centrado y audio en silencio, negro o sobre un fotograma."""
     filtros = []
-    for i, (texto, tam, color, desplazamiento) in enumerate(lineas):
+    if fondo:
+        # oscurecido, para que el texto se lea sobre cualquier imagen
+        filtros.append(f"scale={ancho}:{alto},eq=brightness=-0.28:saturation=0.7")
+    for texto, tam, color, desplazamiento in lineas:
         filtros.append(
             f"drawtext=fontfile={FUENTE}:text='{escapa(texto)}':fontsize={tam}:"
             f"fontcolor={color}:x=(w-text_w)/2:y=(h-text_h)/2{desplazamiento}:"
+            f"shadowcolor=black@0.9:shadowx=2:shadowy=2:"
             f"alpha='if(lt(t,0.4),t/0.4,if(gt(t,{segundos-0.4}),({segundos}-t)/0.4,1))'")
+    if fondo:
+        entrada = ["-loop", "1", "-t", str(segundos), "-i", str(fondo)]
+    else:
+        entrada = ["-f", "lavfi", "-i",
+                   f"color=c=black:s={ancho}x{alto}:d={segundos}:r={fps}"]
     subprocess.run(
-        ["ffmpeg", "-y", "-v", "error",
-         "-f", "lavfi", "-i", f"color=c=black:s={ancho}x{alto}:d={segundos}:r={fps}",
-         "-f", "lavfi", "-i", f"anullsrc=channel_layout=stereo:sample_rate=44100",
-         "-vf", ",".join(filtros), "-t", str(segundos),
+        ["ffmpeg", "-y", "-v", "error", *entrada,
+         "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+         "-vf", ",".join(filtros), "-t", str(segundos), "-r", str(fps),
          "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", str(destino)],
         check=True)
     return destino
@@ -115,6 +173,12 @@ def main():
     p.add_argument("--sombras", action="store_true",
                    help="Levanta las sombras de una noche tan cerrada que ya "
                         "no deja reconocer el sitio")
+    p.add_argument("--portada", type=float, default=None, metavar="SEGUNDOS",
+                   help="Fotograma de fondo de la placa de entrada, que es el "
+                        "que las redes toman de miniatura. Por defecto, el mas "
+                        "iluminado del capitulo")
+    p.add_argument("--portada-negra", action="store_true",
+                   help="Placa de entrada sobre negro, como antes")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -163,12 +227,19 @@ def main():
         subprocess.run(orden, check=True)
         entrada = recortado
 
+    fondo = None
+    if not args.portada_negra:
+        cuando = args.portada if args.portada is not None else instante_mas_claro(entrada)
+        if cuando is not None:
+            print(f"portada       -> fotograma de {cuando:.1f}s")
+            fondo = portada(entrada, tmp / "portada.jpg", cuando)
+
     base = ancho / 22          # el tamano de letra se adapta al video
     inicio = placa(tmp / "inicio.mp4", ancho, alto, fps, 2.5, [
         (SERIE, int(base), "white", "-60"),
         (f"Capítulo {args.numero}", int(base * 0.7), "0xD4AF37", "+30"),
         (args.titulo, int(base * 0.55), "white", "+90"),
-    ])
+    ], fondo=fondo)
     fin = placa(tmp / "fin.mp4", ancho, alto, fps, 2.0, [
         ("CONTINUARÁ", int(base * 0.9), "white", "+0"),
     ])

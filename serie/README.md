@@ -116,6 +116,19 @@ Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, 
 un cierre con CONTINUARÁ. Con `--vertical` produce además la versión 9:16, que
 encaja el apaisado sobre su propia imagen desenfocada en lugar de recortar.
 
+**La entrada va sobre un fotograma del propio capítulo, no sobre negro**, y esa
+no es una decisión estética. Las redes toman de miniatura el primer fotograma:
+con la placa negra, los dos primeros capítulos salieron al feed como rectángulos
+negros, invisibles justo para lo único que hace parar a alguien —reconocer la
+plaza—. Ahora el título va sobre la imagen oscurecida y con sombra bajo la letra.
+
+Lo elige la herramienta: el **fotograma más iluminado a partir del segundo 4**.
+El salto importa. Sin él siempre ganaba el arranque, que todavía es la foto de
+partida y al ser de día es la más brillante del clip, así que todos los capítulos
+de una misma locación salían con la misma portada y en el feed no había forma de
+distinguirlos. Con `--portada SEGUNDOS` se fuerza otro, y con `--portada-negra`
+se vuelve al comportamiento anterior.
+
 Las otras opciones corrigen lo que Veo devuelve mal: `--recorte` deja fuera lo
 que se inventó, `--desde` y `--hasta` recortan por delante y por detrás, y
 `--noche` y `--sombras` corrigen la luz en los dos sentidos — el primero
