@@ -19,34 +19,35 @@ De ahí se derivan dos decisiones:
 
 ## La historia
 
-El portón de la iglesia es una puerta que se abre cada cierto tiempo. Cuando se
-abre, algo pasa a través.
+**La cúpula de la iglesia es una nave.** Lleva ahí desde antes de que naciera
+nadie del pueblo, posada sobre el tejado como una pieza más del edificio, y cada
+cierto tiempo se levanta y vuelve. El portón no es una puerta a otro sitio: es
+**la puerta de embarque**, y el interior de la iglesia es la bodega.
 
-**La nave es el transporte; la iglesia es la puerta.** No vienen del espacio a
-Soatá a merodear: vienen a atravesar. Por eso la nave es pequeña y se marcha
-enseguida — es una lanzadera que deja pasajeros. Se entra por el cielo y se sale
-por el portón, así que el pueblo no está siendo atacado, está siendo usado como
-escala. De ahí que el título esté en presente: por Soatá **pasan** cosas.
+**La lanzadera trae la tripulación.** Es pequeña y se marcha enseguida porque
+solo deja pasajeros — se entra por el cielo y se embarca por el portón. El pueblo
+no está siendo atacado: está siendo usado como escala. De ahí que el título esté
+en presente: por Soatá **pasan** cosas.
 
-**Venían a buscar algo.** Bajo la piedra más grande del parque hay enterrada una
-pieza que abre el portón, y recuperarla es la misión: eso convierte todo lo
+**Vienen a por una pieza.** Está enterrada bajo la piedra más grande del parque y
+es lo que enciende la nave. Recuperarla es toda la misión, y eso convierte lo
 anterior —la horda rondando, la lanzadera dejando dos, las carreras por el
-pueblo— en una sola operación de rescate. La noche entera se explica hacia atrás
-desde el capítulo 4.
+pueblo— en una sola operación. La noche entera se explica hacia atrás desde el
+capítulo 4.
 
 **Y hay alguien que los guía.** En el capítulo 5 una luz late sobre la iglesia y
 una silueta los convoca a la plaza. Ya tienen la pieza; ahora los llaman para
-salir. Llegan, buscan, encuentran, son convocados y se van todos por la misma
-puerta antes del amanecer.
+embarcar. Llegan, buscan, encuentran, son convocados y suben todos antes del
+amanecer.
 
 **Nunca se le ve.** La silueta va siempre a contraluz, sin rasgos, y es una
 decisión de producción antes que de estilo: la anatomía es lo que peor genera el
 modelo, y una criatura a media distancia sale deforme. Que no se vea la hace
 mejor, no peor.
 
-**El pueblo lo sabe.** Lleva generaciones lidiando con ello: espera a que
-termine, tapia el portón y sigue con su vida sin mencionarlo. La serie es una
-sola noche de eso ocurriendo.
+**El pueblo lo sabe.** Lleva generaciones conviviendo con ello: espera a que
+termine, ve volver la cúpula a su sitio y sigue con su vida sin mencionarlo. La
+serie es una sola noche de eso ocurriendo.
 
 Nada de esto se explica nunca en pantalla. Se deduce.
 
@@ -62,7 +63,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
 | 4 | Lo que buscaban ✅ | noche | **El parque de las piedras talladas.** Seis figuras rebuscan entre los bloques; el más grande se desplaza solo y del hueco sale luz. Una se incorpora sosteniendo una pieza alargada que brilla en frío | Esto era la misión. Todo lo anterior era una búsqueda |
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
-| 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila | Esto era lo que esperaban toda la noche: es la salida |
+| 6 | Los que vuelven | madrugada | La horda regresa, ahora hacia la iglesia, y entra en fila por el portón | No es una salida, es un embarque: están subiendo a bordo |
 | 7 | La cúpula | antes del alba | Las campanas suenan solas, sale vapor del anillo del tejado y **la cúpula se desprende y sube** hasta desaparecer. Queda un hueco circular | La cúpula era la nave. Llevaba ahí desde siempre |
 | 8 | El amanecer | sale el sol | La iglesia sin cúpula. La cúpula baja del cielo y **encaja** en su sitio. Abren las tiendas, pasa gente, nadie mira hacia arriba | No se fue: volvió. Y el pueblo sigue |
 
@@ -118,10 +119,10 @@ más seguros de producir, porque un objeto arquitectónico elevándose es
 justamente lo que mejor genera el modelo — sin anatomía, sin contacto y sin nada
 de lo que ha fallado en los demás.
 
-**El orden no es el que parece.** Los capítulos lentos —la plaza vacía, el que se
-quedó— rinden mucho más *después* de que haya algo en juego. Por eso la nave va
-de segunda y no en mitad de la serie: primero se establece que esto va en serio,
-y luego se sostiene el silencio.
+**El orden no es el que parece.** Los capítulos lentos —la plaza vacía, la
+búsqueda entre las piedras— rinden mucho más *después* de que haya algo en juego.
+Por eso la nave va de segunda y no en mitad de la serie: primero se establece que
+esto va en serio, y luego se sostiene el silencio.
 
 ## Cómo se produce
 
@@ -378,7 +379,10 @@ En `assets/` hay cuatro encuadres útiles:
 - `iglesia_soata5.jpg` — la plaza en ancho con la explanada vacía, capítulo 5, y
   servirá para el 6.
 
-Falta **la plaza de día** para el capítulo 8.
+Falta **un plano con la cúpula grande en el encuadre**, para los capítulos 7 y 8:
+desde más cerca o mirando hacia arriba. En las cinco que hay queda pequeña y al
+fondo, y si se despega ahí no se aprecia. Con una sola se resuelven los dos,
+porque el 8 continúa el encuadre del 7.
 
 Descarta las que lleven **marca de agua**: el logo se queda dentro del video y
 además deformado, porque el modelo lo redibuja en cada fotograma.
