@@ -12,12 +12,15 @@ Gasta cuota: una generacion por acto. El plan Tier 1 da 10 al dia.
 """
 
 import argparse
+import base64
 import json
 import os
 import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 from pipeline_utils import load_env
@@ -36,6 +39,15 @@ PAUSA_ENTRE_ACTOS = 35
 # la real es blanca con franjas. La serie vive de que el sitio se reconozca,
 # asi que antes de gastar una generacion en una cadena perdida, se para.
 BRILLO_MINIMO_ENCADENADO = 28
+
+# xAI: se pide la generacion y se sondea hasta que el video esta listo.
+XAI_GENERAR = "https://api.x.ai/v1/videos/generations"
+XAI_ESTADO = "https://api.x.ai/v1/videos/{}"
+
+# Tarifa de salida por segundo, para avisar de lo que va a costar. La base de
+# la documentacion de xAI es 0,080 $/s; OpenRouter publica hasta 0,25 a 1080p.
+# Para 720p no hay dato publico, asi que no se estima.
+PRECIO_SEGUNDO = {"480p": 0.08, "1080p": 0.25}
 
 
 def prompt_completo(ficha, acto):
@@ -58,6 +70,81 @@ def prompt_completo(ficha, acto):
         partes.append(luz)
     partes.append(acto.get("comun", ficha["comun"]))
     return " ".join(partes)
+
+
+def data_uri(ruta):
+    tipo = "image/png" if ruta.suffix.lower() == ".png" else "image/jpeg"
+    return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
+
+
+def cuerpo_grok(ficha, prompt, imagen, referencias):
+    """Peticion para la API de video de xAI.
+
+    Los nombres salen de la documentacion: duration (1-15 s), aspect_ratio,
+    resolution, generate_audio, image como fotograma de partida,
+    reference_images para anclar el personaje y last_frame para fijar el final.
+    """
+    cuerpo = {
+        "model": ficha["modelo"],
+        "prompt": prompt,
+        "duration": ficha.get("duracion_s", 8),
+        "aspect_ratio": ficha.get("formato", "9:16"),
+        "resolution": ficha.get("resolucion", "720p"),
+        "generate_audio": ficha.get("audio", True),
+    }
+    if imagen is not None:
+        cuerpo["image"] = {"url": data_uri(imagen)}
+    if referencias:
+        cuerpo["reference_images"] = [{"url": data_uri(r)} for r in referencias]
+    return cuerpo
+
+
+def sin_imagenes(cuerpo):
+    """El mismo cuerpo con las imagenes resumidas, para poder leerlo."""
+    copia = dict(cuerpo)
+    if "image" in copia:
+        copia["image"] = f"<imagen de {len(cuerpo['image']['url'])} caracteres>"
+    if "reference_images" in copia:
+        copia["reference_images"] = f"<{len(cuerpo['reference_images'])} imagenes de referencia>"
+    return copia
+
+
+def _xai(url, datos=None):
+    clave = os.environ.get("XAI_API_KEY")
+    if not clave:
+        sys.exit("Falta XAI_API_KEY en el .env")
+    peticion = urllib.request.Request(
+        url, data=json.dumps(datos).encode() if datos else None,
+        headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json"},
+        method="POST" if datos else "GET")
+    try:
+        with urllib.request.urlopen(peticion, timeout=120) as respuesta:
+            return json.loads(respuesta.read())
+    except urllib.error.HTTPError as error:
+        detalle = error.read().decode(errors="replace")[:500]
+        raise RuntimeError(f"xAI respondio {error.code}: {detalle}") from None
+
+
+def genera_grok(cuerpo, destino, espera=10, sondeos=90):
+    inicio = _xai(XAI_GENERAR, cuerpo)
+    peticion_id = inicio.get("request_id") or inicio.get("id")
+    estado = inicio
+    for _ in range(sondeos):
+        if estado.get("status") == "done":
+            break
+        if estado.get("status") in ("failed", "expired"):
+            error = estado.get("error", {})
+            raise RuntimeError(f"xAI no genero el video: {error.get('code')} {error.get('message')}")
+        if not peticion_id:
+            raise RuntimeError(f"xAI no devolvio request_id: {json.dumps(inicio)[:300]}")
+        time.sleep(espera)
+        estado = _xai(XAI_ESTADO.format(peticion_id))
+    if estado.get("status") != "done":
+        raise RuntimeError("xAI sigue generando despues de esperar demasiado")
+    url = estado["video"]["url"]
+    with urllib.request.urlopen(url, timeout=300) as fuente:
+        destino.write_bytes(fuente.read())
+    return destino
 
 
 def genera(cliente, modelo, prompt, imagen, destino):
@@ -136,6 +223,8 @@ def main():
                         "sufijo _previo, por si el nuevo sale peor")
     p.add_argument("--ver-prompts", action="store_true",
                    help="Muestra lo que se enviaria y sale, sin gastar cuota")
+    p.add_argument("--ver-peticion", action="store_true",
+                   help="Con Grok, muestra el cuerpo de la peticion y sale, sin gastar nada")
     p.add_argument("--forzar", action="store_true",
                    help="Encadena aunque el fotograma de partida este muy oscuro")
     p.add_argument("--entrada", default=None, metavar="IMAGEN",
@@ -165,10 +254,36 @@ def main():
         return 0
 
     load_env()
-    from google import genai
-    cliente = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    es_grok = str(ficha["modelo"]).startswith("grok")
+    referencias = []
+    for patron in ficha.get("referencias", []):
+        encontradas = sorted(ROOT.glob(patron)) if any(c in patron for c in "*?[") else [ROOT / patron]
+        for imagen in encontradas:
+            if not imagen.exists():
+                sys.exit(f"Falta la imagen de referencia: {imagen}")
+            referencias.append(imagen)
+
+    cliente = None
+    if not es_grok:
+        from google import genai
+        cliente = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     ESCENAS.mkdir(parents=True, exist_ok=True)
     tmp = Path(tempfile.mkdtemp(prefix="serie_"))
+
+    def genera_acto(prompt, entrada, destino):
+        if not es_grok:
+            return genera(cliente, ficha["modelo"], prompt, entrada, destino)
+        cuerpo = cuerpo_grok(ficha, prompt, entrada, referencias)
+        if args.ver_peticion:
+            print(json.dumps(sin_imagenes(cuerpo), ensure_ascii=False, indent=2))
+            sys.exit(0)
+        segundos = cuerpo["duration"]
+        precio = PRECIO_SEGUNDO.get(cuerpo["resolution"])
+        coste = f", unos {segundos * precio:.2f} $" if precio else ""
+        print(f"  {segundos}s a {cuerpo['resolution']} en {cuerpo['aspect_ratio']}"
+              f"{', con ' + str(len(referencias)) + ' referencias' if referencias else ''}{coste}",
+              flush=True)
+        return genera_grok(cuerpo, destino)
 
     if args.solo_acto:
         actual = next((a for a in actos if a["n"] == args.solo_acto), None)
@@ -193,14 +308,13 @@ def main():
             destino.rename(previo)
             print(f"el anterior se conserva como {previo.name}")
         print(f"[acto {actual['n']}] {actual['nombre']}...", flush=True)
-        genera(cliente, ficha["modelo"], prompt_completo(ficha, actual), entrada, destino)
+        genera_acto(prompt_completo(ficha, actual), entrada, destino)
         print(f"  listo: {destino.name}", flush=True)
     else:
         entrada = ROOT / ficha["foto"]
         for i, acto in enumerate(actos):
             print(f"[{acto['n']}/{len(actos)}] {acto['nombre']}...", flush=True)
-            salida = genera(cliente, ficha["modelo"], prompt_completo(ficha, acto),
-                            entrada, archivo(acto))
+            salida = genera_acto(prompt_completo(ficha, acto), entrada, archivo(acto))
             print(f"  listo: {salida.name}", flush=True)
             if i < len(actos) - 1:
                 entrada = ultimo_fotograma(salida, tmp / f"fotograma_{acto['n']}.jpg")
