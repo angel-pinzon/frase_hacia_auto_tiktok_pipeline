@@ -5,7 +5,7 @@
   "locacion": "Plaza principal de Soata, encuadre ancho desde la explanada",
   "foto": "assets/iglesia_soata5.jpg",
   "modelo": "veo-3.1-lite-generate-preview",
-  "nota": "No es una salida, es un embarque: estan subiendo a bordo. El capitulo cierra con los vitrales de la cupula encendiendose desde dentro, que es lo que planta la cupula como el objeto a vigilar justo antes de que en el 7 se desprenda. Sin ese remate, el capitulo terminaba con ellos entrando y nada mas.",
+  "nota": "No es una salida, es un embarque: estan subiendo a bordo. El capitulo cierra con la iglesia encendiendose por dentro -luz por las rendijas del porton y las ventanas de la fachada, un temblor-, a pie de plaza. El capitulo 7 cambia al plano aereo con la cupula, asi que el paso de la plaza al aire es el corte entre los dos.",
   "riesgo": "Es el capitulo con mas figuras humanas juntas de la temporada, y la anatomia es lo que peor genera el modelo. Van en fila y separadas, nunca en contacto, y la camara se queda lejos. Si el acto 2 sale con cuerpos rotos, se corta antes con --hasta: el remate de los vitrales esta en el acto 3 y es lo que de verdad importa.",
   "luz": "La foto es de mediodia. Aqui la noche es imprescindible -si no esta oscuro, los vitrales no se ven encenderse-, asi que se pide de forma explicita y se apoya en la propia luz de los vitrales, que le da al modelo un motivo para oscurecer el resto. Es lo que funciono en el capitulo 5.",
   "arquitectura": "Conserva exactamente el lugar: una plaza muy amplia pavimentada en ladrillo rosado con franjas de cemento gris, con una gran explanada vacia en primer plano. A la izquierda del centro, la iglesia de piedra gris con su reloj, dos espadanas con campanas y una estatua de Cristo con los brazos abiertos en lo alto de la fachada; en el centro de la fachada, un porton de madera bajo un arco de piedra. A su derecha, la cupula azul y blanca con ventanas altas y estrechas y una estatua blanca encima. Mas a la derecha, un edificio largo de dos plantas, de color crema y tejado de teja roja. En medio de la plaza, palmeras en jardineras circulares de ladrillo, y a la izquierda arboles altos y faroles negros de hierro.",
@@ -23,17 +23,17 @@
     },
     {
       "n": 3,
-      "nombre": "los vitrales",
-      "prompt": "Continua la misma escena sin cortes. La plaza ha quedado completamente vacia, sin una sola figura, y el porton de madera se cierra despacio. Un momento despues, las ventanas altas y estrechas de la cupula azul y blanca se van iluminando una tras otra desde dentro, con una luz blanca y fria, hasta quedar todas encendidas. La cupula queda brillando sobre el pueblo dormido y a oscuras. Nada mas se mueve."
+      "nombre": "las luces",
+      "prompt": "Continua la misma escena sin cortes. Las ultimas figuras suben los escalones y entran por el porton iluminado, y el porton de madera se cierra despacio tras ellas. La plaza queda completamente vacia. Por las rendijas del porton cerrado se escapa una luz blanca y fria, y las ventanas de la fachada de la iglesia se iluminan desde dentro. Un temblor recorre la iglesia: cae un poco de polvo de la piedra de la fachada y los faroles parpadean. Despues todo queda quieto y en silencio, con la luz saliendo de la iglesia. La cupula sigue exactamente igual, en su sitio a la derecha, y no aparece ninguna otra cupula."
     }
   ],
   "montaje": "python serie_placas.py <clip> --numero 6 --titulo \"Los que vuelven\" --vertical --desde <disolvencia inicial> [--hasta si el acto 2 sale roto]",
   "revision": [
-    "Ampliar las figuras del acto 2, que es el plano con mas gente de la temporada.",
-    "Comprobar que nadie toca a nadie en la fila.",
-    "Que los vitrales se enciendan de forma progresiva y no todos de golpe: el uno tras otro es lo que da la sensacion de encendido de una maquina.",
-    "Que la cupula quede identica a la foto original, porque el capitulo 7 encadena desde aqui.",
-    "Medir el brillo del arranque y descartar la disolvencia de dia con --desde."
+    "Que no aparezca una segunda cupula.",
+    "Que el porton se cierre y la plaza quede vacia.",
+    "Que la luz salga de la fachada y las rendijas, sin brillos de neon.",
+    "Ampliar las ultimas figuras que entran, por si hay cuerpos rotos."
   ],
-  "leccion": "La primera version fallo por oscuridad, no por el prompt de accion. El acto 1 no tenia fuente de luz, asi que salio con cielo negro y suelo a pleno sol y se fundio a negro total al final -brillo 1-. Encadenando desde ese fotograma el modelo no vio la iglesia y la reinvento: el acto 2 salio con otra fachada y una cupula azul maciza, cuando la real es blanca con franjas. Se arreglo dandole luz propia a la escena -el porton abierto derramando luz y los faroles encendidos- y prohibiendo el fundido a negro. serie_generar.py para ahora solo si el fotograma de encadenado baja de brillo 28."
+  "leccion": "La primera version fallo por oscuridad, no por el prompt de accion. El acto 1 no tenia fuente de luz, asi que salio con cielo negro y suelo a pleno sol y se fundio a negro total al final -brillo 1-. Encadenando desde ese fotograma el modelo no vio la iglesia y la reinvento: el acto 2 salio con otra fachada y una cupula azul maciza, cuando la real es blanca con franjas. Se arreglo dandole luz propia a la escena -el porton abierto derramando luz y los faroles encendidos- y prohibiendo el fundido a negro. serie_generar.py para ahora solo si el fotograma de encadenado baja de brillo 28.",
+  "leccion_acto3": "La primera version del acto 3 pedia encender las ventanas de la cupula, que en esta foto ocupa el 1,8 % del cuadro: el modelo fabrico una segunda cupula enorme para que el efecto se viera. La luz va ahora en la fachada, que si es grande en el encuadre."
 }
