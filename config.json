@@ -104,7 +104,11 @@
       "--language",
       "Spanish"
     ],
-    "min_word_duration": 0.13
+    "min_word_duration": 0.13,
+    "pausa_suspensivos": 0.2,
+    "pausa_punto": 0.12,
+    "min_cobertura": 0.85,
+    "adaptar": true
   },
   "video": {
     "sadtalker_dir": "/home/sixto/sadtalker_project/SadTalker",

@@ -392,14 +392,13 @@ Felicitaciones con la voz de un personaje. Se salta la Fase 1: el texto se escri
 
 **3. Las pausas se escriben distinto en audio y en pantalla.** OmniVoice apenas se detiene con una coma: 0,08 s medidos. Donde haga falta que respire, `script.txt` lleva **puntos suspensivos** y `verses` conserva la puntuación normal. En el saludo de Wilmer Cortez, con comas la última parte salió de corrido; con suspensivos quedaron pausas de 0,24 a 0,68 s.
 
-**4. Voz, y comprobarla antes del video**, que es donde se van 15 minutos:
+**4. Voz.** La Fase 2 comprueba sola el final, las palabras atropelladas, las pausas y que se dijo todo el texto, y repite hasta que sale bien:
 
 ```bash
 .venv/bin/python 2_generate_voice.py
-~/omni_voice_project/venv/bin/python revisar_voz.py output/DiomedesDiaz/voice.wav
 ```
 
-Si la Fase 2 termina con *"se agotaron los intentos, el audio conserva algún defecto"*, **no seguir**: se repite la voz. Los nombres poco comunes (Ticor, Cortez) se confirman en la transcripción.
+Si termina con *"AVISO: ninguna toma salió limpia"*, se queda con la mejor toma, pero **conviene no pasar al video**: se repite la voz o se revisa la puntuación. Los nombres poco comunes (Ticor, Cortez) conviene confirmarlos en la transcripción que guarda `voz_intentos.json`. `revisar_voz.py` sigue sirviendo para mirar las pausas a mano.
 
 **5. Video.** `3_generate_video.py` y después `3c_lipsync.py`. Sin escena de Veo, salvo que se pida "completo".
 
@@ -459,7 +458,25 @@ OmniVoice tiene **dos defectos aleatorios**, y ambos se corrigen regenerando has
 - **Coletilla** (`text_suffix`, definida **por personaje**): un cierre en carácter que absorbe el corte. Si algo se trunca, es la coletilla, nunca el verso. Diomedes cierra con `". Con mucho Gusto"` y Yeison con `". Con el Corazón"`. Si el personaje no define ninguna, se usa la global de `omnivoice`.
 - **Medición de la cola**: un final natural decae hacia el silencio; un corte en seco deja energía alta. Si supera `cut_threshold`, se regenera.
 
-**2. Atropella palabras sueltas**, comprimiéndolas hasta hacerlas ininteligibles. Se detecta transcribiendo con Whisper y midiendo la duración de cada palabra: si alguna baja de `min_word_duration` (0.13 s), se regenera. Añade unos 6 s por intento. Si el problema persiste en una frase concreta, bajar `omnivoice.speed` a 0.85-0.9 suele arreglarlo; es un ajuste típico de `overrides`.
+**2. Atropella palabras sueltas**, comprimiéndolas hasta hacerlas ininteligibles. Se detecta transcribiendo con Whisper y midiendo la duración de cada palabra: si alguna baja de `min_word_duration` (0.13 s), se regenera. Si el problema persiste en una frase concreta, bajar `omnivoice.speed` a 0.85-0.9 suele arreglarlo; es un ajuste típico de `overrides`.
+
+**3. Dice la frase de corrido**, sin las pausas que marca el texto. Es lo que pasó en el primer saludo de Wilmer Cortez. Se detecta **cortando el audio por los silencios y transcribiendo cada trozo**, para saber con qué palabra termina cada frase de verdad. Una pausa pedida que no aparece como final de frase cuenta como defecto.
+
+- Se exigen donde el texto de `script.txt` pone **puntos suspensivos** (`pausa_suspensivos`, 0,2 s) o **punto** (`pausa_punto`, 0,12 s), incluido el punto que la separa de la coletilla.
+- **Las comas no se exigen.** OmniVoice apenas se detiene en ellas (0,08 s medidos), así que exigirlas haría rechazar casi todas las tomas. **Donde una pausa importe, se escriben suspensivos.**
+- No sirven las marcas de tiempo por palabra de Whisper: estiran las palabras sobre el silencio y marcan 0 s donde hay medio segundo.
+
+**4. Se salta o deforma palabras.** Se compara la transcripción con el texto. Si coinciden menos del 85 % de las palabras (`min_cobertura`), se regenera. En las tomas buenas sale 0,95-0,97; las diferencias normales son cosas como "pa" transcrito "para".
+
+**Cómo decide.** Cada toma se diagnostica y, si sale limpia, se acepta. Si no, **adapta la siguiente** (desactivable con `adaptar: false`):
+
+- Si atropella palabras, baja la velocidad 0,05, sin pasar de 0,8.
+- Si falta la pausa de un punto, cambia ese punto por suspensivos. La exigencia sigue siendo la del punto: el cambio sirve para conseguir la pausa, no para pedir más.
+- Si el final sale cortado, repite con la misma receta, porque ya hay coletilla.
+
+Si se agotan los `max_attempts`, **se queda con la mejor toma, no con la última**, ponderando los defectos: corte y texto incompleto pesan 10, atropello 4 y cada pausa que falta 2. Cada ejecución deja `voz_intentos.json` junto a `voice.wav`, con el texto, la velocidad, los defectos, la transcripción y las frases con sus pausas de cada intento, y cuál se eligió.
+
+Cada intento tarda unos 20-30 s entre la síntesis y el análisis.
 
 Detalles que costó descubrir:
 
@@ -660,6 +677,10 @@ Resumen. Los casos y las medidas están en `serie/README.md`.
 | `omnivoice.text_suffix` | Coletilla de respaldo si el personaje no define la suya |
 | `omnivoice.cut_threshold` | Energía final máxima antes de regenerar (250) |
 | `omnivoice.min_word_duration` | Duración mínima por palabra antes de regenerar (0.13 s) |
+| `omnivoice.pausa_suspensivos` | Pausa mínima donde el texto pone `...` (0.2 s) |
+| `omnivoice.pausa_punto` | Pausa mínima donde el texto pone punto (0.12 s) |
+| `omnivoice.min_cobertura` | Parte del texto que debe reconocerse en la voz (0.85) |
+| `omnivoice.adaptar` | Cambia velocidad y puntuación entre intentos (`true`) |
 | `omnivoice.speed` | Ritmo del habla; bajar a 0.85-0.9 si atropella sílabas |
 | `video.size` | 256 rápido, 512 mejor calidad |
 | `video.enhancer` | `gfpgan` o vacío |
