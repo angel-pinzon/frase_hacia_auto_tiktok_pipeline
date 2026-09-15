@@ -12,8 +12,10 @@ todo lo aprendido allí se aplica aquí, y está resumido más abajo.
 |---|---|
 | Protagonista | decidido: un celador de ronda nocturna. Ficha en [prompts/personajes/celador.json](../prompts/personajes/celador.json) |
 | Hoja de personaje | **pendiente de generar** en Grok Imagine: seis retratos ya escritos |
-| Locación | **sin decidir**: Bogotá o Soatá |
-| Historia | sin escribir |
+| Locación | **Bogotá**, empezando en la Plaza de Bolívar |
+| Historia | hay una propuesta, **sin aprobar**: el guion todavía se está pensando |
+| Producción | orquestada desde el proyecto con la API de xAI, igual que la serie anterior con Veo |
+| Clave | falta `XAI_API_KEY` en el `.env` |
 | Capítulos | ninguno |
 
 ## Qué es
@@ -39,14 +41,38 @@ seis retratos de la hoja de personaje están en su ficha.
 
 ## Cómo se produce
 
-**El reparto del trabajo.** Grok Imagine no se puede llamar desde el pipeline, así que:
+**Igual que la serie anterior, con el mismo comando.** `serie_generar.py` decide el motor
+según el modelo que declare la ficha: si empieza por `grok` usa la API de xAI, y si no, Veo.
+Lo demás no cambia — encadenado por el último fotograma, guardián de brillo, `--solo-acto`,
+`--entrada` y el montaje con `serie_placas.py`.
 
-1. Aquí se escriben los prompts y la ficha del capítulo.
-2. Tú generas los clips en Grok Imagine y los dejas en `output/escenas/`.
-3. Aquí se revisan los fotogramas, se corrigen y se montan con `serie_placas.py`.
+```bash
+.venv/bin/python serie_generar.py prompts/escenas/cel1_la-plaza-quieta.json --ver-peticion
+.venv/bin/python serie_generar.py prompts/escenas/cel1_la-plaza-quieta.json --solo-acto 1
+```
 
-El montaje es independiente del modelo: las barras, los recortes, la luz, la portada, las
-placas y el vertical funcionan igual con un mp4 venga de donde venga.
+**Lo que la ficha puede pedirle a xAI**, con los nombres que usa su API:
+
+| Campo de la ficha | Qué hace |
+|---|---|
+| `modelo` | `grok-imagine-video-1.5` |
+| `duracion_s` | 1 a 15 segundos, frente a los 8 fijos de Veo |
+| `formato` | `9:16` nativo, que es lo que pide TikTok |
+| `resolucion` | `480p`, `720p` o `1080p` |
+| `audio` | genera sonido, activado por defecto |
+| `referencias` | imágenes que anclan al personaje; admite comodines para tomar la hoja entera |
+| `foto` | fotograma de partida, opcional |
+
+`--ver-peticion` muestra el cuerpo que se enviaría, con las imágenes resumidas, sin gastar
+nada.
+
+**Cómo funciona por dentro.** `POST /v1/videos/generations` devuelve un `request_id` y se
+sondea `GET /v1/videos/{id}` hasta que el estado es `done`; entonces se descarga el video.
+
+**Sin foto de partida.** La API también hace texto a video, y eso cambia las cosas en Bogotá:
+la Plaza de Bolívar, la Catedral o Monserrate los conoce el modelo, así que no hace falta
+fotografiarlos. En Soatá era imprescindible, porque nadie conoce esa plaza. Queda por
+comprobar si los reconoce bien: es lo primero que hay que probar.
 
 **Continuidad del personaje.** Según Grok, su *Reference-to-Video* admite hasta siete
 imágenes de referencia por generación y con ellas ancla cara, cuerpo y ropa. De ahí la hoja
@@ -68,9 +94,16 @@ cara, la misma gorra...". Dentro de un capítulo, los actos siguen encadenándos
 
 Recomienda usar el modelo de calidad media-alta para que las caras salgan consistentes.
 
-**Referencia de lo que costó la otra serie**, esto sí medido: cada clip de 8 s con Veo salió
-por unos **COP 1.500** (~$0,38), con **3,3 generaciones por capítulo** y un tope de 10 al día.
-Falta saber qué cuesta un video en Grok para poder comparar de verdad.
+**El video, según la documentación de xAI:** **$0,080 por segundo** en la tarifa base.
+OpenRouter publica una horquilla de $0,08 a 480p hasta $0,25 a 1080p; para 720p no hay dato
+público. Un clip de 8 s sale entre **$0,64 y $2,00**.
+
+**Comparado con Veo**, que es lo que sí medimos: allí un clip de 8 s costó **COP 1.500**
+(~$0,38), con 3,3 generaciones por capítulo. Grok es **de 2 a 5 veces más caro por segundo**.
+A cambio da vertical nativo, duración de hasta 15 s, imágenes de referencia para el personaje
+y no tiene el tope de 10 generaciones al día.
+
+Una temporada de cinco capítulos de dos clips rondaría los **$10 a 480p**.
 
 ## Formato, pensado para TikTok
 
@@ -97,10 +130,33 @@ Las que costaron caro y siguen valiendo:
 - **Revisar cada clip contra la foto original**, el encuadre entero y no solo el elemento
   protagonista, ampliando figuras y bordes.
 
+## La historia
+
+**Propuesta sin aprobar.** El guion se sigue pensando, así que esto queda anotado como punto
+de partida, no como decisión.
+
+Un celador de ronda encuentra algo en la Plaza de Bolívar y lo va siguiendo por la ciudad:
+
+1. **La plaza quieta.** Tres de la madrugada. Cruza alumbrando y todas las palomas están
+   despiertas e inmóviles, mirando al mismo punto. Sigue con la linterna lo que miran: las
+   puertas de la Catedral, entreabiertas.
+2. **La marca.** En el suelo hay una figura trazada entre las piedras, húmeda, recién hecha.
+   Levanta la linterna y la misma figura está en la puerta.
+3. **El rastro.** La Candelaria. La marca aparece en una puerta, luego en otra más arriba.
+   Siempre subiendo hacia el cerro.
+4. **Lo que señala.** Desde una esquina en alto se ve Monserrate, y las luces del santuario se
+   apagan en el mismo orden que tenía la marca.
+5. **El relevo.** Vuelve a la plaza al amanecer. No hay marcas y las palomas están normales.
+   Llega su relevo y, cosida en la chaqueta, lleva la figura.
+
+El remate repite el hallazgo de Soatá —**alguien ya lo sabía**— pero ahora con alguien a
+quien le pasa.
+
 ## Pendiente
 
-1. **Decidir la locación**: Bogotá o Soatá.
-2. **Generar la hoja de personaje** con los seis retratos.
-3. **Un capítulo de prueba** con el mismo prompt en Grok y en Veo, para comparar cuál conserva
-   mejor la arquitectura y rompe menos las figuras.
-4. Escribir la historia y el arco.
+1. **Cerrar el guion.** Es lo único que bloquea todo lo demás.
+2. **`XAI_API_KEY` en el `.env`**; la línea ya está en `.env.example`.
+3. **Generar la hoja de personaje**, unos $0,30. La API también hace imágenes, así que puede
+   hacerse desde aquí.
+4. **Un clip de prueba a 480p**, unos $0,80, para ver dos cosas: si reconoce la Plaza de
+   Bolívar sin foto, y si mantiene al mismo celador con las imágenes de referencia.
