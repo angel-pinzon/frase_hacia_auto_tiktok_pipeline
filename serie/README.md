@@ -85,12 +85,11 @@ quien no reconoció la plaza reconoce su calle, y esa es la gente que lo compart
 | 8 · El amanecer | por producir | martes 29 |
 
 Los montados están en `output/serie/`, cada uno en vertical para Reel y apaisado
-para muro. El 6 puede usar `iglesia_soata5.jpg`, la misma foto ancha del 5.
+para muro. Solo falta producir el 8.
 
-Falta **una foto con la cúpula grande en el encuadre**, para los capítulos 7 y 8.
-En las que hay queda pequeña y al fondo, y si se despega ahí no se aprecia: hace
-falta un plano desde más cerca o mirando hacia arriba. Con una sola se resuelven
-los dos capítulos, porque el 8 continúa el encuadre del 7.
+El 7 usa `cupula_soata.jpg`, la mitad izquierda de un díptico aéreo en el que la
+cúpula ocupa un 10 % del cuadro y se ve su base. El 8 debería partir del mismo
+encuadre.
 
 El capítulo 3 transcurre entero al caer la tarde —empieza con el sol ya puesto y
 termina de noche—, así que cubre él solo el tramo de luz entre el 2 y el 4.
@@ -100,11 +99,12 @@ capítulos —al fondo de la plaza, detrás de la nave, sobre la silueta—, as�
 espectador lleva siete capítulos mirándola sin verla. Que resulte ser la nave
 reordena hacia atrás todo lo que ya vio.
 
-**Pero se avisa un capítulo antes.** El 6 termina con los vitrales de la cúpula
-encendiéndose uno tras otro desde dentro, ya con todos embarcados. Eso hace dos
-cosas: le da remate a un capítulo que si no acababa con ellos entrando y nada
-más, y planta la cúpula como el objeto a vigilar. Así el despegue del 7 no llega
-de la nada — el espectador ya la había mirado.
+**Pero se avisa un capítulo antes.** El 6 termina con la iglesia encendiéndose
+por dentro y temblando, ya con todos embarcados. Se probó con las ventanas de la
+cúpula, pero en la foto de la plaza la cúpula ocupa el 1,8 % del cuadro y el
+modelo fabricó una segunda cúpula enorme para que el efecto se viera; la luz va
+en la fachada, que sí es grande. El 6 queda a pie de plaza y el 7 sube al aire,
+así que el cambio de cámara es el corte entre los dos.
 
 Y arregla la premisa. El portón deja de ser una puerta a otro sitio y pasa a ser
 **la puerta de embarque**: el interior de la iglesia es la bodega, y la pieza que
@@ -120,10 +120,11 @@ arriba.
 Ese es el remate: no se fue, volvió. Ha pasado antes y volverá a pasar. Por eso
 la serie se llama *Algo pasa en Soatá* en presente.
 
-Los capítulos 7 y 8 casi no tienen figuras: lo que se mueve es la cúpula. Son los
-más seguros de producir, porque un objeto arquitectónico elevándose es
-justamente lo que mejor genera el modelo — sin anatomía, sin contacto y sin nada
-de lo que ha fallado en los demás.
+Los capítulos 7 y 8 casi no tienen figuras, pero eso no los hace fáciles. La
+primera versión del 7 —la cúpula subiendo entera— pareció "de Chespirito": el
+modelo mueve los objetos grandes como recortes rígidos, sin polvo ni fragmentos.
+Lo que funcionó fue que la cúpula **se transforme a la vista**: el caparazón
+estalla, caen escombros y aparece la nave. El 8 tendrá el mismo reto al revés.
 
 **El orden no es el que parece.** Los capítulos lentos —la plaza vacía, la
 búsqueda entre las piedras— rinden mucho más *después* de que haya algo en juego.
