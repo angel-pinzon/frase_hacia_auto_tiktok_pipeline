@@ -24,6 +24,7 @@ Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué
 - **Medios, solo en disco**: `output/` (voces, videos, clips de Veo) y `assets/` (audios de referencia, avatares y fotos de locaciones). Los videos se pueden regenerar; **las fotos de `assets/` no**, así que conviene tener copia fuera del repo.
 - **Personaje activo**: `active_character` en `config.json`, que queda en `YeisonJimenez`. Un encargo de otro personaje lo cambia y **lo restaura al terminar**, para que el repo quede limpio.
 - **Remoto**: `github.com/angel-pinzon/frase_hacia_auto_tiktok_pipeline`. Se sube solo cuando se pide.
+- **Instalación en otra máquina**: [INSTALACION.md](INSTALACION.md). Un clon llega sin letras, audios, avatares ni fotos.
 
 ### Qué se pide y qué significa
 
@@ -208,6 +209,7 @@ auto_tiktok_pipeline/
 ├── 3b_add_scenes.py             # Fase 3b: escenas con Veo (opcional)
 ├── 3c_lipsync.py                # Fase 3c: boca rehecha con MuseTalk (opcional)
 ├── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
+├── INSTALACION.md               # Cómo montar la plataforma desde cero
 ├── revisar_voz.py               # Transcribe una voz y mide dónde respira
 ├── serie_generar.py             # Serie: genera los actos de un capítulo desde su ficha
 └── serie_placas.py              # Serie: correcciones, placas, portada y versión 9:16
@@ -224,6 +226,8 @@ independiente de las cuatro fases. Su historia, el arco de ocho capítulos, los
 costes y la forma de publicarla están en **[serie/README.md](serie/README.md)**.
 
 ## Requisitos
+
+**La instalación paso a paso, con versiones verificadas y comprobaciones, está en [INSTALACION.md](INSTALACION.md).** Aquí queda el resumen.
 
 - **Ubuntu** (WSL2 en Windows) con GPU NVIDIA y CUDA. Probado en RTX 4060 de 8 GB.
 - **FFmpeg** con `libfreetype` (para el texto en pantalla).
