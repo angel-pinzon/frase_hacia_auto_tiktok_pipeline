@@ -36,7 +36,8 @@
   ],
   "origen_foto": "Mitad izquierda de assets/iglesia_soata6.jpg, que es un diptico. Solo 598x674: es la imagen mas pequena de la serie, asi que el detalle fino de la cupula es lo que mas puede sufrir. Se prueba con el acto 1 antes de seguir.",
   "camara": "Toda la serie va a pie de calle y este capitulo sube la camara al aire. Es a proposito: cuando sube la cupula sube la camara, y con el pueblo entero debajo el sitio se reconoce mas que en cualquier plano de plaza.",
-  "montaje": "python serie_placas.py <clip> --numero 7 --titulo \"La cúpula\" --vertical  (sin --noche)",
+  "montaje": "python serie_placas.py output/escenas/cap7_la-cupula_24s.mp4 --numero 7 --titulo \"La cúpula\" --vertical --desde 0.8",
   "luz": "NOTA, no va en el prompt: noche real, sin noche americana. Sobre cumulos soleados el grado nocturno delataba el truco. El motivo para oscurecer lo dan la luz de las grietas, las ventanas y los motores, que es lo que funciono en el capitulo 5. En la version anterior se pidio 'poco antes del amanecer' y el modelo lo leyo como dia: aqui se pide noche cerrada.",
-  "aprobado": "El usuario aprobo la prueba del acto 1: el caparazon estalla en escombros y deja ver una nave de metal oscuro en forma de huevo con venas de luz azul. Los actos 2 y 3 continuan desde esa forma, no desde la cupula original."
+  "aprobado": "El usuario aprobo la prueba del acto 1: el caparazon estalla en escombros y deja ver una nave de metal oscuro en forma de huevo con venas de luz azul. Los actos 2 y 3 continuan desde esa forma, no desde la cupula original.",
+  "version_elegida": "Completa, 27,7 s. Se probo tambien cortada a los 20,2 s, antes de que aparezcan cumbres nevadas que no existen en Soata y una estela de fuego que no sale de la nave; el usuario prefirio el final largo. La cortada queda en output/serie/pruebas/."
 }
