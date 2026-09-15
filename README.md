@@ -52,8 +52,122 @@ Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué
 ### Pendiente
 
 - **Capítulo 8 de la serie.** La nave del capítulo 7 —un huevo de metal oscuro con venas de luz azul— tiene que bajar, rearmarse como una cúpula idéntica a la real y quedar en su sitio al amanecer, con el pueblo indiferente. Su ficha, `prompts/escenas/cap8_el-amanecer.json`, **está desactualizada**: describe la cúpula que sube entera, no la nave, y tiene la foto y la arquitectura en `PENDIENTE`. El 8 debería partir de `assets/cupula_soata.jpg`, como el 7.
+- **La Fase 3b ignora el lipsync**: toma `video.mp4` en vez de `video_lipsync.mp4`. Ver *Arquitectura*.
 - Vicente Fernández sigue sin coletilla.
 - Los diálogos multipersonaje de `output/dialogos/` se montaron con scripts que no llegaron al repo. Si se hace otro, conviene convertirlo en herramienta.
+
+## Arquitectura
+
+La plataforma tiene **tres capas** —orquestación, motores locales y servicios en la nube— y un contrato muy simple entre ellas: **cada fase lee y escribe archivos en `output/<Personaje>/`**. No hay base de datos, ni servidor, ni datos compartidos en memoria.
+
+### Videos de artistas
+
+```mermaid
+flowchart TD
+    CFG["config.json<br/>+ overrides de script_meta.json"]
+    LY["lyrics/Personaje/"]
+    AV["assets/Personaje/<br/>ref_audio.wav · avatar"]
+
+    F1["Fase 1 · 1_generate_text.py"]
+    F2["Fase 2 · 2_generate_voice.py"]
+    F3["Fase 3 · 3_generate_video.py"]
+    F3c["Fase 3c · 3c_lipsync.py"]
+    F3b["Fase 3b · 3b_add_scenes.py"]
+
+    GEM(["Gemini · nube"])
+    VEO(["Veo · nube"])
+    OMNI[["OmniVoice + Whisper<br/>entorno omni_voice · Py 3.12"]]
+    SAD[["SadTalker + GFPGAN + RetinaFace<br/>entorno sadtalker · Py 3.11"]]
+    MUSE[["MuseTalk<br/>entorno musetalk · Py 3.11"]]
+    FF[["FFmpeg"]]
+
+    LY --> F1
+    F1 <--> GEM
+    F1 -->|"script.txt<br/>script_meta.json"| F2
+    AV --> F2
+    F2 <--> OMNI
+    F2 -->|voice.wav| F3
+    AV --> F3
+    F3 <--> SAD
+    F3 <--> FF
+    F3 -->|video.mp4| F3c
+    F3c <--> MUSE
+    F3c --> L["video_lipsync.mp4"]
+    F3 -->|video.mp4| F3b
+    F3b <--> GEM
+    F3b <--> VEO
+    F3b <--> FF
+    F3b --> E["video_escena.mp4"]
+    CFG -.-> F1 & F2 & F3 & F3c & F3b
+```
+
+### Serie *Algo pasa en Soatá*
+
+```mermaid
+flowchart LR
+    FOTO["assets/<br/>foto de la locación"]
+    FICHA["prompts/escenas/capN.json<br/>ficha del capítulo"]
+    GEN["serie_generar.py"]
+    VEO(["Veo · nube<br/>imagen a video"])
+    ESC["output/escenas/<br/>capN_1 · capN_2 · capN_3<br/>capN_24s.mp4"]
+    PLA["serie_placas.py"]
+    FF[["FFmpeg"]]
+    SER["output/serie/<br/>capN.mp4 · capN_vertical.mp4"]
+
+    FOTO --> GEN
+    FICHA --> GEN
+    GEN <-->|"acto a acto, encadenado<br/>por el último fotograma"| VEO
+    GEN --> ESC
+    ESC --> PLA
+    PLA <--> FF
+    PLA --> SER
+```
+
+### Las tres capas
+
+| Capa | Qué contiene | Dónde corre |
+|---|---|---|
+| **Orquestación** | Las fases (`1_` a `4_`, `3b_`, `3c_`), `main.py`, `serie_generar.py`, `serie_placas.py` y `pipeline_utils.py` | `.venv` del proyecto, Python 3.12, sin GPU |
+| **Motores locales** | OmniVoice y Whisper (voz y transcripción); SadTalker, GFPGAN y RetinaFace (animación y cara); MuseTalk (labios) | Un entorno aislado cada uno, en la GPU |
+| **Servicios en la nube** | Gemini (texto y prompts de escena) y Veo (video), a través de `google-genai` con `GEMINI_API_KEY` | API de Google, con coste y cuota |
+| **Herramientas del sistema** | FFmpeg para recortar, rotular, montar y medir (`signalstats`, `silencedetect`, `cropdetect`); Playwright para la Fase 4 | Sistema operativo |
+
+Los scripts de orquestación **nunca importan un motor**. Construyen una orden con el Python del otro entorno —las rutas están en `config.json`: `omnivoice.python`, `video.python`, `lipsync.python`— y la ejecutan con `subprocess`. Cuando solo necesitan un trozo de un motor, le pasan un script corto con `python -c`: la Fase 2 comprueba el ritmo con Whisper dentro del entorno de OmniVoice, y la Fase 3 detecta la cara con RetinaFace dentro del de SadTalker.
+
+Eso tiene dos consecuencias prácticas. Un fallo del motor llega como un error del subproceso, no como una excepción de Python legible. Y **matar la fase no mata el motor**: SadTalker o MuseTalk siguen vivos ocupando la GPU, que es por lo que los procesos largos se lanzan en su propio grupo (ver *Trampas operativas*).
+
+### El contrato entre fases: los archivos
+
+| Fase | Lee | Escribe |
+|---|---|---|
+| 1 · texto | `lyrics/`, `config.json` | `script.txt`, `script_meta.json` |
+| 2 · voz | `script.txt`, `ref_audio.wav` | `voice.wav` |
+| 3 · retrato | `voice.wav`, avatar, `verses` de `script_meta.json` | `video.mp4` |
+| 3c · labios | `video.mp4`, `voice.wav` | `video_lipsync.mp4` |
+| 3b · escena | `video.mp4`, `voice.wav`, `verses` | `video_escena.mp4`, clip en `output/escenas/` |
+
+Todo en `output/<active_character>/`. De ahí sale la forma de trabajar: **se puede parar entre dos fases, revisar, editar el archivo a mano y relanzar solo la siguiente**, sin repetir lo anterior. La contrapartida es que cada ejecución sobrescribe su archivo, así que lo bueno hay que archivarlo en `opciones/` o `saludos/`.
+
+`main.py` encadena solo las fases 1, 2, 3 y 4 en línea recta, y casi no se usa: el trabajo real es interactivo y fase a fase. Las fases 3b y 3c se lanzan a mano.
+
+**Incoherencia conocida:** la Fase 3b toma `video.mp4`, no `video_lipsync.mp4`. Si se ejecuta 3 → 3c → 3b, la escena final lleva los labios de SadTalker y no los de MuseTalk. Para que la escena incluya el lipsync, hoy hay que copiar `video_lipsync.mp4` sobre `video.mp4` antes de lanzar la 3b.
+
+### La configuración en capas
+
+Al arrancar, cada fase llama a `load_config()`, que monta la configuración en tres pasos:
+
+1. **`config.json`**: los valores globales y la ficha de cada personaje.
+2. **`active_character`**: decide qué personaje se usa y en qué carpeta de `output/` se lee y escribe.
+3. **`overrides` de `script_meta.json`**: se mezclan de forma recursiva sobre lo anterior con `deep_merge()`. Solo se sustituye lo que se nombra, y afectan únicamente al video que está en esa carpeta.
+
+Así, un ajuste que solo sirve para una frase —`speed`, `max_attempts`, tamaño de letra— va con esa frase y no toca la configuración global.
+
+### Por qué está hecho así
+
+- **Entornos aislados** porque las dependencias son incompatibles: SadTalker necesita numpy 1.23 y torch 2.1; MuseTalk, torch 2.0 y una pila mmcv que no convive con nada más. Ver *Requisitos*.
+- **Archivos como contrato** para poder trabajar de forma interactiva: cada paso se revisa y se corrige a mano antes de gastar los minutos de GPU del siguiente.
+- **Los controles van en el código, no en el prompt**: la cita textual de la Fase 1, la detección de cortes y de palabras atropelladas de la Fase 2, el mínimo de brillo y el bloqueo de fichas `PENDIENTE` de la serie. El modelo puede ignorar una instrucción; una comprobación no.
+- **Caché de Veo por hash del prompt** en la Fase 3b: repetir una escena no se vuelve a pagar.
 
 ## Estructura del Proyecto
 
@@ -428,6 +542,8 @@ texto     voz      retrato   lipsync   escena + montaje
 ```
 
 **El orden importa.** El lipsync va sobre el retrato **antes** de montar la escena: así MuseTalk trabaja sobre la cara completa, y no sobre un video donde el rostro solo aparece los primeros segundos.
+
+**Ojo:** hoy la Fase 3b lee `video.mp4` y no `video_lipsync.mp4`, así que para que la escena lleve los labios de MuseTalk hay que copiar uno sobre el otro antes de lanzarla. Ver *Arquitectura*.
 
 Unos 20 minutos por clip de 15-20 s, y unos COP 1.500 si la escena es nueva. MuseTalk **escala con la duración** del clip, no es un coste fijo: los turnos cortos salen bastante más baratos en tiempo.
 
