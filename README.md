@@ -14,7 +14,7 @@ Punto de entrada para continuar en otra sesión sin depender del historial de co
 |---|---|---|
 | Videos de artistas: frases, monólogos, diálogos | estable, se produce a demanda | este README |
 | Saludos personalizados | a demanda; los últimos, para Wilmer Cortez y Ticor | `output/DiomedesDiaz/saludos/` |
-| Serie *Algo pasa en Soatá* | capítulos 1-4 publicados, 5-7 montados, **falta el 8** | [serie/README.md](serie/README.md), tabla *Dónde va la temporada* |
+| Serie *Algo pasa en Soatá* | temporada completa: 1-4 publicados, 5-8 montados | [serie/README.md](serie/README.md), tabla *Dónde va la temporada* |
 
 Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué del cambio, no solo el qué.
 
@@ -52,7 +52,6 @@ Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué
 
 ### Pendiente
 
-- **Capítulo 8 de la serie.** La nave del capítulo 7 —un huevo de metal oscuro con venas de luz azul— tiene que bajar, rearmarse como una cúpula idéntica a la real y quedar en su sitio al amanecer, con el pueblo indiferente. Su ficha, `prompts/escenas/cap8_el-amanecer.json`, **está desactualizada**: describe la cúpula que sube entera, no la nave, y tiene la foto y la arquitectura en `PENDIENTE`. El 8 debería partir de `assets/cupula_soata.jpg`, como el 7.
 - **La Fase 3b ignora el lipsync**: toma `video.mp4` en vez de `video_lipsync.mp4`. Ver *Arquitectura*.
 - Vicente Fernández sigue sin coletilla.
 - Los diálogos multipersonaje de `output/dialogos/` se montaron con scripts que no llegaron al repo. Si se hace otro, conviene convertirlo en herramienta.
@@ -624,7 +623,7 @@ Cada capítulo es un JSON en `prompts/escenas/capN_titulo.json`. **Solo cuatro c
 .venv/bin/python serie_generar.py prompts/escenas/cap6_los-que-vuelven.json --solo-acto 1
 ```
 
-Cada acto parte del último fotograma del anterior, así la escena continúa sin corte. Al terminar, se unen en `output/escenas/<ficha>_24s.mp4`. Con `--solo-acto`, el clip que hubiera se aparta como `_previo`. Sin esa opción genera los tres seguidos.
+Cada acto parte del último fotograma del anterior, así la escena continúa sin corte. Con `--entrada IMAGEN` un acto parte de otra imagen: para probarlo antes de tener los previos, o para empezar desde el final de otro capítulo. Un acto puede traer en la ficha su propia `arquitectura` y `comun` cuando cambia de encuadre. Al terminar, se unen en `output/escenas/<ficha>_24s.mp4`. Con `--solo-acto`, el clip que hubiera se aparta como `_previo`. Sin esa opción genera los tres seguidos.
 
 Tiene dos frenos. **Se niega a lanzar una ficha con campos `PENDIENTE`**. Y **se para si el fotograma desde el que va a encadenar tiene un brillo menor de 28**, salvo que se use `--forzar`: a oscuras el modelo deja de ver la arquitectura y se la inventa. En el capítulo 6, un acto que acabó en negro hizo que el siguiente saliera con otra iglesia.
 
@@ -646,6 +645,7 @@ Tiene dos frenos. **Se niega a lanzar una ficha con campos `PENDIENTE`**. Y **se
 | `--sin-barras` | Desactiva el recorte automático de barras negras |
 | `--noche` / `--sombras` | Oscurece un clip de día / levanta una noche tan cerrada que el sitio no se reconoce |
 | `--portada S` / `--portada-negra` | Elige el fotograma de fondo de la placa de entrada, o la deja en negro |
+| `--cierre TEXTO` | Texto de la placa final, CONTINUARÁ por defecto; el último capítulo usa FIN |
 
 Además hace dos cosas solo. **Recorta las barras negras** únicamente si siguen ahí en tres momentos distintos del clip, porque Veo a veces las tiene solo medio segundo al principio. Y **elige de portada el fotograma más iluminado a partir del segundo 4**, porque las redes usan el primer fotograma de miniatura y una placa negra deja el Reel invisible en el feed.
 

@@ -227,6 +227,8 @@ def main():
                    help="Fotograma de fondo de la placa de entrada, que es el "
                         "que las redes toman de miniatura. Por defecto, el mas "
                         "iluminado del capitulo")
+    p.add_argument("--cierre", default="CONTINUARÁ", metavar="TEXTO",
+                   help="Texto de la placa final; el ultimo capitulo no puede cerrar con CONTINUARA")
     p.add_argument("--portada-negra", action="store_true",
                    help="Placa de entrada sobre negro, como antes")
     args = p.parse_args()
@@ -291,7 +293,7 @@ def main():
         (args.titulo, int(base * 0.55), "white", "+90"),
     ], fondo=fondo)
     fin = placa(tmp / "fin.mp4", ancho, alto, fps, 2.0, [
-        ("CONTINUARÁ", int(base * 0.9), "white", "+0"),
+        (args.cierre, int(base * 0.9), "white", "+0"),
     ])
 
     salida = Path(args.salida) if args.salida else original.with_name(

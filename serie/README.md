@@ -65,7 +65,7 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
 | 6 | Los que vuelven ✅ | madrugada | La horda cruza la plaza y entra en fila por el portón. Cuando pasa la última, **la iglesia se enciende por dentro** y tiembla; cae polvo de la fachada | No es una salida, es un embarque. Y algo se está encendiendo |
 | 7 | La cúpula ✅ | noche cerrada | **Plano aéreo.** El caparazón de la cúpula estalla en escombros y deja ver una nave de metal oscuro con venas de luz azul; enciende motores, despega entre humo y se pierde en el cielo | La cúpula era la nave. Llevaba ahí desde siempre |
-| 8 | El amanecer | sale el sol | La iglesia sin cúpula. La cúpula baja del cielo y **encaja** en su sitio. Abren las tiendas, pasa gente, nadie mira hacia arriba | No se fue: volvió. Y el pueblo sigue |
+| 8 | El amanecer ✅ | sale el sol | **La destrucción del 7 se rebobina**: la nave baja, los escombros vuelven y la cúpula se rearma idéntica. Fundido a la plaza de día, donde dos vecinas barren el polvo sin mirar arriba. Cierra con FIN | No se fue: volvió. Y el pueblo limpia las pruebas |
 
 **Cambiar de locación a partir del 3.** Con una sola foto la serie se agota
 visualmente en dos capítulos. Cada rincón nuevo del pueblo multiplica el gancho:
@@ -82,10 +82,10 @@ quien no reconoció la plaza reconoce su calle, y esa es la gente que lo compart
 | 5 · El llamado | montado | viernes 18 |
 | 6 · Los que vuelven | montado | martes 22 |
 | 7 · La cúpula | montado | viernes 25 |
-| 8 · El amanecer | por producir | martes 29 |
+| 8 · El amanecer | montado | martes 29 |
 
 Los montados están en `output/serie/`, cada uno en vertical para Reel y apaisado
-para muro. Solo falta producir el 8.
+para muro. **La temporada está completa.**
 
 El 7 usa `cupula_soata.jpg`, la mitad izquierda de un díptico aéreo en el que la
 cúpula ocupa un 10 % del cuadro y se ve su base. El 8 debería partir del mismo
@@ -287,6 +287,13 @@ ritual y arrastraba el objeto consigo. Salió a la primera.
 
 La lección general: cuando el resultado se desvía, mirar primero **con qué imagen
 entra** el clip, no solo qué se le pidió.
+
+**Un estado final exacto se consigue rebobinando.** En el capítulo 8 la cúpula
+tenía que rearmarse idéntica a la real, y generándolo con Veo salió más ancha,
+con otro diseño y en otra posición. La solución fue reproducir al revés el
+principio del capítulo 7, que ya era la destrucción de la cúpula real a partir
+de la foto: al revés, termina exactamente en la foto. No costó ninguna
+generación, y encaja con la idea de que el tiempo corre hacia atrás.
 
 **Ser explícito con cantidades y destinos.** "Varias figuras" da cualquier cosa;
 "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por su

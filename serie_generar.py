@@ -6,6 +6,7 @@ placas y las correcciones van despues, con serie_placas.py.
 
     python serie_generar.py prompts/escenas/cap6_los-que-vuelven.json
     python serie_generar.py prompts/escenas/cap4_lo-que-buscaban.json --solo-acto 3
+    python serie_generar.py prompts/escenas/cap8_el-amanecer.json --solo-acto 2 --entrada fotograma.jpg
 
 Gasta cuota: una generacion por acto. El plan Tier 1 da 10 al dia.
 """
@@ -44,10 +45,13 @@ def prompt_completo(ficha, acto):
     modelo se invente edificios al encadenar. Las notas de la ficha -nota,
     riesgo, revision...- son para quien la lee y nunca llegan al modelo.
     """
-    partes = [acto["prompt"], ficha["arquitectura"]]
-    if ficha.get("luz_prompt"):
-        partes.append(ficha["luz_prompt"])
-    partes.append(ficha["comun"])
+    # un acto puede traer su propia arquitectura o texto comun, cuando cambia
+    # de encuadre a mitad de capitulo -del plano aereo a la plaza, por ejemplo-
+    partes = [acto["prompt"], acto.get("arquitectura", ficha["arquitectura"])]
+    luz = acto.get("luz_prompt", ficha.get("luz_prompt"))
+    if luz:
+        partes.append(luz)
+    partes.append(acto.get("comun", ficha["comun"]))
     return " ".join(partes)
 
 
@@ -129,6 +133,10 @@ def main():
                    help="Muestra lo que se enviaria y sale, sin gastar cuota")
     p.add_argument("--forzar", action="store_true",
                    help="Encadena aunque el fotograma de partida este muy oscuro")
+    p.add_argument("--entrada", default=None, metavar="IMAGEN",
+                   help="Con --solo-acto, parte de esta imagen en vez del acto anterior. "
+                        "Sirve para probar un acto antes de tener los previos, o para "
+                        "empezar desde el final de otro capitulo")
     args = p.parse_args()
 
     ruta = Path(args.ficha)
@@ -164,7 +172,12 @@ def main():
         destino = archivo(actual)
         # primero se decide desde donde encadenar, y solo despues se aparta el
         # archivo viejo: si el guardian para, el acto no se queda sin video
-        if actual["n"] == 1:
+        if args.entrada:
+            entrada = Path(args.entrada)
+            if not entrada.exists():
+                sys.exit(f"No existe la imagen de entrada: {entrada}")
+            comprueba_encadenado(entrada, actual["n"], args.forzar)
+        elif actual["n"] == 1:
             entrada = ROOT / ficha["foto"]
         else:
             anterior = next(a for a in actos if a["n"] == actual["n"] - 1)

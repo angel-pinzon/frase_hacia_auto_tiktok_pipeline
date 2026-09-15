@@ -1,43 +1,31 @@
 {
   "capitulo": 8,
   "titulo": "El amanecer",
-  "momento": "sale el sol",
-  "locacion": "Plaza principal de Soata, mismo encuadre que el capitulo 7",
-  "foto": "PENDIENTE: la misma foto del capitulo 7, con la cupula grande en el encuadre. Sirve para los dos.",
+  "momento": "primera luz del alba, y despues sale el sol",
+  "locacion": "Iglesia de Soata desde el aire (actos 1 y 2) y la plaza a pie de calle (acto 3)",
+  "foto": "output/escenas/cap7_fin_para_cap8.jpg",
   "modelo": "veo-3.1-lite-generate-preview",
-
-  "nota": "El remate de la temporada. Encadena desde el ultimo fotograma del capitulo 7, con la iglesia sin cupula, que es una imagen que se entiende sola: algo va mal y nadie lo ha explicado.",
-
-  "por_que_encaja_y_no_aterriza": "Que la cupula ENCAJE, y no que aterrice, es lo que remata la serie: si ajusta como una pieza es que siempre fue una maquina, y llevaba ahi desde antes de que naciera nadie del pueblo. El detalle vale mas que cualquier explicacion.",
-
-  "el_final": "Y despues, la indiferencia. Sale el sol, abren las tiendas, la gente cruza la plaza y nadie mira hacia arriba. No lo taparon anoche: pasa cada cierto tiempo y el pueblo sigue. De ahi el presente del titulo de la serie.",
-
-  "arquitectura": "PENDIENTE: la misma descripcion del capitulo 7, segun la foto nueva.",
-
-  "comun": "Amanece: el cielo pasa de gris azulado a la primera luz dorada. Camara fija, plano general, sin acercarse. Ciencia ficcion realista y cinematografica, no caricatura.",
-
+  "nota": "El capitulo 7 no deja la iglesia intacta: al despegar la nave hay una bola de fuego, escombros disparados y humo, y el tejado queda cubierto de cascotes alrededor de un hueco roto y humeante. El 8 parte de esa destruccion y la deshace: la nave vuelve, los escombros regresan a su sitio como si el tiempo corriera hacia atras y la cupula se rearma. Despues, en la plaza, unos vecinos barren el poco polvo que quedo sin mirar hacia arriba: el pueblo no solo no mira, limpia las pruebas.",
+  "entrada": "Los actos 1 y 2 parten del final del capitulo 7 para que la continuidad sea exacta: mismo encuadre aereo, mismo destrozo, las mismas montanas nevadas que invento el 7 y el usuario acepto. El fotograma es el de 21,5 s de output/escenas/cap7_la-cupula_24s.mp4, con la nave entera arriba y antes de que aparezca la estela de fuego a los 22,3 s. Se regenera con: ffmpeg -ss 21.5 -i output/escenas/cap7_la-cupula_24s.mp4 -vframes 1 -q:v 1 output/escenas/cap7_fin_para_cap8.jpg",
+  "riesgo": "El rearmado es lo mas dificil de la temporada. La primera version del capitulo 7 -la cupula subiendo entera- parecio 'de Chespirito' porque el modelo mueve piezas grandes como recortes rigidos. Por eso aqui no encaja una pieza: vuelven muchos fragmentos, y el humo se aspira, que es la misma fisica que funciono en el acto 1 del 7. Se prueba el acto 2 antes que nada.",
+  "arquitectura": "Conserva exactamente el lugar, visto desde el aire, por delante y por encima de la iglesia: en primer plano la parte alta de la fachada de piedra gris con su reloj, sus dos espadanas con campanas y una estatua blanca de Cristo con los brazos abiertos. Detras, el tejado gris de la iglesia. Alrededor, los tejados de teja roja del pueblo de Soata y, al fondo, la silueta de las montanas con alguna cumbre nevada a la derecha.",
+  "comun": "Primera claridad del alba: el cielo pasa de azul oscuro a un azul palido sobre las montanas, y las luces del pueblo siguen encendidas. Camara aerea casi fija. Ciencia ficcion realista y cinematografica, con efectos fisicos creibles: nada de brillos de neon ni aspecto de dibujo animado. En la escena hay una sola cupula o una sola nave, nunca dos.",
   "actos": [
-    {
-      "n": 1,
-      "nombre": "la iglesia sin cupula",
-      "prompt": "Primera luz del dia sobre la plaza vacia. La iglesia esta sin su cupula: donde estaba solo queda un hueco circular oscuro en el tejado, con los bordes limpios. Todo lo demas esta intacto y en calma. No hay nadie en la plaza. Unos pajaros cruzan el cielo."
-    },
-    {
-      "n": 2,
-      "nombre": "vuelve y encaja",
-      "prompt": "Continua la misma escena sin cortes. La cupula azul y blanca baja despacio desde el cielo, entera y girando muy lentamente, y desciende hasta el hueco circular del tejado. Encaja en su sitio con un movimiento preciso, como una pieza que ajusta, levantando un poco de polvo del tejado. La estatua blanca queda otra vez en lo alto, exactamente como estaba. Un ultimo destello recorre la union y se apaga."
-    },
     {
       "n": 3,
       "nombre": "el pueblo",
-      "prompt": "Continua la misma escena sin cortes, ya con el sol saliendo. La plaza se llena de vida normal: se abren las puertas de los locales, pasan vecinos caminando, alguien cruza en bicicleta, un perro atraviesa la plaza. La iglesia esta entera, con su cupula azul y blanca en su sitio como siempre. Nadie mira hacia arriba. Nadie se detiene. Todo transcurre con absoluta normalidad."
+      "entrada": "assets/iglesia_soata5.jpg",
+      "arquitectura": "Conserva exactamente el lugar y el encuadre de la fotografia: una plaza muy amplia pavimentada en ladrillo rosado con franjas de cemento gris. La iglesia de piedra gris esta a la izquierda del centro, con su reloj, dos espadanas, una estatua de Cristo con los brazos abiertos y un porton de madera bajo un arco de piedra. A su derecha, una unica cupula blanca con franjas azules y una estatua blanca encima, entera e intacta. Mas a la derecha, un edificio largo de dos plantas, crema y con tejado de teja roja. A la izquierda, un parque con un arbol grande sin hojas, arboles de copa verde, palmeras y bancos. En la explanada, palmeras en jardineras de ladrillo y faroles negros.",
+      "comun": "Manana temprano con el sol recien salido, luz calida y sombras largas. Camara fija a la altura de la plaza, plano general, sin acercarse a las caras. Realista y cinematografico. Una sola cupula. Nadie mira hacia la iglesia en ningun momento.",
+      "prompt": "La plaza amanece tranquila y normal. Delante de la iglesia, dos vecinos barren despacio un poco de polvo blanco y unas piedras pequenas del suelo, sin levantar la vista, como quien hace una tarea de todos los dias. Otros vecinos cruzan la plaza caminando, alguien pasa en bicicleta y se abre la puerta de un local. Nadie se detiene ni mira hacia arriba. La iglesia y su cupula estan intactas, exactamente como siempre."
     }
   ],
-
+  "produccion": "Ver 'decision' y 'montaje'. Solo el acto 3 se genera con Veo.",
   "revision": [
-    "Que la cupula baje ENTERA y encaje limpiamente, sin deformarse al posarse.",
-    "Que al final quede identica a la foto original: si queda torcida o distinta, se pierde el remate.",
-    "En el acto 3 hay gente caminando: ampliar las figuras, que es donde el modelo se rompe.",
-    "Que nadie del acto 3 mire hacia la iglesia. Si alguien la senala, se cae el final."
-  ]
+    "Acto 3: a los 6 s aparecen figuras semitransparentes junto a la jardinera; en vertical se ven pequenas.",
+    "Las dos vecinas que barren van con la cabeza gacha: nadie mira hacia arriba.",
+    "Una sola cupula, la real: el acto 3 salio con barras en vez de ampliar la escena, asi que no invento ninguna."
+  ],
+  "decision": "Se descarto generar el rearmado con Veo. La prueba del acto 2 salio con fisica creible pero la cupula rearmada era mas ancha, con otro diseno y centrada sobre la fachada; ademas cambio el pueblo por otro y escribio 'SOATA' en un tejado. El remate exige que la cupula quede identica a la real, y eso lo garantiza algo mas simple: reproducir al reves los actos 1 y 2 del capitulo 7, que ya eran la destruccion de la cupula real partiendo de la foto. Al reves, la nave baja, los escombros vuelven y el clip termina en la foto original. Cuesta cero generaciones. La prueba de Veo queda en output/serie/pruebas/cap8_acto2_prueba.mp4. El acto 1 (el silencio) se suprimio: el clip invertido ya arranca en la destruccion.",
+  "montaje": "1) Audio: unir el de cap7_1_el-despertar y cap7_2_los-motores, invertirlo con areverse y cortarlo a 15 s, en pasos separados (en un solo filtro atrim dejo 0,8 s de audio). 2) Video: concat de los mismos dos actos, reverse y trim a 15 s -> output/escenas/cap8_2_reverso.mp4, con ese audio. Se corta en 15,0 porque desde 15,4 vuelven las barras negras de la foto de partida. 3) Acto 3 generado con --entrada assets/iglesia_soata5.jpg; trae barras (crop=960:720:160:0), asi que se recorta, se amplia a 1280x960 y se recorta a 1280x720. 4) Fundido de 0,8 s entre ambos (xfade + acrossfade, offset 14.2) -> output/escenas/cap8_el-amanecer_24s.mp4. 5) python serie_placas.py output/escenas/cap8_el-amanecer_24s.mp4 --numero 8 --titulo \"El amanecer\" --vertical --cierre \"FIN\""
 }
