@@ -63,8 +63,8 @@ una cuenta atrás implícita: algo tiene que pasar antes de que amanezca.
 | 3 | Los que corren ✅ | cae la tarde | **Parque Juan José Rondón.** Dos vecinos se giran y corren hacia cámara aterrorizados; detrás bajan cuatro figuras por el camino. Pasan de largo y el parque queda vacío, ya de noche | No persiguen a nadie: van de paso y los vecinos se cruzaron |
 | 4 | Lo que buscaban ✅ | noche | **El parque de las piedras talladas.** Seis figuras rebuscan entre los bloques; el más grande se desplaza solo y del hueco sale luz. Una se incorpora sosteniendo una pieza alargada que brilla en frío | Esto era la misión. Todo lo anterior era una búsqueda |
 | 5 | El llamado ✅ | noche cerrada | **La plaza en ancho.** Una luz late en el cielo sobre la iglesia; en la explanada se recorta una silueta a contraluz que alza un brazo, y por los bordes acuden figuras hasta cerrarse en corro. La luz se apaga de golpe | Hay alguien detrás de todo esto, y las está convocando |
-| 6 | Los que vuelven | madrugada | La horda regresa y entra en fila por el portón. Cuando la plaza queda vacía, **los vitrales de la cúpula se encienden uno tras otro** | No es una salida, es un embarque. Y algo se está encendiendo |
-| 7 | La cúpula | antes del alba | Las campanas suenan solas, sale vapor del anillo del tejado y **la cúpula se desprende y sube** hasta desaparecer. Queda un hueco circular | La cúpula era la nave. Llevaba ahí desde siempre |
+| 6 | Los que vuelven ✅ | madrugada | La horda cruza la plaza y entra en fila por el portón. Cuando pasa la última, **la iglesia se enciende por dentro** y tiembla; cae polvo de la fachada | No es una salida, es un embarque. Y algo se está encendiendo |
+| 7 | La cúpula ✅ | noche cerrada | **Plano aéreo.** El caparazón de la cúpula estalla en escombros y deja ver una nave de metal oscuro con venas de luz azul; enciende motores, despega entre humo y se pierde en el cielo | La cúpula era la nave. Llevaba ahí desde siempre |
 | 8 | El amanecer | sale el sol | La iglesia sin cúpula. La cúpula baja del cielo y **encaja** en su sitio. Abren las tiendas, pasa gente, nadie mira hacia arriba | No se fue: volvió. Y el pueblo sigue |
 
 **Cambiar de locación a partir del 3.** Con una sola foto la serie se agota
@@ -77,11 +77,11 @@ quien no reconoció la plaza reconoce su calle, y esa es la gente que lo compart
 |---|---|---|
 | 1 · La horda | publicado | 4 sep |
 | 2 · La llegada | publicado | 7 sep |
-| 3 · Los que corren | montado | viernes 11 |
-| 4 · Lo que buscaban | montado | martes 15 |
+| 3 · Los que corren | publicado | 11 sep |
+| 4 · Lo que buscaban | publicado | 14 sep |
 | 5 · El llamado | montado | viernes 18 |
-| 6 · Los que vuelven | por producir | martes 22 |
-| 7 · La cúpula | por producir | viernes 25 |
+| 6 · Los que vuelven | montado | martes 22 |
+| 7 · La cúpula | montado | viernes 25 |
 | 8 · El amanecer | por producir | martes 29 |
 
 Los montados están en `output/serie/`, cada uno en vertical para Reel y apaisado
