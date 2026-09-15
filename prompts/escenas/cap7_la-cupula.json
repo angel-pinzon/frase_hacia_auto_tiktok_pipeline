@@ -6,36 +6,37 @@
   "foto": "assets/cupula_soata.jpg",
   "modelo": "veo-3.1-lite-generate-preview",
   "nota": "El golpe de la serie. La cupula azul y blanca sale en todos los capitulos, al fondo de la plaza, detras de la nave, sobre la silueta: el espectador lleva siete capitulos mirandola sin verla. Que resulte ser la nave reordena hacia atras todo lo que ya vio.",
-  "por_que_funciona": "Es ademas lo que mejor genera el modelo -un objeto arquitectonico que se eleva-, sin anatomia, sin contacto y sin nada de lo que ha fallado en los otros capitulos. Las campanas se integran aqui en vez de ser capitulo propio: suenan cuando la cupula se separa.",
+  "por_que_funciona": "La primera version -la cupula subiendo entera, de dia y oscurecida en el montaje- parecio 'de Chespirito': un recorte rigido deslizandose, sin polvo ni fragmentos, con brillo de neon y un hueco como una calcomania negra. Una cupula de iglesia levitando se lee como efecto barato; una nave que se revela, como ciencia ficcion. Por eso ahora se transforma a la vista, y los fragmentos que caen dan la interaccion fisica que faltaba.",
   "logica": "Esto cambia la premisa y la mejora: el porton no es una puerta a otro sitio, es la puerta de embarque, y el interior de la iglesia es la bodega. La pieza que sacaron de debajo de la piedra en el capitulo 4 es lo que la enciende.",
-  "arquitectura": "Conserva exactamente el lugar, visto desde el aire, por delante y por encima de la iglesia. En primer plano, la parte alta de la fachada de piedra gris con su reloj, sus dos espadanas y una estatua blanca de Cristo con los brazos abiertos. Detras de la fachada, el tejado gris inclinado de la iglesia, y apoyada sobre el una UNICA cupula: un tambor blanco con franjas azules verticales y ventanas altas y estrechas, rematado por una boveda blanca con franjas azules y ventanas redondas, un pequeno remate azul y blanco, y en lo mas alto una estatua blanca. No existe ninguna otra cupula. Alrededor, los tejados de teja roja y los edificios del pueblo de Soata, y al fondo montanas verdes.",
-  "comun": "Luz de dia, cielo con nubes. Camara aerea fija, sin moverse, plano general. Ciencia ficcion realista y cinematografica, no caricatura. En la escena hay una sola cupula y nunca aparece otra.",
+  "arquitectura": "Conserva exactamente el lugar, visto desde el aire, por delante y por encima de la iglesia. En primer plano, la parte alta de la fachada de piedra gris con su reloj, sus dos espadanas y una estatua blanca de Cristo con los brazos abiertos. Detras de la fachada, el tejado gris inclinado de la iglesia, y apoyada sobre el una UNICA cupula: un tambor blanco con franjas azules verticales y ventanas altas y estrechas, rematado por una boveda blanca con franjas azules y ventanas redondas, un pequeno remate azul y blanco, y en lo mas alto una estatua blanca. No existe ninguna otra cupula. Alrededor, los tejados de teja roja y los edificios del pueblo de Soata, y al fondo la silueta de las montanas.",
+  "comun": "Es noche cerrada: el cielo esta negro, sin rastro de sol, y las casas del pueblo tienen luces calidas encendidas en las ventanas. La iglesia se ve iluminada por la luz que sale de la cupula. Camara aerea casi fija, con un leve temblor cuando algo sacude la iglesia. Ciencia ficcion realista y cinematografica, con efectos fisicos creibles: nada de brillos de neon ni aspecto de dibujo animado. En la escena hay una sola cupula.",
   "actos": [
     {
       "n": 1,
-      "nombre": "las campanas",
-      "prompt": "Las ventanas altas y estrechas del tambor de la cupula brillan desde dentro con una luz blanca y fria. Las campanas de la iglesia empiezan a sonar solas, y con cada toque la cupula vibra ligeramente. Del anillo donde el tambor de la cupula se apoya sobre el tejado gris empiezan a salir chorros de vapor a presion, y una linea de luz blanca recorre toda la union entre la cupula y el tejado. La cupula sigue en su sitio, entera."
+      "nombre": "el despertar",
+      "prompt": "Las ventanas altas del tambor de la cupula se encienden desde dentro con una luz blanca y fria. Un temblor sacude la iglesia y el revoque blanco de la cupula empieza a agrietarse siguiendo las franjas azules; trozos de revoque y polvo se desprenden y caen rodando por el tejado gris. Por las grietas asoma, debajo, un casco de metal oscuro recorrido por finas lineas de luz. La cupula no se mueve de su sitio: solo se resquebraja su superficie y deja ver lo que hay dentro."
     },
     {
       "n": 2,
-      "nombre": "se desprende",
-      "prompt": "Continua la misma escena sin cortes. La cupula completa -el tambor con sus ventanas encendidas, la boveda, el remate y la estatua blanca, todo de una sola pieza- se separa limpiamente del tejado y se eleva recta y despacio, girando muy lentamente sobre si misma, sin romperse ni deformarse. Debajo, en el tejado gris, queda al descubierto un hueco circular oscuro de bordes limpios. Las campanas se detienen de golpe."
+      "nombre": "los motores",
+      "prompt": "Continua la misma escena sin cortes. Sobre el tejado ya no queda revoque: se ve la nave de metal oscuro, con forma de huevo y recorrida por venas de luz azul, rodeada de escombros. Se desprenden los ultimos trozos y caen sobre el tejado. En su base se encienden motores con un resplandor anaranjado que ilumina desde abajo el tejado y los escombros, levanta nubes de polvo y hace saltar tejas. Toda la iglesia vibra y la nave empieza a separarse lentamente del tejado."
     },
     {
       "n": 3,
-      "nombre": "se va",
-      "prompt": "Continua la misma escena sin cortes. La cupula sigue subiendo muy por encima del pueblo, cada vez mas pequena, hasta convertirse en un punto de luz blanca que desaparece en el cielo sobre las montanas. Abajo queda la iglesia sin cupula, con el hueco circular oscuro en el tejado, y el pueblo dormido con sus luces encendidas. El cielo sigue clareando."
+      "nombre": "despega",
+      "prompt": "Continua la misma escena sin cortes. La nave de metal oscuro con venas de luz azul se eleva despacio con los motores encendidos, y su luz anaranjada barre los tejados del pueblo a su paso. En el tejado de la iglesia queda un hueco irregular de bordes rotos, rodeado de escombros y del que sale humo. La nave sube hasta convertirse en una luz que cruza el cielo nocturno y desaparece tras las montanas."
     }
   ],
   "revision": [
-    "Que haya UNA sola cupula en todo momento: en el capitulo 6 el modelo invento una segunda.",
-    "Que la cupula suba ENTERA, de una pieza, sin deshacerse ni perder la estatua.",
-    "Que el hueco que queda sea limpio y circular, no un destrozo.",
-    "Acto 1: ampliar las franjas y las ventanas para ver si los 598 pixeles de la foto aguantan.",
-    "Medir el brillo: la escena debe verse, no fundirse a negro."
+    "Acto 1 es la prueba: si el agrietamiento se ve de efecto barato, se replantea antes de gastar los otros dos.",
+    "Que sea de noche de verdad: si vuelve de dia, no arreglarlo con --noche, que es lo que delato la version anterior.",
+    "Que los fragmentos caigan y reboten con peso, no que se desvanezcan.",
+    "Una sola cupula, y que la estatua y las franjas se reconozcan antes de agrietarse.",
+    "El hueco del acto 3 debe quedar roto y humeante, no como un ovalo negro perfecto."
   ],
   "origen_foto": "Mitad izquierda de assets/iglesia_soata6.jpg, que es un diptico. Solo 598x674: es la imagen mas pequena de la serie, asi que el detalle fino de la cupula es lo que mas puede sufrir. Se prueba con el acto 1 antes de seguir.",
   "camara": "Toda la serie va a pie de calle y este capitulo sube la camara al aire. Es a proposito: cuando sube la cupula sube la camara, y con el pueblo entero debajo el sitio se reconoce mas que en cualquier plano de plaza.",
-  "luz": "NOTA, no va en el prompt: se genera DE DIA y la noche se pone en el montaje con --noche. El acto 1 se pidio de madrugada y volvio de dia igualmente, y el capitulo 6 ensenno lo que pasa al forzar la oscuridad: el modelo deja de ver la iglesia y se la inventa. De dia conserva bien la arquitectura, y como los tres actos salen con la misma luz, el grado nocturno queda uniforme y sin saltos en las uniones. Ademas le sienta mejor al efecto: a oscuras lo unico que se ve es lo que brilla, las ventanas y el anillo de luz.",
-  "montaje": "python serie_placas.py <clip> --numero 7 --titulo \"La cúpula\" --vertical --noche"
+  "montaje": "python serie_placas.py <clip> --numero 7 --titulo \"La cúpula\" --vertical  (sin --noche)",
+  "luz": "NOTA, no va en el prompt: noche real, sin noche americana. Sobre cumulos soleados el grado nocturno delataba el truco. El motivo para oscurecer lo dan la luz de las grietas, las ventanas y los motores, que es lo que funciono en el capitulo 5. En la version anterior se pidio 'poco antes del amanecer' y el modelo lo leyo como dia: aqui se pide noche cerrada.",
+  "aprobado": "El usuario aprobo la prueba del acto 1: el caparazon estalla en escombros y deja ver una nave de metal oscuro en forma de huevo con venas de luz azul. Los actos 2 y 3 continuan desde esa forma, no desde la cupula original."
 }

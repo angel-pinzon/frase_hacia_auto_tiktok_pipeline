@@ -38,6 +38,14 @@ def sonda(video, campo):
     return salida.stdout.strip().split(",")[0]
 
 
+def sonda_formato(video, campo):
+    salida = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", f"format={campo}",
+         "-of", "csv=p=0", str(video)],
+        capture_output=True, text=True, check=True)
+    return salida.stdout.strip()
+
+
 def escapa(texto):
     """drawtext trata como sintaxis los dos puntos, comillas y barras."""
     return texto.replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'")
@@ -49,6 +57,19 @@ def barras(video):
     Veo rellena a 16:9 las fotos que no lo son: una foto 4:3 vuelve con
     160 px de barra a cada lado. Si esas barras entran en el montaje
     vertical aparecen como cunas negras sobre el fondo desenfocado.
+
+    La geometria se saca del arranque, donde cropdetect acierta, pero antes
+    de recortar se comprueba en varios momentos del clip que esas franjas
+    siguen siendo negras de verdad. Hacen falta las dos cosas:
+
+    - Mirando solo el arranque, en el capitulo 7 salian barras que duraban
+      medio segundo -lo que tarda Veo en pasar de la foto a la escena
+      ampliada- y el recorte dejaba la nave fuera en cuanto la camara se
+      movia.
+    - Fiandose de cropdetect a mitad de clip, en una noche cerrada como la del
+      capitulo 4 confundia la oscuridad con barras y recortaba tambien por
+      arriba y por abajo. Una barra real no tiene un solo pixel con luz; una
+      noche, aunque sea oscura, siempre tiene alguno.
     """
     salida = subprocess.run(
         ["ffmpeg", "-v", "info", "-i", str(video), "-vf", "cropdetect=24:2:0",
@@ -57,10 +78,37 @@ def barras(video):
     encontrados = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", salida.stderr)
     if not encontrados:
         return None
-    w, h, x, y = max(set(encontrados), key=encontrados.count)
-    if (x, y) == ("0", "0"):
+    w, h, x, y = (int(v) for v in max(set(encontrados), key=encontrados.count))
+    if x == 0 and y == 0:
         return None                # ocupa todo el cuadro, no hay que recortar
-    return f"crop={w}:{h}:{x}:{y}", int(w), int(h)
+
+    ancho, alto = int(sonda(video, "width")), int(sonda(video, "height"))
+    franjas = []
+    if x > 4:
+        franjas.append(f"crop={x - 2}:{alto}:0:0")
+    if ancho - (x + w) > 4:
+        franjas.append(f"crop={ancho - x - w - 2}:{alto}:{x + w + 2}:0")
+    if y > 4:
+        franjas.append(f"crop={ancho}:{y - 2}:0:0")
+    if alto - (y + h) > 4:
+        franjas.append(f"crop={ancho}:{alto - y - h - 2}:0:{y + h + 2}")
+
+    duracion = float(sonda_formato(video, "duration"))
+    for fraccion in (0.25, 0.5, 0.8):
+        for franja in franjas:
+            medida = subprocess.run(
+                ["ffprobe", "-v", "error", "-f", "lavfi",
+                 f"movie='{video}',trim=start={duracion * fraccion:.2f}:duration=0.5,"
+                 f"{franja},signalstats",
+                 "-show_entries", "frame_tags=lavfi.signalstats.YMAX", "-of", "csv=p=0"],
+                capture_output=True, text=True)
+            valores = [float(v) for v in medida.stdout.split() if v.strip()]
+            # Medido: las barras del capitulo 4 no son negras puras, Veo va
+            # dejando entrar resplandor y llegan a brillo maximo 84; las
+            # franjas del capitulo 7 tienen pueblo y polvo, de 110 a 212.
+            if valores and max(valores) > 100:
+                return None        # la franja tiene contenido: no era una barra
+    return f"crop={w}:{h}:{x}:{y}", w, h
 
 
 def instante_mas_claro(video, salto=4.0):
@@ -159,6 +207,8 @@ def main():
     p.add_argument("--titulo", required=True)
     p.add_argument("--salida", default=None)
     p.add_argument("--vertical", action="store_true", help="Ademas, version 9:16")
+    p.add_argument("--sin-barras", action="store_true",
+                   help="No recortar barras automaticamente, aunque el detector crea verlas")
     p.add_argument("--recorte", default=None, metavar="W:H:X:Y",
                    help="Recorte extra, para dejar fuera lo que Veo se invento "
                         "y no esta en la foto original")
@@ -190,7 +240,7 @@ def main():
     tmp = Path(tempfile.mkdtemp(prefix="placas_"))
 
     filtros = []
-    recorte = barras(entrada)
+    recorte = None if args.sin_barras else barras(entrada)
     if recorte:
         filtro, ancho, alto = recorte
         print(f"barras negras -> {filtro}")
