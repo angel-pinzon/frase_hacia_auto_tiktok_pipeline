@@ -4,35 +4,87 @@ Pipeline de código abierto para generar contenido vertical (TikTok y Reels) con
 
 El flujo está pensado para trabajo **interactivo**: se generan varias opciones de frase, se elige, se ajusta cada video por separado y se sube a mano. La automatización total es posible pero no es el modo recomendado.
 
+## Retomar el trabajo
+
+Punto de entrada para continuar en otra sesión sin depender del historial de conversación. El resto del README es referencia.
+
+### Qué hay en marcha
+
+| Línea | Estado | Dónde mirar |
+|---|---|---|
+| Videos de artistas: frases, monólogos, diálogos | estable, se produce a demanda | este README |
+| Saludos personalizados | a demanda; los últimos, para Wilmer Cortez y Ticor | `output/DiomedesDiaz/saludos/` |
+| Serie *Algo pasa en Soatá* | capítulos 1-4 publicados, 5-7 montados, **falta el 8** | [serie/README.md](serie/README.md), tabla *Dónde va la temporada* |
+
+Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué del cambio, no solo el qué.
+
+### Dónde vive el estado
+
+- **Texto y decisiones, versionados**: `guiones/`, `prompts/escenas/` —una ficha JSON por capítulo con sus notas, lecciones y comando de montaje— y `serie/README.md`.
+- **Medios, solo en disco**: `output/` (voces, videos, clips de Veo) y `assets/` (audios de referencia, avatares y fotos de locaciones). Los videos se pueden regenerar; **las fotos de `assets/` no**, así que conviene tener copia fuera del repo.
+- **Personaje activo**: `active_character` en `config.json`, que queda en `YeisonJimenez`. Un encargo de otro personaje lo cambia y **lo restaura al terminar**, para que el repo quede limpio.
+- **Remoto**: `github.com/angel-pinzon/frase_hacia_auto_tiktok_pipeline`. Se sube solo cuando se pide.
+
+### Qué se pide y qué significa
+
+| Petición | Cadena |
+|---|---|
+| una frase de un artista | Fase 1 → 2 → 3 → 3c |
+| **"completo"** | Fase 1 → 2 → 3 → 3c → 3b, la de mayor calidad, con escena de Veo |
+| un saludo de cumpleaños | texto a mano → 2 → 3 → 3c, sin escena. Ver [Saludos personalizados](#saludos-personalizados) |
+| un capítulo de la serie | `serie_generar.py` → revisión → `serie_placas.py`. Ver [Módulo de serie](#módulo-de-serie-serie_generarpy-serie_placaspy) |
+
+### Forma de trabajo
+
+- **El texto se valida antes de generar.** Se propone, se espera el visto bueno y solo entonces se gasta GPU o cuota.
+- **Un resultado no está bueno hasta que lo ve una persona.** La revisión automática —medir brillo, ampliar fotogramas, transcribir— atrapa defectos técnicos, pero ha dejado pasar edificios inventados, efectos de aspecto barato y pausas que faltaban, y fue la revisión humana la que los detectó. Al entregar, describir qué se midió y qué preocupa, sin calificarlo.
+- **Antes de gastar varias generaciones de Veo, se prueba un acto** y se enseña.
+- **Se mide en vez de suponer**: la energía del final para los cortes, `silencedetect` para las pausas, `signalstats` para la luz.
+
+### Trampas operativas
+
+- **Procesos largos en segundo plano**: lanzarlos con `setsid nohup ... &` y pararlos con `kill -TERM -<PGID>`. SadTalker y MuseTalk corren como subprocesos en sus propios entornos, y un `kill` al proceso principal los deja vivos ocupando la GPU.
+- **`pkill -f` y `pgrep -f` pueden matar su propia shell**: si el patrón aparece en la línea de comandos que los lanza, se encuentran a sí mismos y la shell muere con código 144. Usar el PID, o el truco `grep "[s]adtalker"`.
+- **Nada reutilizable en el directorio temporal de la sesión**: se borra al cerrarla. `serie_generar.py` y `revisar_voz.py` se reconstruyeron varias veces antes de pasar al repo.
+- **Cuota de Veo**: 10 generaciones al día, que se renuevan a las 3 de la madrugada en Colombia. Una petición cancelada a medias probablemente ya contó. Hay que llevar la cuenta durante la sesión.
+- **Antes de sobrescribir `output/<Personaje>/`**, comprobar que lo que hay está archivado en `opciones/` o `saludos/`. Si no lo está, apartarlo a `_previo_<nombre>/`.
+
+### Pendiente
+
+- **Capítulo 8 de la serie.** La nave del capítulo 7 —un huevo de metal oscuro con venas de luz azul— tiene que bajar, rearmarse como una cúpula idéntica a la real y quedar en su sitio al amanecer, con el pueblo indiferente. Su ficha, `prompts/escenas/cap8_el-amanecer.json`, **está desactualizada**: describe la cúpula que sube entera, no la nave, y tiene la foto y la arquitectura en `PENDIENTE`. El 8 debería partir de `assets/cupula_soata.jpg`, como el 7.
+- Vicente Fernández sigue sin coletilla.
+- Los diálogos multipersonaje de `output/dialogos/` se montaron con scripts que no llegaron al repo. Si se hace otro, conviene convertirlo en herramienta.
+
 ## Estructura del Proyecto
 
 ```
 auto_tiktok_pipeline/
-├── assets/
-│   ├── DiomedesDiaz/
+├── assets/                      # Imagenes y audios: ignorados por git, sin copia
+│   ├── DiomedesDiaz/            # Igual para YeisonJimenez, VicenteFernandez, RafaelPoveda
 │   │   ├── ref_audio.wav        # Voz de referencia para clonar (5-15 s)
-│   │   ├── ref_text.txt         # Transcripción del audio de referencia
-│   │   └── avatar.jpg           # Foto frontal, boca cerrada
-│   ├── YeisonJimenez/
-│   └── VicenteFernandez/
-├── lyrics/
-│   ├── DiomedesDiaz/            # Una letra por archivo: titulo-en-slug.txt
-│   ├── YeisonJimenez/
-│   └── VicenteFernandez/
-├── output/                      # Resultados (ignorado por git)
-│   └── <Personaje>/             # Una carpeta por personaje, no se pisan
-│       ├── script.txt           # Texto que se sintetiza
-│       ├── script_meta.json     # Canción, fuente, versos y ajustes del video
-│       ├── voice.wav
-│       ├── video.mp4
-│       ├── opciones/            # Frases de canciones conservadas
-│       └── saludos/             # Saludos personalizados conservados
-├── guiones/                     # Diálogos generados (texto propio, versionado)
-├── prompts/                     # Prompt de avatares y fichas de escenas
-├── serie/                       # "Algo pasa en Soatá": historia y arco
-├── output/escenas/              # Clips de Veo cacheados (pesados, no versionados)
-├── output/dialogos/             # Montajes multi-personaje
-├── output/serie/                # Capítulos terminados con sus placas
+│   │   ├── ref_text.txt         # Transcripción del audio de referencia (versionada)
+│   │   └── avatar*.png|jpg      # El que se usa lo fija image_path en config.json
+│   ├── iglesia_soata*.jpg       # Locaciones de la serie: la plaza y la iglesia
+│   ├── ParqueJuanJoseRondon.jpg # Parque del camino (capítulo 3)
+│   ├── parque_soata1.jpg        # Parque de las piedras talladas (capítulo 4)
+│   └── cupula_soata.jpg         # Cúpula desde el aire (capítulo 7)
+├── lyrics/<Personaje>/          # Una letra por archivo: titulo-en-slug.txt
+├── guiones/                     # Diálogos y monólogos escritos (versionado)
+├── prompts/
+│   ├── avatar.txt               # Prompt para generar avatares
+│   └── escenas/                 # Fichas de escenas de Veo y de capítulos de la serie
+├── serie/README.md              # "Algo pasa en Soatá": historia, arco, estado y lecciones
+├── output/                      # Resultados, ignorado por git
+│   ├── <Personaje>/             # Una carpeta por personaje, no se pisan
+│   │   ├── script.txt           # Lo que se pronuncia
+│   │   ├── script_meta.json     # Lo que se ve (verses), canción, fuente y overrides
+│   │   ├── voice.wav, video.mp4, video_lipsync.mp4, video_escena.mp4
+│   │   ├── opciones/            # Frases y monólogos terminados
+│   │   ├── saludos/             # Saludos terminados: <destinatario>.mp4/.wav/.json
+│   │   └── _previo_<nombre>/    # Lo apartado antes de sobrescribir
+│   ├── escenas/                 # Clips de Veo, crudos y cacheados
+│   ├── dialogos/                # Montajes multipersonaje
+│   └── serie/                   # Capítulos terminados; pruebas/ guarda las versiones descartadas
 ├── config.json                  # Configuración global y personajes
 ├── main.py                      # Orquestador de las cuatro fases
 ├── pipeline_utils.py            # Config, rutas y mezcla de ajustes
@@ -41,8 +93,10 @@ auto_tiktok_pipeline/
 ├── 3_generate_video.py          # Fase 3: video vertical con texto
 ├── 3b_add_scenes.py             # Fase 3b: escenas con Veo (opcional)
 ├── 3c_lipsync.py                # Fase 3c: boca rehecha con MuseTalk (opcional)
-├── serie_placas.py              # Placas de serie y versión 9:16
-└── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
+├── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
+├── revisar_voz.py               # Transcribe una voz y mide dónde respira
+├── serie_generar.py             # Serie: genera los actos de un capítulo desde su ficha
+└── serie_placas.py              # Serie: correcciones, placas, portada y versión 9:16
 ```
 
 ### Serie: *Algo pasa en Soatá*
@@ -160,6 +214,19 @@ Cuando una frase no suena como se quiere, se prueban variantes de puntuación y 
 
 Para comparar variantes: generarlas, transcribirlas con Whisper y medir las pausas con `silencedetect`. Después **regenerar la elegida por el pipeline**, para que pase por los controles.
 
+`revisar_voz.py` hace esa comprobación de una vez: transcribe el audio completo, lo corta por la mitad de cada silencio y transcribe cada trozo, de modo que se ve qué frase queda entre cada pausa y cuánto dura:
+
+```bash
+~/omni_voice_project/venv/bin/python revisar_voz.py output/DiomedesDiaz/voice.wav --desde 7
+```
+
+```
+  [ 7.76- 9.61] Tus amistades, llegamos aquí...   <- pausa 0.68s
+  [ 9.61-10.96] para compartir                    <- pausa 0.50s
+```
+
+No sirven las marcas de tiempo por palabra de Whisper: estiran el final de cada palabra sobre el silencio y dan 0,00 s donde en realidad hay medio segundo.
+
 Entre fases se puede editar `output/<Personaje>/script_meta.json`:
 
 - **`verses`**: lo que se **ve** en pantalla. Los **saltos de línea** marcan cómo se reparte; la **puntuación** marca las pausas al hablar. Un punto pausa más que una coma. Se pueden combinar: acabar un verso en punto *y* dejar el salto de línea.
@@ -188,11 +255,37 @@ Ten en cuenta dos consecuencias de los textos largos: el render crece en proporc
 
 ### Saludos personalizados
 
-El mismo pipeline sirve para encargos: se salta la Fase 1 y se escribe el texto a mano en `script.txt` y `verses`, dejando `song` vacío para que no salga el rótulo de canción. Si el texto ya termina con la coletilla del personaje, conviene anularla para que no se repita:
+Felicitaciones con la voz de un personaje. Se salta la Fase 1: el texto se escribe a mano y **se enseña antes de generar nada**. Ejemplos terminados, con su `.json` de referencia: `output/DiomedesDiaz/saludos/wilmer-cortez.*` y `ticor.*`.
+
+**1. Preparar.** Cambiar `active_character`, apartar a `_previo_<nombre>/` lo que haya en `output/<Personaje>/` si no está archivado, y escribir los dos archivos:
+
+- `script.txt` — lo que se **oye**, en una sola línea.
+- `script_meta.json` — `verses` con lo que se **ve** (un salto de línea por verso), `song` vacío para que no salga rótulo de canción, y más intentos de voz:
 
 ```json
-"overrides": { "characters": { "DiomedesDiaz": { "text_suffix": "" } } }
+{
+  "song": "", "source": "saludo personalizado", "verbatim": false,
+  "verses": "Hola, compadre Ticor,\nun saludo de cumpleaños\nde parte de tu amigo Diomedes.",
+  "overrides": { "omnivoice": { "max_attempts": 8 } }
+}
 ```
+
+**2. La coletilla se deja.** Suena al final ("con mucho gusto" en Diomedes) y no sale escrita. Solo se anula si el texto ya acaba con ella, con `"characters": {"DiomedesDiaz": {"text_suffix": ""}}` dentro de `overrides`.
+
+**3. Las pausas se escriben distinto en audio y en pantalla.** OmniVoice apenas se detiene con una coma: 0,08 s medidos. Donde haga falta que respire, `script.txt` lleva **puntos suspensivos** y `verses` conserva la puntuación normal. En el saludo de Wilmer Cortez, con comas la última parte salió de corrido; con suspensivos quedaron pausas de 0,24 a 0,68 s.
+
+**4. Voz, y comprobarla antes del video**, que es donde se van 15 minutos:
+
+```bash
+.venv/bin/python 2_generate_voice.py
+~/omni_voice_project/venv/bin/python revisar_voz.py output/DiomedesDiaz/voice.wav
+```
+
+Si la Fase 2 termina con *"se agotaron los intentos, el audio conserva algún defecto"*, **no seguir**: se repite la voz. Los nombres poco comunes (Ticor, Cortez) se confirman en la transcripción.
+
+**5. Video.** `3_generate_video.py` y después `3c_lipsync.py`. Sin escena de Veo, salvo que se pida "completo".
+
+**6. Archivar y restaurar.** Copiar `video_lipsync.mp4`, `voice.wav` y `script_meta.json` a `saludos/<destinatario>.mp4|.wav|.json`, añadiendo al `.json` un campo `audio` con el texto pronunciado y una `nota` con lo que hizo falta. Después, devolver `active_character` a su valor.
 
 ### Ajustes por video
 
@@ -368,44 +461,71 @@ m1.to_speech(antes) == m1.to_speech(despues)
 
 Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El flujo recomendado es subir a mano: los selectores de TikTok cambian sin aviso y no compensa depurar un scraper mientras el formato aún se está afinando.
 
-## Módulo de serie (`serie_placas.py`)
+## Módulo de serie (`serie_generar.py`, `serie_placas.py`)
 
-Segunda línea de contenido, **independiente de las cuatro fases**: una serie corta de terror y ciencia ficción ambientada en lugares reales de Soatá, generada a partir de fotografías del pueblo. No hay voz clonada, ni avatar, ni texto extraído de letras — no interviene ni OmniVoice ni SadTalker ni MuseTalk.
+Segunda línea de contenido, **independiente de las cuatro fases**: una serie corta de terror y ciencia ficción ambientada en lugares reales de Soatá, generada a partir de fotografías del pueblo. No hay voz clonada, ni avatar, ni texto extraído de letras.
 
-Comparte con el resto del proyecto la clave de Gemini, el modelo de Veo, la carpeta `prompts/escenas/` y —lo que más limita— la **misma cuota diaria de video**. Un capítulo de la serie son tres clips menos para los videos de artistas ese día.
+Comparte con el resto del proyecto la clave de Gemini, el modelo de Veo, la carpeta `prompts/escenas/` y —lo que más limita— la **misma cuota diaria de video**.
 
-La historia, el arco de ocho capítulos y la forma de publicarla están en **[serie/README.md](serie/README.md)**. Aquí queda solo la mecánica.
+La historia, el arco, el estado de la temporada, las fechas de publicación y todas las lecciones están en **[serie/README.md](serie/README.md)**. Aquí queda la mecánica.
+
+### La ficha de un capítulo
+
+Cada capítulo es un JSON en `prompts/escenas/capN_titulo.json`. **Solo cuatro campos llegan al modelo**: `arquitectura`, `luz_prompt` (opcional), `comun` y el `prompt` de cada acto. El resto —`nota`, `riesgo`, `revision`, `leccion`, `montaje`...— es documentación para quien la lea y no se envía nunca. `arquitectura` se copia en los tres actos, porque es lo que frena al modelo cuando tiende a inventarse edificios al encadenar.
 
 ### El ciclo de producción
 
-Un capítulo son dos o tres clips de 8 segundos generados con Veo en **imagen a video**, encadenados y montados. A diferencia de la fase 3b, aquí la imagen de entrada sí se acepta: son fotos de arquitectura, sin personas reconocibles, así que no las bloquea el filtro de parecidos.
-
-**La continuidad se consigue con el último fotograma.** Se extrae el último frame de un clip y se usa como entrada del siguiente, de modo que la escena continúa en vez de cortar:
+**1. Revisar lo que se va a enviar, sin gastar cuota:**
 
 ```bash
-ffmpeg -sseof -0.1 -i clip1.mp4 -vframes 1 -q:v 2 frame.jpg
+.venv/bin/python serie_generar.py prompts/escenas/cap6_los-que-vuelven.json --ver-prompts
 ```
 
-Las placas se añaden al final, y esto **no gasta cuota ni saldo**: es solo FFmpeg.
+**2. Generar acto por acto**, revisando cada uno antes de gastar el siguiente:
 
 ```bash
-.venv/bin/python serie_placas.py output/escenas/cap2.mp4 \
-    --numero 2 --titulo "El rastro" --vertical
+.venv/bin/python serie_generar.py prompts/escenas/cap6_los-que-vuelven.json --solo-acto 1
 ```
 
-Genera una entrada de 2.5 s con el nombre de la serie, el número y el título, y un cierre con CONTINUARÁ. El tamaño de letra se deriva del ancho del video, así que sirve igual para 720p que para 1080p. Con `--vertical` produce además la versión 9:16, que **encaja el apaisado sobre su propia imagen desenfocada** en lugar de recortar, para no perder los lados del plano.
+Cada acto parte del último fotograma del anterior, así la escena continúa sin corte. Al terminar, se unen en `output/escenas/<ficha>_24s.mp4`. Con `--solo-acto`, el clip que hubiera se aparta como `_previo`. Sin esa opción genera los tres seguidos.
 
-Los clips crudos van a `output/escenas/` y los capítulos terminados a `output/serie/`; ninguno se versiona, por peso. Los prompts sí, en `prompts/escenas/`: con ellos cualquier clip se puede regenerar.
+Tiene dos frenos. **Se niega a lanzar una ficha con campos `PENDIENTE`**. Y **se para si el fotograma desde el que va a encadenar tiene un brillo menor de 28**, salvo que se use `--forzar`: a oscuras el modelo deja de ver la arquitectura y se la inventa. En el capítulo 6, un acto que acabó en negro hizo que el siguiente saliera con otra iglesia.
+
+**3. Revisar contra la foto original el encuadre entero**, no solo el elemento protagonista. Hay que ampliar las figuras y los bordes y medir el brillo. Un capítulo pasó la revisión con la cúpula perfecta y había perdido todo el parque de la izquierda.
+
+**4. Montar**, sin gastar cuota. El comando exacto de cada capítulo queda guardado en el campo `montaje` de su ficha:
+
+```bash
+.venv/bin/python serie_placas.py output/escenas/cap6_los-que-vuelven_24s.mp4 \
+    --numero 6 --titulo "Los que vuelven" --vertical --desde 1.8 --recorte 1136:720:0:0
+```
+
+| Opción | Para qué |
+|---|---|
+| `--vertical` | Añade la versión 9:16, con el plano encajado sobre su propia imagen desenfocada |
+| `--desde S` | Descarta el arranque: Veo entra disolviendo desde la foto de partida, que suele ser de día |
+| `--hasta S` | Corta antes de un defecto del final |
+| `--recorte W:H:X:Y` | Deja fuera lo que Veo se inventó en un borde |
+| `--sin-barras` | Desactiva el recorte automático de barras negras |
+| `--noche` / `--sombras` | Oscurece un clip de día / levanta una noche tan cerrada que el sitio no se reconoce |
+| `--portada S` / `--portada-negra` | Elige el fotograma de fondo de la placa de entrada, o la deja en negro |
+
+Además hace dos cosas solo. **Recorta las barras negras** únicamente si siguen ahí en tres momentos distintos del clip, porque Veo a veces las tiene solo medio segundo al principio. Y **elige de portada el fotograma más iluminado a partir del segundo 4**, porque las redes usan el primer fotograma de miniatura y una placa negra deja el Reel invisible en el feed.
+
+Los clips crudos van a `output/escenas/`, los capítulos terminados a `output/serie/` y las versiones descartadas o de prueba a `output/serie/pruebas/`.
 
 ### Lo que se aprendió generando
 
-**Una acción, no un ambiente.** Las postales bonitas —niebla, procesiones, amaneceres— no retienen. Hace falta que ocurra algo con principio y final.
+Resumen. Los casos y las medidas están en `serie/README.md`.
 
-**Lo importante va en el primer acto**, porque cada clip encadenado parte del anterior y la deriva se acumula: al tercero la arquitectura ya empieza a deformarse.
-
-**Cantidades exactas y destinos por su aspecto.** "Varias figuras" da cualquier cosa; "EXACTAMENTE DOS figuras" funciona. Y el destino hay que describirlo por cómo se ve —"la iglesia de piedra de la derecha, la del portón bajo el arco"— nunca por su posición en el encuadre. El recorrido conviene narrarlo paso a paso: si se da por supuesto, el modelo se lo salta.
-
-Con 10 generaciones al día, un intento fallido cuesta una décima parte de la jornada. Compensa afinar el prompt sobre papel antes de gastarlo.
+- **Una acción, no un ambiente.** Las postales —niebla, amaneceres— no retienen.
+- **Cantidades exactas y destinos por su aspecto.** "EXACTAMENTE DOS figuras", "la iglesia de piedra con el portón bajo el arco", nunca "el edificio de la izquierda".
+- **Nadie toca a nadie.** El contacto entre figuras es lo que peor genera el modelo: cuerpos fusionados, torsos truncados.
+- **Noche real con una fuente de luz propia**, no noche americana. El modelo necesita un motivo para oscurecer, como una luz en el cielo o que la luz salga de una puerta. La noche americana sobre nubes soleadas delata el truco.
+- **Lo pequeño no puede cargar la acción.** Si el efecto ocurre en algo que ocupa el 2 % del cuadro, el modelo agranda o duplica ese elemento hasta que se vea.
+- **El foco de la acción recompone el plano.** Si todos caminan hacia una puerta, el modelo la centra y sacrifica lo que haya a los lados. Hay que fijar el encuadre en el prompt.
+- **Lo que se mueve entero parece un recorte.** Una cúpula subiendo de una pieza pareció "de Chespirito". Funciona que se transforme a la vista, con fragmentos y polvo.
+- **Al ampliar a 16:9, Veo inventa por los bordes.** Se revisan y se recortan en el montaje, sin pedirlo en el prompt: ahí podría desaparecer de golpe a mitad del clip.
 
 ## Configuración (`config.json`)
 
@@ -473,6 +593,8 @@ Cada voz y cada foto tienen sus manías. Lo que costó descubrir, para no repeti
 |---|---|---|
 | Soatá | "Suatá" | `So-atá` — el guion separa las vocales |
 | ¿Qué? ¿Pola...? | una sola pregunta | `¿Qué?... ¿Pola` — los suspensivos separan |
+| llegamos aquí, pa' compartir, esa... | de corrido, sin pausas | suspensivos en `script.txt`, comas en `verses` |
+| pa' | con el apóstrofo, leído raro | `pa` sin apóstrofo en `script.txt` |
 | Wiliam | "William", a la inglesa | escribirlo fonéticamente |
 
 ## Añadir un personaje
