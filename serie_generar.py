@@ -47,7 +47,12 @@ def prompt_completo(ficha, acto):
     """
     # un acto puede traer su propia arquitectura o texto comun, cuando cambia
     # de encuadre a mitad de capitulo -del plano aereo a la plaza, por ejemplo-
-    partes = [acto["prompt"], acto.get("arquitectura", ficha["arquitectura"])]
+    partes = [acto["prompt"]]
+    # la descripcion del protagonista se copia en todos los actos, igual que la
+    # arquitectura: es lo que mantiene al mismo personaje entre capitulos
+    if ficha.get("personaje"):
+        partes.append(ficha["personaje"])
+    partes.append(acto.get("arquitectura", ficha["arquitectura"]))
     luz = acto.get("luz_prompt", ficha.get("luz_prompt"))
     if luz:
         partes.append(luz)

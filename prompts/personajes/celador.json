@@ -1,0 +1,29 @@
+{
+  "personaje": "el celador",
+  "para": "Serie corta con protagonista. Sirve igual con Grok Imagine (Reference-to-Video) o con Veo.",
+  "por_que_este_personaje": "Un celador de ronda nocturna resuelve tres cosas de golpe: tiene motivo para estar solo de noche, que es cuando pasa todo; lleva linterna, y esa es la fuente de luz propia que el modelo necesita para oscurecer la escena de verdad -es lo que funciono con la luz del porton en el capitulo 6 y con los motores en el 7-; y su haz de luz se convierte en la firma visual de la serie, porque lo unico que vemos es lo que el alumbra.",
+  "descripcion": "Hombre colombiano de unos 55 anos, delgado y de estatura media, piel morena clara, bigote entrecano y pelo corto con canas en las sienes. Lleva gorra oscura sin logotipo, chaqueta azul marino de celador con dos bandas reflectantes en las mangas, pantalon oscuro y botas. En la mano derecha, una linterna grande de mango negro. Expresion seria y cansada, de quien lleva muchas noches haciendo lo mismo.",
+  "como_se_filma": [
+    "Siempre de noche y a media distancia: plano general o plano medio, nunca primer plano de la cara.",
+    "De espaldas, de tres cuartos o iluminado desde abajo por su propia linterna.",
+    "Nunca toca a otra persona ni a un objeto con las manos en primer plano: el contacto es lo que peor genera el modelo.",
+    "El haz de la linterna marca lo que se ve; el resto queda a oscuras."
+  ],
+  "hoja_de_personaje": {
+    "nota": "Generar estas imagenes una sola vez, del mismo personaje, y reutilizarlas como referencia en todos los capitulos. Fondo liso y luz pareja, que son retratos de referencia, no fotogramas de la serie. El estado de la linterna lo dice cada imagen: apagada en los retratos, encendida solo en el ultimo.",
+    "imagenes": [
+      "Retrato de frente, de cintura para arriba, sobre fondo gris liso, luz suave y pareja. {descripcion} La linterna apagada. Mira a camara, sin sonreir. Fotografia realista.",
+      "El mismo hombre, retrato de tres cuartos, girado unos 45 grados, sobre fondo gris liso. {descripcion} Fotografia realista.",
+      "El mismo hombre, de perfil, sobre fondo gris liso. {descripcion} Fotografia realista.",
+      "El mismo hombre de cuerpo entero, de pie, de frente, sobre fondo gris liso, con la linterna apagada. {descripcion} Fotografia realista.",
+      "El mismo hombre de cuerpo entero, de espaldas, sobre fondo gris liso, para que se vea la chaqueta con las bandas reflectantes y la gorra. {descripcion} Fotografia realista.",
+      "El mismo hombre de noche, plano medio, con la linterna encendida, de haz amarillento, apuntando hacia abajo y a un lado, la cara iluminada desde abajo por el rebote de la luz, fondo negro. {descripcion} Fotografia realista."
+    ]
+  },
+  "en_cada_capitulo": "Adjuntar las mismas imagenes de la hoja como referencia y empezar el prompt nombrandolo: 'El celador de las imagenes de referencia, la misma cara, el mismo bigote entrecano, la misma gorra y la misma chaqueta azul marino con bandas reflectantes...'. Dentro de un capitulo, los actos siguen encadenandose por el ultimo fotograma del anterior.",
+  "revision": [
+    "Que sea el mismo hombre entre capitulos: cara, bigote, gorra y chaqueta.",
+    "Ampliar sus manos y su cuerpo en el ultimo tercio de cada acto.",
+    "Que la linterna siga encendida y su haz siga siendo coherente con lo que se ve iluminado."
+  ]
+}
