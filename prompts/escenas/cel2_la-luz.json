@@ -1,0 +1,57 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 2,
+  "titulo": "La luz",
+  "momento": "3 de la madrugada dentro de la Catedral; despues, la manana siguiente",
+  "locacion": "Catedral Primada de Bogota (portón e interior) y Plaza de Bolivar de dia",
+  "foto": "serie_celador/output/cel1_fin_para_cel2.jpg",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "Historia del usuario: el celador se acerca a la puerta de la iglesia y ve dentro una estatua humanizada de Bolivar que lo ilumina todo, como buscando algo. Al tratar de seguir indagando pierde el conocimiento y despierta bajo el sol, al dia siguiente, en medio de palomas.",
+  "entrada": "Los actos 1 y 2 continuan el capitulo 1: parten del ultimo fotograma de su acto 3, con el porton entreabierto. Se saca con: ffmpeg -sseof -0.1 -i serie_celador/output/cel1_3_la-puerta.mp4 -vframes 1 -q:v 1 serie_celador/output/cel1_fin_para_cel2.jpg. El acto 3 no encadena: salta a la manana y arranca de plazaBolivar3 tal cual, sin editar: de dia, con gente, palomas y la estatua en su sitio, que es justo lo que muestra el despertar.",
+  "mostrar_menos": "La estatua humanizada se ve mas que en el capitulo 1, pero siempre lejos, al fondo de la nave, de espaldas o de perfil y a contraluz: un cuerpo de bronce verdoso que se mueve. La cara nunca en primer plano. La luz sale de su mano levantada, no de los ojos: un haz que barre columnas y bancos como un reflector.",
+  "desmayo": "Perder el conocimiento no se actua con el cuerpo cayendo -una caida es anatomia y contacto con el suelo, lo que peor sale-. Se cuenta con la imagen: el haz lo encuentra, la luz llena el cuadro hasta quedar en blanco. El corte a la manana hace el resto.",
+  "interior": "No hay foto del interior de la Catedral, asi que el modelo lo inventa. Se describe como es -nave neoclasica blanca y crema, columnas, arcos, bancos de madera, altar dorado al fondo- y se ve poco, a oscuras y solo donde pasa el haz. Si se quiere fiel, hace falta una foto del interior con licencia.",
+  "riesgo": "El acto 2 termina en blanco a proposito: su ultimo fotograma no sirve para encadenar, y por eso el acto 3 lleva su propia entrada. El acto 3 anade al celador tumbado en una foto donde no esta: tumbado e incorporandose es anatomia dificil, asi que va a media distancia y el movimiento es lento.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "La Catedral Primada de Bogota, de piedra arenisca clara, con un gran porton central de madera entre columnas, entreabierto. Por dentro, una nave neoclasica alta, de paredes blancas y crema, con columnas y arcos, filas de bancos de madera y un altar dorado al fondo.",
+  "comun": "Son las tres de la madrugada. Fuera hay niebla y la fachada esta iluminada con luz calida; dentro la nave esta a oscuras y solo se ve lo que alumbra un haz de luz blanca y fria. Realista y cinematografico, como una pelicula de misterio, sin textos ni letreros. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "el porton",
+      "prompt": "Continua la misma escena. El celador camina despacio hasta el porton central entreabierto de la Catedral, de espaldas a la camara, y se asoma por la rendija. La camara se queda detras de el, por encima de su hombro, y mira hacia dentro: al fondo de la nave oscura, lejos, una figura alta de bronce verdoso con capa, como una estatua que camina, levanta una mano de la que sale un haz de luz blanca que barre despacio las columnas, los bancos y el altar, como buscando algo."
+    },
+    {
+      "n": 2,
+      "nombre": "la luz",
+      "prompt": "Continua la misma escena sin cortes, mirando por encima del hombro del celador hacia el interior. El celador se inclina hacia dentro y da un paso. Al fondo de la nave, la figura de bronce se detiene y gira el haz de luz hacia el porton. El haz cruza toda la nave y alcanza al celador de frente. La luz blanca crece hasta llenar todo el cuadro y la imagen queda completamente blanca."
+    },
+    {
+      "n": 3,
+      "nombre": "el despertar",
+      "entrada": "serie_celador/assets/plazaBolivar3_vertical.jpg",
+      "arquitectura": "Conserva exactamente el lugar y el encuadre de la fotografia: la Catedral Primada de Bogota de frente, de piedra arenisca, con dos torres de campanario, un reloj en la torre izquierda, un fronton triangular con una hornacina y el gran porton central de madera. Justo delante del porton, en el centro de la plaza, el monumento a Bolivar: un pedestal alto de piedra clara con placas de bronce, sobre una plataforma baja y ancha. A la derecha, un edificio color crema con ventanas verdes y una cupula oscura detras. Hay palomas por todo el suelo y sobre el pedestal, y la estatua de bronce de Bolivar de pie en lo alto. En primer plano, una plaza de losas de piedra con franjas de ladrillo. Al fondo a la izquierda, cerros oscuros con nubes bajas.",
+      "comun": "Es de dia, por la manana, con nubes bajas sobre los cerros. Luz natural, realista y cinematografica, sin textos ni letreros. Ninguna figura toca a otra. Nadie se detiene a mirar al celador.",
+      "prompt": "En primer plano, a media distancia, el celador esta tumbado boca arriba sobre las losas de la plaza, entre las palomas que picotean el suelo a su alrededor. Abre los ojos, se incorpora despacio hasta quedar sentado y mira desorientado hacia el monumento. Las palomas se apartan un poco caminando, sin volar. Al fondo, la gente de la plaza sigue a lo suyo sin fijarse en el. La estatua de Bolivar esta en lo alto de su pedestal, como siempre."
+    }
+  ],
+  "montaje": "PENDIENTE: definir cuando esten los actos. Entre el acto 2, que acaba en blanco, y el 3 va un corte seco, o un fundido desde blanco.",
+  "revision": [
+    "Acto 1: el porton y la fachada siguen siendo los del capitulo 1; una sola figura de bronce, lejos y de espaldas o de perfil.",
+    "Acto 2: que la luz llene de verdad el cuadro; si no llega al blanco, se funde a blanco en el montaje.",
+    "Acto 3: la Catedral y el encuadre de la foto; el mismo celador; que se incorpore sin deformarse -ampliar manos y piernas-.",
+    "Acto 3: la estatua de vuelta en el pedestal, y una sola estatua."
+  ],
+  "creditos": [
+    "plazaBolivar3.jpg: Haakon S. Krohn, CC BY-SA 3.0, via Wikimedia Commons. Va en la descripcion del video."
+  ]
+}

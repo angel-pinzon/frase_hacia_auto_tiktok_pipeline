@@ -1,0 +1,60 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 7,
+  "titulo": "El rescate",
+  "momento": "3 de la madrugada y el amanecer",
+  "locacion": "Cima de Monserrate y Plaza de Bolivar",
+  "foto": "PENDIENTE: serie_celador/assets/monserrate_cima.jpg -la misma del capitulo 6-",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "Tercera decision del celador, la que cierra su arco: apunta la linterna al cielo y la hace parpadear. Su luz es la senal que faltaba. La nave baja -se ve luz, nubes y sombra, nunca entera-, el ser sale del bronce como una luz y sube. Remate: al amanecer Bolivar esta en su pedestal, sin explicar como volvio, y en el pedestal el celador encuentra el mando del capitulo 1, que todavia parpadea.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: bronce verdoso, capa larga, se mueve con pasos pesados. Siempre lejos, de espaldas o a contraluz, nunca la cara en primer plano.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "La cima de Monserrate: el santuario blanco iluminado y la explanada de piedra, con las luces de Bogota abajo.",
+  "arquitectura_pendiente": "Escrita sin foto, de memoria: revisarla contra la foto cuando llegue, sobre todo el encuadre y lo que queda en los bordes.",
+  "comun": "Son las tres de la madrugada en la cima. Son las tres de la madrugada. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la senal",
+      "prompt": "La explanada de la cima. La balsa apagada flota delante de la figura de bronce. El celador, a media distancia y de tres cuartos, levanta la linterna hacia el cielo y la enciende y apaga varias veces. La balsa se enciende otra vez y la columna de luz azul sube, ahora mucho mas fuerte, y se une al haz de la linterna."
+    },
+    {
+      "n": 2,
+      "nombre": "la nave",
+      "prompt": "Continua la misma escena. Las nubes se abren en circulo sobre la cima y una luz blanca inmensa baja desde arriba, sin que se vea de donde sale, y cubre la explanada con una sombra enorme que se mueve. De la estatua de bronce sale una figura hecha de luz que se eleva despacio por la columna. La estatua de bronce se queda inmovil, quieta como siempre."
+    },
+    {
+      "n": 3,
+      "nombre": "el amanecer",
+      "entrada": "serie_celador/assets/editadas/plaza4_dia_sin_gente.jpg",
+      "arquitectura": "Conserva exactamente el lugar y el encuadre de la fotografia: el monumento a Bolivar visto desde abajo y de cerca, un pedestal alto de piedra clara con dos grandes placas de bronce en relieve, con la estatua de bronce de Bolivar de pie en lo alto, recortada contra el cielo. A la izquierda, la Capilla del Sagrario, de piedra, con dos espadanas con campanas y una puerta en arco. A la derecha, un palacio de piedra de dos plantas con balcones y dos banderas en lo alto. Detras, cerros oscuros. En primer plano, el borde de piedra de la plataforma del monumento.",
+      "comun": "Es de dia, amanece, luz natural y calida. Realista y cinematografico, sin textos ni letreros. Ninguna figura toca a otra.",
+      "prompt": "La plaza por la manana temprano, sin nadie cerca. El celador entra en el cuadro caminando despacio hacia el monumento, de espaldas y a media distancia. Bolivar esta en lo alto de su pedestal, inmovil, y hay palomas en el borde. Al pie del pedestal, sobre la piedra, parpadea una luz roja. El celador se detiene delante de ella y la mira."
+    }
+  ],
+  "montaje": "PENDIENTE. Con --cierre FIN.",
+  "revision": [
+    "La nave nunca entera: luz, nubes abiertas y sombra.",
+    "El ser de luz sale del bronce sin que la estatua se deforme.",
+    "Acto 3: la luz roja del mando debe verse; si es un punto perdido, se acerca la camara."
+  ],
+  "imagenes_previas": [
+    {
+      "destino": "serie_celador/assets/editadas/plaza4_dia_sin_gente.jpg",
+      "origen": "serie_celador/assets/plazaBolivar4_vertical.jpg",
+      "instruccion": "La misma fotografia, con el mismo encuadre, la misma arquitectura y la estatua en su sitio, pero sin ninguna persona: la plaza vacia a primera hora de la manana, con luz calida y las nubes abriendose."
+    }
+  ],
+  "creditos": [
+    "plazaBolivar4.jpg: Guaiqueri, CC0, via Wikimedia Commons. No exige cita."
+  ]
+}

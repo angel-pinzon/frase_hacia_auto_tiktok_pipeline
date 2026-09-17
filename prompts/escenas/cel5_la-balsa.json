@@ -1,0 +1,48 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 5,
+  "titulo": "La balsa",
+  "momento": "la noche siguiente, 3 de la madrugada",
+  "locacion": "Museo del Oro y las escaleras de Monserrate",
+  "foto": "PENDIENTE: serie_celador/assets/museo_del_oro.jpg -la misma del capitulo 4-",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "El celador deja la vitrina abierta y la sala a oscuras: segunda decision. La balsa sale flotando hacia la figura, que se la lleva hacia los cerros. El la sigue por el camino de Monserrate.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: bronce verdoso, capa larga, se mueve con pasos pesados. Siempre lejos, de espaldas o a contraluz, nunca la cara en primer plano.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "El Salon de la Ofrenda del Museo del Oro: sala circular oscura con piezas de oro en las paredes y la vitrina de la Balsa Muisca en el centro.",
+  "arquitectura_pendiente": "Escrita sin foto, de memoria: revisarla contra la foto cuando llegue, sobre todo el encuadre y lo que queda en los bordes.",
+  "comun": "Es de madrugada. La luz sale del oro, del pulso azul de la balsa y de la linterna del celador. Son las tres de la madrugada. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la vitrina abierta",
+      "prompt": "La sala circular a oscuras. El celador, a media distancia y de espaldas, abre la tapa de cristal de la vitrina del centro y se aparta dos pasos. La figura de bronce entra por el fondo. La balsa de oro se eleva sola de la vitrina, envuelta en luz azul, y flota despacio por el aire hasta quedar suspendida delante de la figura, sin que nadie la toque."
+    },
+    {
+      "n": 2,
+      "nombre": "hacia los cerros",
+      "entrada": "PENDIENTE: serie_celador/assets/monserrate_camino.jpg -el camino de piedra de Monserrate, con licencia-",
+      "arquitectura": "El sendero de piedra que sube a Monserrate entre arboles de montana, con escalones y barandas, y al fondo, arriba, el santuario blanco iluminado en la cima.",
+      "prompt": "De noche, en el sendero de piedra de Monserrate. Lejos, subiendo los escalones, la figura de bronce con capa avanza con una luz azul flotando delante de ella que ilumina los arboles. El celador sube detras, a media distancia y de espaldas, alumbrando los escalones con la linterna."
+    },
+    {
+      "n": 3,
+      "nombre": "la ciudad abajo",
+      "prompt": "Continua la misma escena. El celador se detiene en un recodo y se gira: abajo se extienden las luces de Bogota entre la niebla. Arriba, la luz azul de la figura se pierde entre los arboles camino de la cima iluminada."
+    }
+  ],
+  "montaje": "PENDIENTE: definir cuando esten los actos.",
+  "revision": [
+    "La balsa flota sin contacto; si sale rigida como un recorte, que la luz azul la envuelva mas.",
+    "El santuario de la cima y la ciudad abajo, una sola vez cada uno."
+  ]
+}

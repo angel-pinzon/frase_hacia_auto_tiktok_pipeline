@@ -23,3 +23,8 @@ assets/**/*.m4a
 *Zone.Identifier
 *.html
 *_files/
+
+# Serie del celador: fotos de terceros y la hoja de personaje generada
+serie_celador/assets/
+serie_celador/personaje/
+serie_celador/output/

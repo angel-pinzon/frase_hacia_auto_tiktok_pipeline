@@ -1,0 +1,46 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 6,
+  "titulo": "La llamada",
+  "momento": "3 de la madrugada, cima de Monserrate",
+  "locacion": "Santuario de Monserrate, explanada de la cima, con Bogota abajo",
+  "foto": "PENDIENTE: serie_celador/assets/monserrate_cima.jpg -el santuario y su explanada, de noche si puede ser, con licencia-",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "En la cima, la balsa se abre en luz y lanza una columna al cielo. Las nubes giran, pero no baja nada: la senal es debil. Cliffhanger.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: bronce verdoso, capa larga, se mueve con pasos pesados. Siempre lejos, de espaldas o a contraluz, nunca la cara en primer plano.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "La cima de Monserrate: el santuario blanco de una sola torre, iluminado de noche, y una explanada de piedra con baranda al borde del cerro. Abajo, a lo lejos, las luces de toda Bogota.",
+  "arquitectura_pendiente": "Escrita sin foto, de memoria: revisarla contra la foto cuando llegue, sobre todo el encuadre y lo que queda en los bordes.",
+  "comun": "Son las tres de la madrugada en la cima. El santuario esta iluminado con luz calida y abajo brilla la ciudad. Son las tres de la madrugada. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la cima",
+      "prompt": "La explanada frente al santuario iluminado. La figura de bronce llega al centro, lejos y de espaldas, y la balsa de luz azul flota delante de ella. El celador llega por el camino, en primer plano y de espaldas, y se detiene."
+    },
+    {
+      "n": 2,
+      "nombre": "la columna",
+      "prompt": "Continua la misma escena sin cortes. La balsa se eleva por encima de la figura y lanza hacia el cielo una columna recta de luz azul. Sobre la cima, las nubes empiezan a girar despacio alrededor de la columna. Abajo, las luces de la ciudad parpadean."
+    },
+    {
+      "n": 3,
+      "nombre": "nada baja",
+      "prompt": "Continua la misma escena. La columna de luz tiembla, pierde fuerza y se apaga. Las nubes dejan de girar. La balsa desciende despacio y queda flotando, apagada, delante de la figura, que agacha la cabeza. El celador sigue inmovil en primer plano."
+    }
+  ],
+  "montaje": "PENDIENTE: definir cuando esten los actos.",
+  "revision": [
+    "Una sola columna y un solo santuario.",
+    "Nada de nave: solo nubes girando."
+  ]
+}

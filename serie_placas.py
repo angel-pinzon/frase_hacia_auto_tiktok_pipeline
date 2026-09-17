@@ -3,6 +3,11 @@
 No usa GPU ni API: es solo FFmpeg, asi que no gasta cuota ni saldo.
 
     python serie_placas.py capitulo.mp4 --numero 1 --titulo "La horda"
+
+Para TikTok, con --encima: sin placas negras, el titulo va escrito sobre los
+primeros segundos del propio video y el cierre sobre los ultimos.
+
+    python serie_placas.py cel1.mp4 --numero 1 --titulo "El pedestal vacio" --encima --serie ""
 """
 
 import argparse
@@ -187,6 +192,50 @@ def placa(destino, ancho, alto, fps, segundos, lineas, fondo=None):
     return destino
 
 
+def rotulos_encima(entrada, destino, lineas, cierre, segundos=3.0, segundos_cierre=1.8):
+    """Escribe el titulo sobre el arranque y el cierre sobre el final, sin placas.
+
+    En TikTok los dos primeros segundos deciden si alguien se queda, y una
+    placa negra delante se los lleva enteros. Ademas un video que acaba en
+    negro no se repite sin costura. Por eso el texto va sobre la imagen.
+
+    Va en el tercio de arriba, por debajo de la cabecera de la app: abajo lo
+    tapan la descripcion y la musica, y a la derecha los botones. Un video
+    vertical pequeno se lleva a 1080x1920, que es a lo que TikTok lo muestra.
+    """
+    ancho, alto = int(sonda(entrada, "width")), int(sonda(entrada, "height"))
+    duracion = float(sonda_formato(entrada, "duration"))
+    filtros = []
+    if alto > ancho:
+        filtros.append("scale=1080:1920:flags=lanczos")
+        ancho, alto = 1080, 1920
+    base = ancho / 16
+
+    def texto(contenido, tam, color, y, desde, hasta):
+        fundido = 0.4
+        return (f"drawtext=fontfile={FUENTE}:text='{escapa(contenido)}':fontsize={int(tam)}:"
+                f"fontcolor={color}:x=(w-text_w)/2:y={int(y)}:"
+                f"borderw={max(2, int(tam / 14))}:bordercolor=black@0.85:"
+                f"shadowcolor=black@0.6:shadowx=3:shadowy=3:"
+                f"enable='between(t,{desde:.2f},{hasta:.2f})':"
+                f"alpha='if(lt(t,{desde + fundido:.2f}),(t-{desde:.2f})/{fundido},"
+                f"if(gt(t,{hasta - fundido:.2f}),({hasta:.2f}-t)/{fundido},1))'")
+
+    y = alto * 0.20
+    for contenido, escala, color in lineas:
+        tam = base * escala
+        filtros.append(texto(contenido, tam, color, y, 0.0, segundos))
+        y += tam * 1.35
+    if cierre:
+        filtros.append(texto(cierre, base * 0.8, "white", alto * 0.20,
+                             duracion - segundos_cierre, duracion))
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(entrada),
+                    "-vf", ",".join(filtros), "-c:v", "libx264", "-crf", "18",
+                    "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", str(destino)],
+                   check=True)
+    return destino
+
+
 def vertical(entrada, destino, ancho=1080, alto=1920):
     """Encaja el apaisado en 9:16 sobre su propia imagen desenfocada."""
     vf = (f"split[fondo][frente];"
@@ -231,6 +280,11 @@ def main():
                    help="Texto de la placa final; el ultimo capitulo no puede cerrar con CONTINUARA")
     p.add_argument("--portada-negra", action="store_true",
                    help="Placa de entrada sobre negro, como antes")
+    p.add_argument("--encima", action="store_true",
+                   help="Para TikTok: sin placas, titulo sobre los primeros segundos y "
+                        "cierre sobre los ultimos, a 1080x1920")
+    p.add_argument("--serie", default=SERIE, metavar="NOMBRE",
+                   help="Nombre de la serie en el titulo; vacio para no ponerlo")
     args = p.parse_args()
 
     entrada = original = Path(args.video)
@@ -279,6 +333,16 @@ def main():
         subprocess.run(orden, check=True)
         entrada = recortado
 
+    salida = Path(args.salida) if args.salida else original.with_name(
+        f"{original.stem}_cap{args.numero}.mp4")
+    if args.encima:
+        lineas = [(args.serie, 0.75, "white")] if args.serie else []
+        lineas += [(f"Capítulo {args.numero}", 0.62, "0xD4AF37"),
+                   (args.titulo, 0.9, "white")]
+        rotulos_encima(entrada, salida, lineas, args.cierre)
+        print(f"titulo encima -> {salida}")
+        return 0
+
     fondo = None
     if not args.portada_negra:
         cuando = args.portada if args.portada is not None else instante_mas_claro(entrada)
@@ -296,8 +360,6 @@ def main():
         (args.cierre, int(base * 0.9), "white", "+0"),
     ])
 
-    salida = Path(args.salida) if args.salida else original.with_name(
-        f"{original.stem}_cap{args.numero}.mp4")
     subprocess.run(["ffmpeg", "-y", "-v", "error",
                     "-i", str(inicio), "-i", str(entrada), "-i", str(fin),
                     "-filter_complex",

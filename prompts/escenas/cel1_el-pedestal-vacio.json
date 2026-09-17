@@ -1,0 +1,84 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 1,
+  "titulo": "El pedestal vacio",
+  "momento": "3 de la madrugada, con niebla densa",
+  "locacion": "Plaza de Bolivar de Bogota, frente a la Catedral Primada",
+  "foto": "serie_celador/assets/editadas/plaza3_noche_niebla.jpg",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "Historia del usuario: a las 3 de la manana el celador va a su trabajo y cruza la Plaza de Bolivar. Hay un revuelo de palomas en medio de una niebla densa y se alcanza a ver que Bolivar no esta en su estatua. Se adentra en la niebla, ve algo parecido a la estatua que falta y eso, con un mando que lleva en la mano, abre la puerta de la Catedral y entra. Se interpreta que el mando lo lleva la figura, no el celador; si es al reves, cambia el acto 3. El celador trabaja en el Museo del Oro: va camino de su turno. Eso lo pone en el centro de los capitulos 4 y 5.",
+  "mostrar_menos": "La figura nunca se ve de frente ni con claridad: silueta alta con capa entre la niebla, un brillo verdoso de bronce, de espaldas. El mando no se ve como objeto -es demasiado pequeno para cargar la accion-: se ve su efecto, una luz roja que parpadea en la mano, un pitido y el porton que se abre solo.",
+  "riesgo": "Niebla y noche juntas son la receta para perder la arquitectura: si el primer fotograma encadenado baja de brillo 28, serie_generar para. Por eso las luces van dentro de la escena: la fachada de la Catedral iluminada, faroles con halo y la linterna del celador. Las palomas son muchas figuras pequenas: se aceptan como ambiente, no como protagonistas.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande encendida de haz amarillento. Siempre de espaldas o de tres cuartos y a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "Conserva exactamente el lugar y el encuadre de la fotografia: la Catedral Primada de Bogota de frente, de piedra arenisca, con dos torres de campanario, un reloj en la torre izquierda, un fronton triangular con una hornacina y el gran porton central de madera. En el centro de la plaza, el monumento a Bolivar: un pedestal alto de piedra clara con placas de bronce, sobre una plataforma baja y ancha. Entre el monumento y la Catedral hay un tramo amplio de plaza abierta, y despues unas escaleras cortas y anchas de piedra que suben hasta el atrio, delante de los portones. A la derecha, un edificio color crema con ventanas verdes y una cupula oscura detras. En primer plano, una plaza de losas de piedra con franjas de ladrillo. Al fondo a la izquierda, cerros oscuros con nubes bajas.",
+  "comun": "Son las tres de la madrugada y hay una niebla espesa que flota a ras de suelo. El cielo esta negro. La fachada de la Catedral esta iluminada con luz calida desde abajo, los faroles tienen halos anaranjados en la niebla y la linterna del celador abre un haz amarillo. La plaza esta vacia, no hay nadie mas. Realista y cinematografico, como una pelicula de misterio, sin textos ni letreros. Ninguna figura toca a otra. En la escena hay un solo pedestal y una sola figura extrana.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "las palomas",
+      "prompt": "Desde el primer instante, una bandada de palomas alza el vuelo de golpe desde el suelo de la plaza y desaparece hacia arriba entre la niebla. El celador entra caminando desde el primer plano, de espaldas a la camara, se detiene en seco y levanta la linterna hacia el pedestal: arriba no hay nadie."
+    },
+    {
+      "n": 2,
+      "nombre": "el pedestal vacio",
+      "prompt": "La camara esta fija y no se mueve. El celador entra por abajo, de espaldas, y se detiene a dos pasos del monumento, sin tocarlo. Levanta la linterna y alumbra directamente lo alto del pedestal, que ya se ve entero en el cuadro: arriba esta vacio, solo hay dos palomas quietas en el borde. Las palomas giran la cabeza hacia la izquierda del cuadro. El celador se queda quieto mirando hacia arriba. El pedestal no cambia de forma ni de altura en ningun momento: es un bloque de piedra macizo, y no sale nada de el.",
+      "entrada": "serie_celador/assets/editadas/plaza4_noche_niebla.jpg",
+      "arquitectura": "Conserva exactamente el lugar y el encuadre de la fotografia: el monumento a Bolivar visto desde abajo y de cerca, un pedestal alto de piedra clara con dos grandes placas de bronce en relieve, recortado contra el cielo. A la izquierda, la Capilla del Sagrario, de piedra, con dos espadanas con campanas y una puerta en arco. A la derecha, un palacio de piedra de dos plantas con balcones y dos banderas en lo alto. Detras, cerros oscuros. En primer plano, el borde de piedra de la plataforma del monumento.",
+      "comun": "Son las tres de la madrugada y hay niebla. El cielo esta negro. La Capilla del Sagrario y el palacio estan iluminados con luz calida desde abajo y la linterna del celador abre un haz amarillo. No hay nadie mas. Realista y cinematografico, como una pelicula de misterio, sin textos ni letreros. Ninguna figura toca a otra. Hay un solo pedestal y esta vacio."
+    },
+    {
+      "n": 3,
+      "nombre": "la puerta",
+      "prompt": "Al principio no hay nadie junto al monumento. El celador entra en el cuadro por la esquina inferior izquierda, de espaldas, y se queda en primer plano, lejos del pedestal y separado de el, con la linterna encendida de haz amarillo. Al otro lado del monumento, ya lejos de el, una silueta alta y oscura con una capa larga y un leve brillo verdoso de bronce cruza de espaldas el tramo de plaza abierta hacia la Catedral y sube despacio las escaleras cortas del atrio. Delante del porton central levanta un brazo, en su mano parpadea una pequena luz roja con un pitido electronico corto, y el gran porton se abre solo, derramando luz blanca. La silueta entra y el porton queda entreabierto. El celador no se mueve de su sitio; el haz amarillo de su linterna tiembla. La niebla queda a ras de suelo y deja ver las escaleras.",
+      "entrada": "serie_celador/assets/editadas/plaza3_noche_escaleras.jpg",
+      "comun": "Son las tres de la madrugada y hay una niebla espesa que flota a ras de suelo. El cielo esta negro. La fachada de la Catedral esta iluminada con luz calida desde abajo, los faroles tienen halos anaranjados en la niebla y la linterna del celador abre un haz amarillo, nunca verde. La plaza esta vacia, no hay nadie mas. Realista y cinematografico, como una pelicula de misterio, sin textos ni letreros. Ninguna figura toca a otra. En la escena hay un solo pedestal y una sola figura extrana."
+    }
+  ],
+  "montaje": "python serie_placas.py serie_celador/output/cel1_el-pedestal-vacio_24s.mp4 --numero 1 --titulo \"El pedestal vacío\" --encima --serie \"\" --salida serie_celador/output/cel1_el-pedestal-vacio_tiktok.mp4",
+  "revision": [
+    "Que la Catedral siga siendo la de la foto: dos torres, reloj a la izquierda, porton central detras del monumento.",
+    "Imagenes previas: sin gente, sin estatua, y la arquitectura igual a la foto. Revisarlas antes de gastar en video.",
+    "Que sea el mismo celador en los tres actos: cara, bigote, gorra, chaqueta con bandas.",
+    "Una sola figura extrana, nunca de frente, y el pedestal realmente vacio.",
+    "Los actos 2 y 3 son cambios de plano, no encadenados: al montar, corte seco."
+  ],
+  "imagenes_previas": [
+    {
+      "destino": "serie_celador/assets/editadas/plaza3_noche_niebla.jpg",
+      "origen": "serie_celador/assets/plazaBolivar3_vertical.jpg",
+      "instruccion": "La misma fotografia, con el mismo encuadre y la misma arquitectura, pero a las tres de la madrugada: cielo negro, niebla espesa a ras de suelo, la fachada de la Catedral iluminada con luz calida desde abajo y faroles encendidos con halo. La plaza completamente vacia, sin personas ni vehiculos. El pedestal sigue en su sitio pero sin ninguna estatua encima. Unas palomas en el suelo, en primer plano."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/plaza4_noche_niebla.jpg",
+      "origen": "serie_celador/assets/plazaBolivar4_vertical.jpg",
+      "instruccion": "La misma fotografia, con el mismo encuadre y la misma arquitectura, pero a las tres de la madrugada con niebla: cielo negro, la Capilla del Sagrario y el palacio iluminados con luz calida, faroles con halo. Sin ninguna persona. El pedestal con sus placas de bronce, vacio, sin ninguna estatua encima, con dos palomas quietas en el borde de arriba."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/plaza3_noche_escaleras.jpg",
+      "origen": "serie_celador/assets/editadas/plaza3_noche_niebla.jpg",
+      "instruccion": "Exactamente la misma imagen, sin quitar ni anadir nada: el mismo encuadre, la misma Catedral, el mismo pedestal vacio en el centro con su plataforma, los mismos faroles y las mismas palomas. Un unico cambio: la niebla es mas baja y mas fina, de modo que se ven con claridad las escaleras de piedra anchas y bajas que hay delante de los portones de la Catedral, iluminadas por la luz calida de la fachada.",
+      "por_que_este_origen": "Editando la foto de dia y pidiendo a la vez quitar la estatua y despejar las escaleras, Grok borro el monumento entero dos veces. Sobre la imagen nocturna ya buena solo hay que pedir un cambio."
+    }
+  ],
+  "por_que_editadas": "Un video generado desde una imagen arranca exactamente en esa imagen. Las fotos son de dia, con gente y con la estatua puesta: si se usaran tal cual, Bolivar estaria en el primer fotograma y desapareceria de golpe, y la gente se esfumaria. Por eso se preparan antes con la edicion de imagen de Grok: noche, niebla, sin gente y sin estatua. Tambien evita pedir la noche sobre una foto de dia, que en Soata dio cielo negro con suelo a pleno sol.",
+  "creditos": [
+    "plazaBolivar3.jpg: Haakon S. Krohn, CC BY-SA 3.0, via Wikimedia Commons. Va en la descripcion del video.",
+    "plazaBolivar4.jpg: Guaiqueri, CC0, via Wikimedia Commons. No exige cita."
+  ],
+  "gancho": "Los dos primeros segundos tienen que entenderse sin saber donde es: palomas que salen volando de golpe y un pedestal vacio a la vista desde el primer fotograma.",
+  "leccion_acto2": "La primera version pedia que el haz 'subiera por el pedestal hasta arriba'. Con la camara fija y lo alto del pedestal ya dentro del cuadro, el modelo alargo el pedestal hasta convertirlo en un obelisco para que la luz tuviera recorrido, y el resplandor en la niebla parecia algo saliendo de dentro. Ademas el celador casi apoyaba la mano. Se arregla alumbrando directamente arriba, prohibiendo que el pedestal cambie de forma y dejandolo a dos pasos.",
+  "leccion_acto3": "La primera version arrancaba sin el celador en el cuadro y el modelo lo hizo aparecer pegado al pedestal, justo antes de que la figura saliera de detras: parecia que el celador se fundia con el monumento. Ademas la figura iba del pedestal al porton en linea recta, saltandose el tramo de plaza y las escaleras cortas del atrio que hay en la realidad, y el haz de la linterna salio verde, contagiado del brillo de bronce. Se arregla haciendo entrar al celador por el borde, lejos del pedestal, poniendo a la figura ya al otro lado, describiendo la plaza y las escaleras y fijando el haz amarillo.",
+  "version_elegida": "Acto 3: el cuarto intento, generado desde plaza3_noche_escaleras.jpg, donde las escaleras ya estan en el primer fotograma. Descartados en serie_celador/output: _previo (haz verde, celador pegado al pedestal), _previo2 (escaleras que aparecen de la nada), _previo3 (chaleco y salto de plano). Pegas aceptadas: la figura arranca cerca de la camara, el celador queda cortado en el borde al final y la figura roza el borde del porton.",
+  "leccion_chaqueta": "Ni las seis referencias ni pedir 'bandas solo en las mangas, ninguna en el pecho' evitan que, de frente, Grok vista al celador con un chaleco de alta visibilidad: 'celador' mas 'reflectantes' le pesa mas. Probar en el capitulo 2 a describir la chaqueta sin la palabra reflectantes.",
+  "nota_escaleras": "El acto 3 tiene su propia imagen de partida: en plaza3_noche_niebla la niebla tapaba la base de la Catedral, y al acercarse la camara las escaleras aparecian de la nada.",
+  "leccion_imagen_escaleras": "Lo que el video tiene que mostrar debe estar ya en la imagen de partida: si la niebla lo tapa, el modelo lo hace aparecer de la nada al acercarse. Y una edicion de imagen con dos cambios que chocan -quitar la estatua y despejar la base- borro el monumento entero dos veces; editar sobre la imagen nocturna ya buena, con un solo cambio, funciono a la primera."
+}

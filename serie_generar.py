@@ -73,7 +73,9 @@ def prompt_completo(ficha, acto):
 
 
 def data_uri(ruta):
-    tipo = "image/png" if ruta.suffix.lower() == ".png" else "image/jpeg"
+    # el tipo se lee del contenido y no de la extension: la API de imagen de xAI
+    # devuelve JPEG aunque se le pida otra cosa
+    tipo = "image/png" if ruta.read_bytes()[:4] == b"\x89PNG" else "image/jpeg"
     return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
 
 
@@ -238,13 +240,25 @@ def main():
     slug = ruta.stem                                   # cap6_los-que-vuelven
     n_cap = ficha["capitulo"]
     actos = ficha["actos"]
+    # cada serie puede guardar sus clips en su propia carpeta
+    escenas = ROOT / ficha["salida"] if ficha.get("salida") else ESCENAS
 
     for campo in ("foto", "arquitectura", "comun"):
         if "PENDIENTE" in str(ficha.get(campo, "")):
             sys.exit(f"La ficha tiene '{campo}' sin completar. Falta rellenarlo antes de gastar cuota.")
 
+    def imagen_propia(relativa):
+        # un acto con "entrada" arranca de esa imagen en vez de encadenar: un
+        # salto de lugar o de tiempo dentro del capitulo
+        ruta_imagen = ROOT / relativa
+        if not ruta_imagen.exists():
+            sys.exit(f"No existe la imagen de partida: {ruta_imagen}")
+        return ruta_imagen
+
     def archivo(acto):
-        return ESCENAS / f"cap{n_cap}_{acto['n']}_{acto['nombre'].replace(' ', '-')}.mp4"
+        # cada serie con su prefijo: los capitulos de dos series no se pisan
+        prefijo = ficha.get("prefijo", "cap")
+        return escenas / f"{prefijo}{n_cap}_{acto['n']}_{acto['nombre'].replace(' ', '-')}.mp4"
 
     if args.ver_prompts:
         for acto in actos:
@@ -258,6 +272,9 @@ def main():
     referencias = []
     for patron in ficha.get("referencias", []):
         encontradas = sorted(ROOT.glob(patron)) if any(c in patron for c in "*?[") else [ROOT / patron]
+        if not encontradas:
+            sys.exit(f"Ninguna imagen de referencia coincide con {patron}: sin ellas el "
+                     f"personaje sale distinto en cada acto.")
         for imagen in encontradas:
             if not imagen.exists():
                 sys.exit(f"Falta la imagen de referencia: {imagen}")
@@ -267,7 +284,7 @@ def main():
     if not es_grok:
         from google import genai
         cliente = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    ESCENAS.mkdir(parents=True, exist_ok=True)
+    escenas.mkdir(parents=True, exist_ok=True)
     tmp = Path(tempfile.mkdtemp(prefix="serie_"))
 
     def genera_acto(prompt, entrada, destino):
@@ -297,28 +314,38 @@ def main():
             if not entrada.exists():
                 sys.exit(f"No existe la imagen de entrada: {entrada}")
             comprueba_encadenado(entrada, actual["n"], args.forzar)
+        elif actual.get("entrada"):
+            entrada = imagen_propia(actual["entrada"])
         elif actual["n"] == 1:
-            entrada = ROOT / ficha["foto"]
+            entrada = imagen_propia(ficha["foto"])
         else:
             anterior = next(a for a in actos if a["n"] == actual["n"] - 1)
             entrada = ultimo_fotograma(archivo(anterior), tmp / "entrada.jpg")
             comprueba_encadenado(entrada, actual["n"], args.forzar)
-        if destino.exists():
+        if destino.exists() and not args.ver_peticion:
             previo = destino.with_name(f"{destino.stem}_previo.mp4")
+            contador = 1
+            while previo.exists():
+                # no se pisa un previo anterior: cada intento descartado se guarda
+                contador += 1
+                previo = destino.with_name(f"{destino.stem}_previo{contador}.mp4")
             destino.rename(previo)
             print(f"el anterior se conserva como {previo.name}")
         print(f"[acto {actual['n']}] {actual['nombre']}...", flush=True)
         genera_acto(prompt_completo(ficha, actual), entrada, destino)
         print(f"  listo: {destino.name}", flush=True)
     else:
-        entrada = ROOT / ficha["foto"]
+        entrada = imagen_propia(ficha["foto"])
         for i, acto in enumerate(actos):
+            if acto.get("entrada"):
+                entrada = imagen_propia(acto["entrada"])
             print(f"[{acto['n']}/{len(actos)}] {acto['nombre']}...", flush=True)
             salida = genera_acto(prompt_completo(ficha, acto), entrada, archivo(acto))
             print(f"  listo: {salida.name}", flush=True)
             if i < len(actos) - 1:
-                entrada = ultimo_fotograma(salida, tmp / f"fotograma_{acto['n']}.jpg")
-                comprueba_encadenado(entrada, actos[i + 1]["n"], args.forzar)
+                if not actos[i + 1].get("entrada"):
+                    entrada = ultimo_fotograma(salida, tmp / f"fotograma_{acto['n']}.jpg")
+                    comprueba_encadenado(entrada, actos[i + 1]["n"], args.forzar)
                 time.sleep(PAUSA_ENTRE_ACTOS)
 
     partes = [archivo(a) for a in actos]
@@ -326,7 +353,7 @@ def main():
     if faltan:
         print(f"\nsin unir: faltan {', '.join(faltan)}")
         return 1
-    final = une(partes, ESCENAS / f"{slug}_24s.mp4")
+    final = une(partes, escenas / f"{slug}_24s.mp4")
     print(f"\nSECUENCIA -> {final}")
     return 0
 

@@ -1,0 +1,47 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 4,
+  "titulo": "El Salon de la Ofrenda",
+  "momento": "otra noche, 3 de la madrugada, en el turno del celador",
+  "locacion": "Museo del Oro de Bogota, Salon de la Ofrenda",
+  "foto": "PENDIENTE: serie_celador/assets/museo_del_oro.jpg -el Salon de la Ofrenda por dentro o la fachada, con licencia-",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 6,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "El Museo del Oro es donde trabaja el celador: en el capitulo 1 iba a su turno. La figura entra en la sala circular, el oro se enciende solo y la Balsa Muisca responde. Salta la alarma. Primera decision del celador: la apaga y deja ir a la figura.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: bronce verdoso, capa larga, se mueve con pasos pesados. Siempre lejos, de espaldas o a contraluz, nunca la cara en primer plano.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "El Salon de la Ofrenda del Museo del Oro de Bogota: una sala circular, oscura, con las paredes cubiertas de cientos de piezas de oro precolombino tras el cristal. En el centro, una vitrina baja con la Balsa Muisca: una pequena balsa de oro con figuras de pie.",
+  "arquitectura_pendiente": "Escrita sin foto, de memoria: revisarla contra la foto cuando llegue, sobre todo el encuadre y lo que queda en los bordes.",
+  "comun": "Es de madrugada dentro del museo. La sala esta a oscuras y la unica luz es la del oro que se enciende y la de la linterna del celador. Son las tres de la madrugada. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "el oro se enciende",
+      "prompt": "La sala circular esta a oscuras. La figura de bronce con capa entra despacio por el fondo, de espaldas. A su paso, las piezas de oro de las paredes se van encendiendo solas, una tras otra, hasta que toda la sala brilla dorada. El celador aparece en la entrada, en primer plano y de espaldas, con la linterna encendida."
+    },
+    {
+      "n": 2,
+      "nombre": "la balsa responde",
+      "prompt": "Continua la misma escena sin cortes. La figura se detiene delante de la vitrina del centro. Dentro, la balsa de oro late con un pulso de luz azul que ilumina toda la sala de azul, una vez y otra. De repente suena una alarma y una luz roja giratoria barre las paredes. La figura se gira hacia la salida."
+    },
+    {
+      "n": 3,
+      "nombre": "la decision",
+      "prompt": "Continua la misma escena. El celador, de tres cuartos y a media distancia, se acerca a un panel en la pared y lo apaga: la alarma calla y la luz roja se detiene. Se queda quieto. La figura de bronce pasa a lo lejos junto a el sin tocarlo y sale de la sala. En el centro, la balsa sigue latiendo azul."
+    }
+  ],
+  "montaje": "PENDIENTE: definir cuando esten los actos.",
+  "revision": [
+    "La balsa es pequena: su efecto debe llenar la sala de luz azul, no quedarse en un punto.",
+    "Que el celador apague el panel sin primer plano de manos.",
+    "La figura pasa junto a el sin tocarlo."
+  ]
+}

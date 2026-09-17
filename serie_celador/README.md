@@ -11,12 +11,12 @@ todo lo aprendido allí se aplica aquí, y está resumido más abajo.
 | | |
 |---|---|
 | Protagonista | decidido: un celador de ronda nocturna. Ficha en [prompts/personajes/celador.json](../prompts/personajes/celador.json) |
-| Hoja de personaje | **pendiente de generar** en Grok Imagine: seis retratos ya escritos |
-| Locación | **Bogotá**, empezando en la Plaza de Bolívar |
-| Historia | hay una propuesta, **sin aprobar**: el guion todavía se está pensando |
+| Hoja de personaje | **generada**: seis retratos en `serie_celador/personaje/`, hombre de unos 32 años. Se hacen con `serie_imagenes.py` |
+| Locación | **Bogotá**, empezando en la Plaza de Bolívar. Foto en `assets/plazaBolivar1.jpg` y su recorte vertical |
+| Historia | **temporada de 7 capítulos decidida**: el 1 y el 2 son del usuario, del 3 al 7 los propuso Claude y el usuario los aprobó |
 | Producción | orquestada desde el proyecto con la API de xAI, igual que la serie anterior con Veo |
-| Clave | falta `XAI_API_KEY` en el `.env` |
-| Capítulos | ninguno |
+| Clave | `XAI_API_KEY` en el `.env`, comprobada |
+| Capítulos | **el 1 terminado** y listo para TikTok: `serie_celador/output/cel1_el-pedestal-vacio_tiktok.mp4`. Las fichas del 2 al 7, escritas; del 3 al 7 esperan sus fotos |
 
 ## Qué es
 
@@ -26,7 +26,7 @@ alguien lo presencia siempre: el celador.
 
 ## El protagonista
 
-Un celador de ronda nocturna, de unos 55 años, con gorra, chaqueta azul marino con bandas
+Un celador de ronda nocturna, de unos 32 años, con gorra, chaqueta azul marino con bandas
 reflectantes y una linterna grande. La descripción completa, las reglas para filmarlo y los
 seis retratos de la hoja de personaje están en su ficha.
 
@@ -47,8 +47,8 @@ Lo demás no cambia — encadenado por el último fotograma, guardián de brillo
 `--entrada` y el montaje con `serie_placas.py`.
 
 ```bash
-.venv/bin/python serie_generar.py prompts/escenas/cel1_la-plaza-quieta.json --ver-peticion
-.venv/bin/python serie_generar.py prompts/escenas/cel1_la-plaza-quieta.json --solo-acto 1
+.venv/bin/python serie_generar.py prompts/escenas/cel1_el-pedestal-vacio.json --ver-peticion
+.venv/bin/python serie_generar.py prompts/escenas/cel1_el-pedestal-vacio.json --solo-acto 1
 ```
 
 **Lo que la ficha puede pedirle a xAI**, con los nombres que usa su API:
@@ -60,8 +60,11 @@ Lo demás no cambia — encadenado por el último fotograma, guardián de brillo
 | `formato` | `9:16` nativo, que es lo que pide TikTok |
 | `resolucion` | `480p`, `720p` o `1080p` |
 | `audio` | genera sonido, activado por defecto |
-| `referencias` | imágenes que anclan al personaje; admite comodines para tomar la hoja entera |
-| `foto` | fotograma de partida, opcional |
+| `referencias` | imágenes que anclan al personaje; admite comodines para tomar la hoja entera. Si el comodín no encuentra ninguna, el script para |
+| `foto` | fotograma de partida |
+| `entrada` dentro de un acto | ese acto arranca de su propia imagen en vez de encadenar del anterior: un salto de lugar o de tiempo dentro del capítulo |
+| `salida` | carpeta de los clips: `serie_celador/output`, fuera del `output/escenas` de Soatá |
+| `prefijo` | prefijo de los archivos: `cel` genera `cel1_1_...mp4` y no pisa el `cap1_1_...mp4` de Soatá |
 
 `--ver-peticion` muestra el cuerpo que se enviaría, con las imágenes resumidas, sin gastar
 nada.
@@ -112,10 +115,16 @@ Una temporada de cinco capítulos de dos clips rondaría los **$10 a 480p**.
 - **15-20 segundos**, no 27.
 - **Sin placa de título al principio**: se lleva 2,5 s de los primeros segundos, que son los
   que deciden. El título va escrito sobre la primera imagen.
+  `serie_placas.py --encima` lo hace: título sobre los primeros 3 s, «CONTINUARÁ» sobre los
+  últimos 1,8 s, sin negros, y a 1080×1920.
 - **Que cierre en bucle**: si el último fotograma se parece al primero, el video se repite sin
   costura.
 - El gancho **no puede ser reconocer el sitio**: TikTok reparte por interés, no por
   geografía. Tiene que entenderse en dos segundos sin saber dónde es.
+- **Zonas que tapa la interfaz**: abajo, el texto de la descripción y la música; a la derecha,
+  los botones de me gusta, comentarios y compartir. Lo importante —el pedestal, la figura, el
+  celador— va en el centro y en la mitad de arriba, y hay que comprobarlo en cada acto.
+- **Actos de 6 s**: tres actos dan unos 18 s. Con 8 s el capítulo se iba a 24.
 
 ## Reglas heredadas de Soatá
 
@@ -132,31 +141,218 @@ Las que costaron caro y siguen valiendo:
 
 ## La historia
 
-**Propuesta sin aprobar.** El guion se sigue pensando, así que esto queda anotado como punto
-de partida, no como decisión.
+**La trama de la temporada**, decidida por el usuario: cada cierto número de noches, a la
+misma hora, el celador se encuentra la misma escena —Bolívar hecho hombre, en bronce, yendo a
+otro lugar de la ciudad— y lo sigue.
 
-Un celador de ronda encuentra algo en la Plaza de Bolívar y lo va siguiendo por la ciudad:
+**Lo que hay detrás:** es un **ser de otro mundo que se funde con la estatua** y la usa como
+vehículo para moverse. Busca un **antiguo transmisor escondido dentro de un objeto histórico**
+—en algún museo o sitio de interés— que le permitirá **llamar a una nave de su planeta** para
+que venga a rescatarlo. El objeto quedó abandonado en un viaje anterior de su especie a la
+Tierra, hace cientos o miles de años.
 
-1. **La plaza quieta.** Tres de la madrugada. Cruza alumbrando y todas las palomas están
-   despiertas e inmóviles, mirando al mismo punto. Sigue con la linterna lo que miran: las
-   puertas de la Catedral, entreabiertas.
-2. **La marca.** En el suelo hay una figura trazada entre las piedras, húmeda, recién hecha.
-   Levanta la linterna y la misma figura está en la puerta.
-3. **El rastro.** La Candelaria. La marca aparece en una puerta, luego en otra más arriba.
-   Siempre subiendo hacia el cerro.
-4. **Lo que señala.** Desde una esquina en alto se ve Monserrate, y las luces del santuario se
-   apagan en el mismo orden que tenía la marca.
-5. **El relevo.** Vuelve a la plaza al amanecer. No hay marcas y las palomas están normales.
-   Llega su relevo y, cosida en la chaqueta, lleva la figura.
+**El objeto es la Balsa Muisca** del Museo del Oro, la pieza que representa la ceremonia de
+El Dorado. Dentro de la ficción, los muiscas vieron llegar aquella luz, veneraron lo que la
+especie dejó, y la leyenda de El Dorado es el recuerdo de esa visita. No se dice en pantalla.
 
-El remate repite el hallazgo de Soatá —**alguien ya lo sabía**— pero ahora con alguien a
-quien le pasa.
+**El celador trabaja en el Museo del Oro**: en el capítulo 1 iba camino de su turno. Por eso
+tiene llaves y alarma a su cargo, y por eso ayudar le cuesta algo.
+
+**Su arco**: de testigo a cómplice. Mira en el 1, el 2 y el 3; **apaga la alarma** en el 4,
+**abre la vitrina** en el 5, y en el 7 **su linterna es la señal** que la nave necesitaba.
+
+| Cap. | Título | Qué pasa | Qué hace el celador |
+|---|---|---|---|
+| 1 | El pedestal vacío | Niebla a las 3 am; Bolívar no está; la figura abre la Catedral con un mando | mira |
+| 2 | La luz | Busca en la Catedral; la luz lo alcanza; despierta de día y Bolívar ha vuelto | pierde el conocimiento |
+| 3 | El museo equivocado | Otra noche. La figura busca en el Museo Nacional; unas piezas muiscas laten azul: la pista | la sigue |
+| 4 | El Salón de la Ofrenda | En su museo, el oro se enciende solo y la balsa responde. Salta la alarma | **la apaga** y deja ir a la figura |
+| 5 | La balsa | La balsa sale flotando de la vitrina y la figura la lleva cerros arriba | **abre la vitrina**, y la sigue por Monserrate |
+| 6 | La llamada | En la cima, la balsa lanza una columna de luz; las nubes giran, pero no baja nada | mira |
+| 7 | El rescate | Baja la nave y el ser sale del bronce hecho luz. Al amanecer, Bolívar en su pedestal y a sus pies el mando, parpadeando | **hace la señal** con la linterna |
+
+**Por qué cada cierta noche**: solo puede fundirse con el bronce cuando la niebla baja a la
+plaza. Por eso cada capítulo empieza con niebla.
+
+**Reglas para esta temporada:**
+
+- **La figura nunca se ve de frente.**
+- **La nave nunca entera**: luz, nubes que se abren y una sombra. La cúpula rígida del
+  capítulo 7 de Soatá pareció "de Chespirito".
+- **La balsa es pequeña**, así que actúa a través de su luz, que llena la sala.
+- **Cómo volvió Bolívar a su pedestal no se explica.**
+
+### Capítulo 1 — El pedestal vacío
+
+Idea del usuario. Son las 3 de la madrugada y el celador va para su trabajo. Al cruzar la
+Plaza de Bolívar hay un revuelo de palomas en medio de una niebla densa, y se alcanza a ver
+que **Bolívar no está en su estatua**. Se adentra en la niebla y ve algo parecido a la
+estatua que falta, que **con un mando que lleva en la mano abre la puerta de la Catedral** y
+entra.
+
+| Acto | Qué pasa | Cómo se sostiene |
+|---|---|---|
+| 1. Las palomas | Cruza la plaza con la linterna; una bandada alza el vuelo delante de él y se detiene | Catedral iluminada y faroles con halo: la niebla no puede tragarse el sitio |
+| 2. El pedestal vacío | Se acerca al monumento y el haz sube por el pedestal: arriba no hay nadie, solo dos palomas | Lo pequeño no carga la acción, así que la cámara se acerca con él |
+| 3. La puerta | Una silueta alta con capa y brillo de bronce, de espaldas, levanta el brazo; una luz roja parpadea, pita, y el portón se abre solo. Entra | El mando no se ve: se ve su efecto. Y el portón se abre sin que nadie lo toque |
+
+**Decisiones:**
+
+- **El mando lo lleva la figura**, no el celador. Es la lectura del texto; si es al revés,
+  cambia el acto 3.
+- **La figura nunca se ve de frente.** Es la regla que salvó Soatá: mostrar menos.
+- **La foto de partida es de día y con gente.** Pedirle la noche a una foto de día ya falló en
+  Soatá, así que conviene convertirla antes en una imagen nocturna, con niebla y sin gente,
+  con la edición de imagen de Grok.
+
+### Capítulo 2 — La luz
+
+Idea del usuario. El celador se acerca a la puerta de la iglesia y ve dentro a **Bolívar
+convertido en una estatua viva** que lo ilumina todo, como buscando algo. Al tratar de seguir
+indagando **pierde el conocimiento** y despierta bajo el sol, al día siguiente, en medio de
+palomas.
+
+| Acto | Qué pasa | Cómo se sostiene |
+|---|---|---|
+| 1. El portón | Se asoma por el portón entreabierto. Al fondo de la nave, una figura de bronce con capa barre columnas y bancos con un haz de luz que le sale de la mano | Parte del último fotograma del capítulo 1. La figura, lejos y a contraluz |
+| 2. La luz | La figura se detiene y gira el haz hacia el portón; la luz lo alcanza y llena el cuadro hasta quedar en blanco | El desmayo no se actúa: una caída es anatomía y contacto con el suelo |
+| 3. El despertar | De día, tumbado en la plaza entre palomas, abre los ojos y se incorpora. La gente pasa sin mirarlo. Los portones cerrados y **Bolívar otra vez en su pedestal** | Arranca de la foto de día, que ya muestra justo eso |
+
+**Decisiones:**
+
+- **Del blanco a la mañana.** El acto 2 acaba en blanco, así que su último fotograma no sirve
+  para encadenar; el acto 3 lleva su propia `entrada`.
+- **Bolívar vuelve a su sitio** en el acto 3. No lo pidió el usuario, pero la foto de día lo
+  trae y deja la duda: ¿lo soñó?
+- **El interior de la Catedral lo inventa el modelo**, porque no hay foto. Se ve poco, solo
+  donde pasa el haz. Para que sea fiel haría falta una foto del interior con licencia.
+
+La propuesta anterior de cinco capítulos (palomas inmóviles, marcas, La Candelaria,
+Monserrate, el relevo) queda **descartada**: no convencía.
+
+## Lo aprendido en el capítulo 1
+
+El capítulo 1 costó **siete clips para tres actos** ($3,36) y cuatro imágenes de la plaza
+($0,36). Casi todo el gasto de más vino de cosas que ahora se saben.
+
+### La imagen de partida
+
+- **El video arranca exactamente en su imagen de partida.** Todo lo que no deba verse en el
+  primer fotograma —la estatua, la gente, el día— hay que quitarlo antes, editando la imagen.
+  Si no, desaparece de golpe delante del espectador.
+- **Todo lo que el acto vaya a mostrar tiene que estar ya en la imagen.** La niebla tapaba las
+  escaleras de la Catedral y, al acercarse la cámara, el modelo las hizo aparecer de la nada.
+  Se arregló con una imagen donde ya se veían.
+- **Al editar una imagen, un solo cambio cada vez.** Pedir a la vez "quita la estatua" y
+  "despeja las escaleras" borró el monumento entero dos veces. Editar sobre la imagen nocturna
+  que ya estaba bien, pidiendo solo "menos niebla", salió a la primera.
+- **Quitar algo encoge lo que lo sostenía**: sin la estatua, el pedestal quedó más bajo. Hay
+  que mirar la imagen editada antes de gastar en video.
+- **Revisar las imágenes editadas es barato** ($0,06) y cada error que se queda en ellas se
+  repite en todos los videos que salen de ahí.
+
+### El prompt del video
+
+- **Si la acción necesita espacio que el cuadro no tiene, el modelo cambia el escenario.**
+  "El haz sube por el pedestal hasta arriba", con lo alto ya en cuadro, convirtió el pedestal
+  en un obelisco. Se arregla pidiendo la acción sobre lo que ya se ve ("alumbra lo alto") y
+  prohibiendo el cambio ("el pedestal no cambia de forma ni de altura").
+- **Un personaje que no está en la imagen aparece donde más estorba.** El celador surgió
+  pegado al pedestal justo antes de que saliera la figura, y parecía fundirse con él. Hay que
+  decir por dónde entra ("por la esquina inferior izquierda") y dónde está el otro ("ya al otro
+  lado del monumento").
+- **La geografía que no se describe, se acorta.** Con "el monumento justo delante del portón",
+  la figura fue en línea recta y se saltó la plaza y las escaleras. Hay que nombrar los tramos
+  intermedios.
+- **Los colores se contagian.** "Brillo verdoso de bronce" en la figura volvió verde el haz de
+  la linterna. Cada luz lleva su color, y si hace falta, el que no puede tener ("amarillo,
+  nunca verde").
+- **El contacto sigue saliendo mal**: la figura apoya la mano en el borde del portón en casi
+  todos los intentos. Si importa, que la puerta se abra antes de que llegue.
+
+### El personaje
+
+- **La hoja de personaje funciona para la cara y la silueta**: es el mismo hombre en los tres
+  actos. Generar el retrato 1 del texto y los demás como edición del 1 mantuvo la cara.
+- **La ropa no se sostiene si choca con lo que el modelo "sabe".** "Celador" con "bandas
+  reflectantes" se convierte, de frente, en un chaleco de alta visibilidad, aunque las seis
+  referencias y el texto digan que las bandas van solo en las mangas. De espaldas y lejos pasa
+  menos. **Próximo intento**: describir la chaqueta sin la palabra "reflectantes" —"azul marino
+  lisa, con dos franjas grises en los antebrazos"—.
+- **Mantenerlo de espaldas o de tres cuartos** evita la mayoría de problemas de cara y ropa.
+
+### Grok frente a Veo
+
+| | Grok Imagine | Veo, en Soatá |
+|---|---|---|
+| Formato | vertical nativo 9:16, a 480p | apaisado, recortado después |
+| Arquitectura | respeta bien la de la imagen, incluso con la cámara moviéndose | la reinventaba al oscurecer |
+| Cámara | tiende a acercarse, y a veces da un salto de plano | más quieta |
+| Sonido | lo genera, a volumen razonable | también |
+| Tiempo | unos 3 minutos por clip de 6 s | similar |
+| Precio | $0,48 por clip de 6 s a 480p | COP 1.500 por clip de 8 s |
+| Límite | ninguno visto | 10 al día |
+
+### Forma de trabajo que funcionó
+
+1. **Primero la imagen, después el video.** Enseñar la imagen editada antes de gastar $0,48.
+2. **Un acto cada vez** con `--solo-acto`, y revisarlo en una tira de fotogramas cada medio
+   segundo antes del siguiente.
+3. **No se borra ningún intento**: `serie_generar.py` guarda `_previo`, `_previo2`,
+   `_previo3`... El usuario eligió un intento anterior en el acto 3, y luego uno posterior.
+4. **Cada error se apunta en la ficha** (`leccion_acto2`, `leccion_acto3`, `leccion_chaqueta`,
+   `leccion_imagen_escaleras`) y la versión elegida en `version_elegida`.
+
+### Para publicar
+
+- `serie_placas.py --encima`: título sobre los primeros 3 s, «CONTINUARÁ» sobre los últimos,
+  sin negros, a 1080×1920.
+- En la descripción, el crédito de la foto: *Foto base: Haakon S. Krohn, CC BY-SA 3.0, vía
+  Wikimedia Commons*. La foto 4 es CC0 y no lo exige.
+- Activar en TikTok el interruptor de **contenido generado por IA**.
+- La serie **todavía no tiene nombre**; cuando lo tenga, `--serie "NOMBRE"`.
+
+## Fotos y créditos
+
+Las fotos de Wikimedia Commons llevan licencia **CC BY-SA 3.0**: hay que citar al autor en la
+descripción del video, y el video queda con la misma licencia. Los recortes verticales
+(`*_vertical.jpg`) salen de estas mismas fotos.
+
+| Archivo | Qué muestra | Dónde se usa | Autor y licencia |
+|---|---|---|---|
+| `plazaBolivar3.jpg` | Plano general: la estatua delante del portón central de la Catedral, con palomas | cap. 1, actos 1 y 3 (editada); cap. 2, acto 3 (tal cual) | Haakon S. Krohn, CC BY-SA 3.0, vía Wikimedia Commons |
+| `plazaBolivar4.jpg` | La estatua desde abajo contra un cielo de tormenta. Tiene una persona grande en primer plano | cap. 1, acto 2, y cap. 7, acto 3 (editada) | Guaiquerí, CC0, vía Wikimedia Commons |
+| `plazaBolivar2.jpg` | El pedestal de cerca, día de lluvia, con grafitis | reserva | Luis Alejandro Bernal Romero (Aztlek), CC BY-SA 3.0, vía Wikimedia Commons |
+| `plazaBolivar5.jpg` | **Es Tunja, no Bogotá** | no se usa | — |
+| `plazaBolivar1.jpg` | La Catedral de lejos | no se usa | **origen desconocido** |
+| `Bolivar.jpeg` | La estatua de cerca | no se usa | marca de agua de Depositphotos |
+
+**Las fotos no se usan tal cual casi nunca.** Un video arranca exactamente en su imagen de
+partida, y estas son de día, con gente y con la estatua puesta. Cada ficha declara en
+`imagenes_previas` qué versión necesita —de noche, con niebla, sin gente y sin estatua— y se
+generan con la edición de imagen de Grok en `serie_celador/assets/editadas/` antes del video.
+
+Línea para la descripción del video: *"Foto base: Haakon S. Krohn, CC BY-SA 3.0, vía
+Wikimedia Commons"*.
 
 ## Pendiente
 
-1. **Cerrar el guion.** Es lo único que bloquea todo lo demás.
-2. **`XAI_API_KEY` en el `.env`**; la línea ya está en `.env.example`.
-3. **Generar la hoja de personaje**, unos $0,30. La API también hace imágenes, así que puede
-   hacerse desde aquí.
-4. **Un clip de prueba a 480p**, unos $0,80, para ver dos cosas: si reconoce la Plaza de
-   Bolívar sin foto, y si mantiene al mismo celador con las imágenes de referencia.
+1. **Nombre de la serie**, para el título de los videos.
+2. **Capítulo 2**: sacar el último fotograma del acto 3 del capítulo 1 (el comando está en su
+   ficha) y probar la chaqueta sin "reflectantes".
+3. **Fotos con licencia**, que las fichas esperan con estos nombres en `serie_celador/assets/`:
+
+   | Archivo | Qué | Capítulos |
+   |---|---|---|
+   | `museo_nacional.jpg` | fachada del Museo Nacional | 3 |
+   | `museo_del_oro.jpg` | Salón de la Ofrenda por dentro, o la fachada. Si no hay con licencia, se genera con Grok | 4 y 5 |
+   | `monserrate_camino.jpg` | el sendero de piedra que sube a Monserrate | 5 |
+   | `monserrate_cima.jpg` | el santuario y su explanada, mejor de noche | 6 y 7 |
+
+   La arquitectura de esas fichas está escrita de memoria: hay que revisarla contra cada foto.
+   En Depositphotos casi todo es editorial; Wikimedia Commons sirvió.
+4. **Confirmar dónde se expone la Balsa Muisca** dentro del Museo del Oro. Las fichas la ponen
+   en el Salón de la Ofrenda.
+5. **Presupuesto real**: el capítulo 1 costó unos **$3,70** entre imágenes y clips. Con lo
+   aprendido, calcular **$2,50-3,50 por capítulo** y unos **$20-25** para los seis que faltan.
+6. **Rotar la clave de xAI**: se pegó en el chat.
