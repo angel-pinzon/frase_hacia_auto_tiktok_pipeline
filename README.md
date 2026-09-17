@@ -737,6 +737,7 @@ Cada voz y cada foto tienen sus manías. Lo que costó descubrir, para no repeti
 | llegamos aquí, pa' compartir, esa... | de corrido, sin pausas | suspensivos en `script.txt`, comas en `verses` |
 | pa' | con el apóstrofo, leído raro | `pa` sin apóstrofo en `script.txt` |
 | Wiliam | "William", a la inglesa | escribirlo fonéticamente |
+| Ticor | "Ticór", aguda | `Tícor` con tilde en `script.txt`; en pantalla, sin ella |
 
 ## Añadir un personaje
 
