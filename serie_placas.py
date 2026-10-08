@@ -192,7 +192,8 @@ def placa(destino, ancho, alto, fps, segundos, lineas, fondo=None):
     return destino
 
 
-def rotulos_encima(entrada, destino, lineas, cierre, segundos=3.0, segundos_cierre=1.8):
+def rotulos_encima(entrada, destino, lineas, cierre, segundos=3.0, segundos_cierre=1.8,
+                   visible_al_empezar=False):
     """Escribe el titulo sobre el arranque y el cierre sobre el final, sin placas.
 
     En TikTok los dos primeros segundos deciden si alguien se queda, y una
@@ -202,6 +203,10 @@ def rotulos_encima(entrada, destino, lineas, cierre, segundos=3.0, segundos_cier
     Va en el tercio de arriba, por debajo de la cabecera de la app: abajo lo
     tapan la descripcion y la musica, y a la derecha los botones. Un video
     vertical pequeno se lleva a 1080x1920, que es a lo que TikTok lo muestra.
+
+    Con visible_al_empezar el titulo ya esta en el primer fotograma, sin
+    fundido de entrada: Facebook toma ese fotograma de miniatura del Reel y,
+    una vez publicado, no deja cambiarla.
     """
     ancho, alto = int(sonda(entrada, "width")), int(sonda(entrada, "height"))
     duracion = float(sonda_formato(entrada, "duration"))
@@ -211,20 +216,23 @@ def rotulos_encima(entrada, destino, lineas, cierre, segundos=3.0, segundos_cier
         ancho, alto = 1080, 1920
     base = ancho / 16
 
-    def texto(contenido, tam, color, y, desde, hasta):
+    def texto(contenido, tam, color, y, desde, hasta, entra=True):
         fundido = 0.4
+        entrada_alpha = (f"if(lt(t,{desde + fundido:.2f}),(t-{desde:.2f})/{fundido},"
+                         if entra else "if(0,0,")
         return (f"drawtext=fontfile={FUENTE}:text='{escapa(contenido)}':fontsize={int(tam)}:"
                 f"fontcolor={color}:x=(w-text_w)/2:y={int(y)}:"
                 f"borderw={max(2, int(tam / 14))}:bordercolor=black@0.85:"
                 f"shadowcolor=black@0.6:shadowx=3:shadowy=3:"
                 f"enable='between(t,{desde:.2f},{hasta:.2f})':"
-                f"alpha='if(lt(t,{desde + fundido:.2f}),(t-{desde:.2f})/{fundido},"
+                f"alpha='{entrada_alpha}"
                 f"if(gt(t,{hasta - fundido:.2f}),({hasta:.2f}-t)/{fundido},1))'")
 
     y = alto * 0.20
     for contenido, escala, color in lineas:
         tam = base * escala
-        filtros.append(texto(contenido, tam, color, y, 0.0, segundos))
+        filtros.append(texto(contenido, tam, color, y, 0.0, segundos,
+                             entra=not visible_al_empezar))
         y += tam * 1.35
     if cierre:
         filtros.append(texto(cierre, base * 0.8, "white", alto * 0.20,
@@ -283,6 +291,9 @@ def main():
     p.add_argument("--encima", action="store_true",
                    help="Para TikTok: sin placas, titulo sobre los primeros segundos y "
                         "cierre sobre los ultimos, a 1080x1920")
+    p.add_argument("--facebook", action="store_true",
+                   help="Con --encima: titulo visible desde el primer fotograma, que "
+                        "Facebook usa de miniatura, y 3,5 s en pantalla")
     p.add_argument("--serie", default=SERIE, metavar="NOMBRE",
                    help="Nombre de la serie en el titulo; vacio para no ponerlo")
     args = p.parse_args()
@@ -339,7 +350,9 @@ def main():
         lineas = [(args.serie, 0.75, "white")] if args.serie else []
         lineas += [(f"Capítulo {args.numero}", 0.62, "0xD4AF37"),
                    (args.titulo, 0.9, "white")]
-        rotulos_encima(entrada, salida, lineas, args.cierre)
+        rotulos_encima(entrada, salida, lineas, args.cierre,
+                       segundos=3.5 if args.facebook else 3.0,
+                       visible_al_empezar=args.facebook)
         print(f"titulo encima -> {salida}")
         return 0
 

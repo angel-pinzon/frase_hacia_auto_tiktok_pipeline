@@ -1,5 +1,7 @@
 # Algo pasa en Soatá
 
+*Serie producida con **Veo** (Google). La mecánica de los scripts está en el [README del proyecto](../README.md#video-generado-con-veo-serie_generarpy-serie_placaspy); aquí va todo lo propio de esta serie.*
+
 Serie corta de terror y ciencia ficción ambientada en lugares reales de Soatá,
 generada a partir de fotografías del pueblo. Sin diálogo y sin protagonista: el
 pueblo es el personaje y todo se cuenta con lo que se ve en la calle.

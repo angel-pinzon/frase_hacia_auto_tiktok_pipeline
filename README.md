@@ -14,13 +14,14 @@ Punto de entrada para continuar en otra sesión sin depender del historial de co
 |---|---|---|
 | Videos de artistas: frases, monólogos, diálogos | estable, se produce a demanda | este README |
 | Saludos personalizados | a demanda; los últimos, para Wilmer Cortez y Ticor | `output/DiomedesDiaz/saludos/` |
-| Serie *Algo pasa en Soatá* | temporada completa: 1-4 publicados, 5-8 montados | [serie/README.md](serie/README.md), tabla *Dónde va la temporada* |
+| Serie *Algo pasa en Soatá* | temporada completa, publicada | [serie_soata/README.md](serie_soata/README.md), tabla *Dónde va la temporada* |
+| Serie del celador, en Bogotá, con Grok Imagine | capítulos 1-4 terminados, de 7 | [serie_celador/README.md](serie_celador/README.md) |
 
 Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué del cambio, no solo el qué.
 
 ### Dónde vive el estado
 
-- **Texto y decisiones, versionados**: `guiones/`, `prompts/escenas/` —una ficha JSON por capítulo con sus notas, lecciones y comando de montaje— y `serie/README.md`.
+- **Texto y decisiones, versionados**: `guiones/`, `prompts/escenas/` —una ficha JSON por capítulo con sus notas, lecciones y comando de montaje—, `serie_soata/README.md` y `serie_celador/README.md`.
 - **Medios, solo en disco**: `output/` (voces, videos, clips de Veo) y `assets/` (audios de referencia, avatares y fotos de locaciones). Los videos se pueden regenerar; **las fotos de `assets/` no**, así que conviene tener copia fuera del repo.
 - **Personaje activo**: `active_character` en `config.json`, que queda en `YeisonJimenez`. Un encargo de otro personaje lo cambia y **lo restaura al terminar**, para que el repo quede limpio.
 - **Remoto**: `github.com/angel-pinzon/frase_hacia_auto_tiktok_pipeline`. Se sube solo cuando se pide.
@@ -33,7 +34,8 @@ Lo último que se hizo: `git log --oneline -15`. Cada mensaje explica el porqué
 | una frase de un artista | Fase 1 → 2 → 3 → 3c |
 | **"completo"** | Fase 1 → 2 → 3 → 3c → 3b, la de mayor calidad, con escena de Veo |
 | un saludo de cumpleaños | texto a mano → 2 → 3 → 3c, sin escena. Ver [Saludos personalizados](#saludos-personalizados) |
-| un capítulo de la serie | `serie_generar.py` → revisión → `serie_placas.py`. Ver [Módulo de serie](#módulo-de-serie-serie_generarpy-serie_placaspy) |
+| un capítulo de una serie con Veo | `serie_generar.py` → revisión → `serie_placas.py`. Ver [Video generado con Veo](#video-generado-con-veo-serie_generarpy-serie_placaspy) |
+| un capítulo de la serie del celador | `serie_imagenes.py` para las imágenes → `serie_generar.py` acto a acto → `serie_placas.py --encima`. Ver [Serie con Grok Imagine](#serie-con-grok-imagine-serie_imagenespy-imagenpy) |
 
 ### Forma de trabajo
 
@@ -101,22 +103,28 @@ flowchart TD
     CFG -.-> F1 & F2 & F3 & F3c & F3b
 ```
 
-### Serie *Algo pasa en Soatá*
+### Series por capítulos
+
+El mismo camino sirve para los dos motores: `serie_generar.py` elige Veo o Grok según el
+modelo que declare la ficha. Con Grok hay un paso más antes, el de las imágenes de partida.
 
 ```mermaid
 flowchart LR
     FOTO["assets/<br/>foto de la locación"]
-    FICHA["prompts/escenas/capN.json<br/>ficha del capítulo"]
+    IMG["serie_imagenes.py<br/>(solo con Grok)"]
+    FICHA["prompts/escenas/<ficha>.json<br/>ficha del capítulo"]
     GEN["serie_generar.py"]
-    VEO(["Veo · nube<br/>imagen a video"])
-    ESC["output/escenas/<br/>capN_1 · capN_2 · capN_3<br/>capN_24s.mp4"]
+    MOD(["Veo o Grok · nube<br/>imagen a video"])
+    ESC["clips de cada acto<br/>y secuencia unida"]
     PLA["serie_placas.py"]
     FF[["FFmpeg"]]
-    SER["output/serie/<br/>capN.mp4 · capN_vertical.mp4"]
+    SER["capítulo terminado<br/>+ versión vertical"]
 
+    FOTO --> IMG
+    IMG -->|"imagen editada:<br/>noche, sin gente"| GEN
     FOTO --> GEN
     FICHA --> GEN
-    GEN <-->|"acto a acto, encadenado<br/>por el último fotograma"| VEO
+    GEN <-->|"acto a acto"| MOD
     GEN --> ESC
     ESC --> PLA
     PLA <--> FF
@@ -187,7 +195,14 @@ auto_tiktok_pipeline/
 ├── prompts/
 │   ├── avatar.txt               # Prompt para generar avatares
 │   └── escenas/                 # Fichas de escenas de Veo y de capítulos de la serie
-├── serie/README.md              # "Algo pasa en Soatá": historia, arco, estado y lecciones
+├── serie_soata/README.md        # "Algo pasa en Soatá": historia, arco, estado y lecciones de Veo
+├── serie_celador/               # Segunda serie, en Bogotá, con Grok Imagine
+│   ├── README.md                # Historia, trama, costes y todo lo aprendido con Grok
+│   ├── assets/                  # Fotos de las locaciones y sus versiones editadas (ignorado)
+│   ├── personaje/               # Hoja de referencia del celador (ignorado)
+│   ├── figura/                  # Hoja de referencia de la estatua de bronce (ignorado)
+│   ├── output/                  # Clips y capítulos terminados (ignorado)
+│   └── facebook/                # Versiones para Reels y sus descripciones (ignorado)
 ├── output/                      # Resultados, ignorado por git
 │   ├── <Personaje>/             # Una carpeta por personaje, no se pisan
 │   │   ├── script.txt           # Lo que se pronuncia
@@ -210,19 +225,26 @@ auto_tiktok_pipeline/
 ├── 4_upload_tiktok.py           # Fase 4: subida (opcional, sin probar)
 ├── INSTALACION.md               # Cómo montar la plataforma desde cero
 ├── revisar_voz.py               # Transcribe una voz y mide dónde respira
-├── serie_generar.py             # Serie: genera los actos de un capítulo desde su ficha
-└── serie_placas.py              # Serie: correcciones, placas, portada y versión 9:16
+├── serie_generar.py             # Series: genera los actos de un capítulo, con Veo o con Grok
+├── serie_imagenes.py            # Grok: hojas de personaje e imágenes de partida editadas
+├── imagen.py                    # Grok: una imagen suelta desde una descripción
+└── serie_placas.py              # Series: correcciones, placas, portada y versión 9:16
 ```
 
-### Serie: *Algo pasa en Soatá*
+### Las series
 
-Además de los videos de artistas, el repo aloja una **segunda línea de contenido**
-que no usa voz ni avatares: una serie corta de terror y ciencia ficción generada
-a partir de fotografías reales del pueblo, con Veo y FFmpeg.
+Además de los videos de artistas, el repo aloja **series cortas** que no usan voz
+ni avatares: se generan a partir de fotografías de lugares reales. Comparten
+`prompts/escenas/` y los scripts de serie, pero son independientes de las cuatro
+fases.
 
-Comparte la clave de Gemini, `prompts/escenas/` y la cuota de video, pero es
-independiente de las cuatro fases. Su historia, el arco de ocho capítulos, los
-costes y la forma de publicarla están en **[serie/README.md](serie/README.md)**.
+| Serie | Motor | Documentación |
+|---|---|---|
+| *Algo pasa en Soatá* | Veo | **[serie_soata/README.md](serie_soata/README.md)** |
+| La del celador, en Bogotá | Grok Imagine (xAI) | **[serie_celador/README.md](serie_celador/README.md)** |
+
+Cada README tiene la historia, el arco, los costes, la forma de publicarla y las
+lecciones de su motor. Aquí queda solo la mecánica de los scripts.
 
 ## Requisitos
 
@@ -597,17 +619,17 @@ m1.to_speech(antes) == m1.to_speech(despues)
 
 Automatiza el navegador con Playwright. **Sin probar y con `dry_run: true`.** El flujo recomendado es subir a mano: los selectores de TikTok cambian sin aviso y no compensa depurar un scraper mientras el formato aún se está afinando.
 
-## Módulo de serie (`serie_generar.py`, `serie_placas.py`)
+## Video generado con Veo (`serie_generar.py`, `serie_placas.py`)
 
-Segunda línea de contenido, **independiente de las cuatro fases**: una serie corta de terror y ciencia ficción ambientada en lugares reales de Soatá, generada a partir de fotografías del pueblo. No hay voz clonada, ni avatar, ni texto extraído de letras.
+Cómo se hace una serie por capítulos a partir de fotografías, **sin voz clonada, avatar ni texto extraído de letras**: `serie_generar.py` genera los actos con **Veo** y `serie_placas.py` los corrige y los monta, solo con FFmpeg.
 
-Comparte con el resto del proyecto la clave de Gemini, el modelo de Veo, la carpeta `prompts/escenas/` y —lo que más limita— la **misma cuota diaria de video**.
+Usa la clave de Gemini, la carpeta `prompts/escenas/` y —lo que más limita— la **misma cuota diaria de video** que la Fase 3b: Veo da 10 generaciones al día y 2 por minuto.
 
-La historia, el arco, el estado de la temporada, las fechas de publicación y todas las lecciones están en **[serie/README.md](serie/README.md)**. Aquí queda la mecánica.
+Con este motor se produjo *Algo pasa en Soatá*: su historia, su arco, su calendario y los casos concretos están en **[serie_soata/README.md](serie_soata/README.md)**. Para una serie con la API de xAI, ver [Serie con Grok Imagine](#serie-con-grok-imagine-serie_imagenespy-imagenpy).
 
 ### La ficha de un capítulo
 
-Cada capítulo es un JSON en `prompts/escenas/capN_titulo.json`. **Solo cuatro campos llegan al modelo**: `arquitectura`, `luz_prompt` (opcional), `comun` y el `prompt` de cada acto. El resto —`nota`, `riesgo`, `revision`, `leccion`, `montaje`...— es documentación para quien la lea y no se envía nunca. `arquitectura` se copia en los tres actos, porque es lo que frena al modelo cuando tiende a inventarse edificios al encadenar.
+Cada capítulo es un JSON en `prompts/escenas/`. **Solo cuatro campos llegan al modelo**: `arquitectura`, `luz_prompt` (opcional), `comun` y el `prompt` de cada acto. El resto —`nota`, `riesgo`, `revision`, `leccion`, `montaje`...— es documentación para quien la lea y no se envía nunca. `arquitectura` se copia en los tres actos, porque es lo que frena al modelo cuando tiende a inventarse edificios al encadenar.
 
 ### El ciclo de producción
 
@@ -649,11 +671,11 @@ Tiene dos frenos. **Se niega a lanzar una ficha con campos `PENDIENTE`**. Y **se
 
 Además hace dos cosas solo. **Recorta las barras negras** únicamente si siguen ahí en tres momentos distintos del clip, porque Veo a veces las tiene solo medio segundo al principio. Y **elige de portada el fotograma más iluminado a partir del segundo 4**, porque las redes usan el primer fotograma de miniatura y una placa negra deja el Reel invisible en el feed.
 
-Los clips crudos van a `output/escenas/`, los capítulos terminados a `output/serie/` y las versiones descartadas o de prueba a `output/serie/pruebas/`.
+Los clips crudos van a `output/escenas/`, los capítulos terminados a `output/serie/` y las versiones descartadas o de prueba a `output/serie/pruebas/`. Una ficha puede llevar su propia carpeta en `salida`, como hace la serie del celador.
 
-### Lo que se aprendió generando
+### Cómo se le habla a Veo
 
-Resumen. Los casos y las medidas están en `serie/README.md`.
+Lo que costó descubrir generando una temporada entera. Los casos y las medidas están en `serie_soata/README.md`.
 
 - **Una acción, no un ambiente.** Las postales —niebla, amaneceres— no retienen.
 - **Cantidades exactas y destinos por su aspecto.** "EXACTAMENTE DOS figuras", "la iglesia de piedra con el portón bajo el arco", nunca "el edificio de la izquierda".
@@ -663,6 +685,95 @@ Resumen. Los casos y las medidas están en `serie/README.md`.
 - **El foco de la acción recompone el plano.** Si todos caminan hacia una puerta, el modelo la centra y sacrifica lo que haya a los lados. Hay que fijar el encuadre en el prompt.
 - **Lo que se mueve entero parece un recorte.** Una cúpula subiendo de una pieza pareció "de Chespirito". Funciona que se transforme a la vista, con fragmentos y polvo.
 - **Al ampliar a 16:9, Veo inventa por los bordes.** Se revisan y se recortan en el montaje, sin pedirlo en el prompt: ahí podría desaparecer de golpe a mitad del clip.
+
+## Serie con Grok Imagine (`serie_imagenes.py`, `imagen.py`)
+
+La segunda serie —la del celador, en Bogotá— se produce con la **API de xAI** en vez de con
+Veo. El orquestador es el mismo `serie_generar.py`: **elige motor según el modelo que declare
+la ficha**, Grok si empieza por `grok` y Veo si no. Lo que cambia son los campos de la ficha y
+que aquí también se generan las imágenes.
+
+La historia, el estado y todo lo aprendido están en
+**[serie_celador/README.md](serie_celador/README.md)**. Aquí queda la mecánica.
+
+**La clave va en `.env` como `XAI_API_KEY`**, junto a la de Gemini. Es saldo de prepago: en la
+consola de xAI conviene dejar el *auto top-up* desactivado, para que el gasto no pueda pasar
+de lo cargado.
+
+### Qué cuesta
+
+| Concepto | Precio |
+|---|---|
+| Video, 480p | **$0,08 por segundo**: $0,32 un clip de 4 s, $0,40 uno de 5 s |
+| Imagen, `grok-imagine-image-2.0` a 1k | **$0,06** (calidad media); $0,04 en baja, $0,08 a 2k |
+| Capítulo real, cinco actos y sus imágenes | **$2,50 a $4,70**; la media va en $3,80 |
+
+Los precios de imagen salen de `GET /v1/image-generation-models`, que se consulta gratis y
+devuelve la tarifa por modelo.
+
+### Lo que la ficha le pide a xAI
+
+| Campo | Qué hace |
+|---|---|
+| `modelo` | `grok-imagine-video-1.5` |
+| `duracion_s` | 1 a 15 s, frente a los 8 fijos de Veo. Un acto puede traer el suyo |
+| `formato`, `resolucion` | `9:16` nativo y `480p`, `720p` o `1080p` |
+| `audio` | Grok genera el sonido del clip |
+| `referencias` | imágenes que anclan personajes y objetos; admite comodines |
+| `salida`, `prefijo` | carpeta y prefijo de los clips, para que dos series no se pisen |
+| `foto` | imagen de partida del primer acto |
+| `entrada` en un acto | ese acto arranca de su propia imagen en vez de encadenar |
+| `personaje` y `referencias` en un acto | quién sale **en ese acto**; con `""` y `[]`, el protagonista no aparece |
+| `imagenes_previas` | las imágenes editadas que hay que generar antes: origen, destino e instrucción |
+
+`--ver-peticion` imprime el cuerpo que se enviaría, con las imágenes resumidas, sin gastar
+nada.
+
+### Las imágenes
+
+```bash
+# hoja de personaje: el retrato 1 desde texto, los demás editándolo
+.venv/bin/python serie_imagenes.py prompts/personajes/celador.json --solo 1
+.venv/bin/python serie_imagenes.py prompts/personajes/celador.json --desde 2
+
+# imágenes de partida de un capítulo, las que declara en imagenes_previas
+.venv/bin/python serie_imagenes.py prompts/escenas/cel4_la-balsa.json
+
+# una imagen suelta, para probar ideas
+.venv/bin/python imagen.py "la plaza de noche con niebla" --desde foto.jpg
+```
+
+`serie_imagenes.py` sirve para las dos cosas según la ficha que reciba, aparta lo anterior en
+`_previos/` y avisa de lo que va a costar. `imagen.py` es para pruebas sueltas: añade una
+coletilla que fuerza el aspecto fotográfico —se quita con `--tal-cual`— y guarda en
+`output/imagenes/`.
+
+**Por qué hacen falta.** Un video arranca exactamente en su imagen de partida, así que la
+noche, la plaza vacía o el pedestal sin estatua se hacen **antes**, en la imagen, que cuesta
+$0,06 frente a $0,40 del clip.
+
+### Las hojas de referencia
+
+Lo que mantiene a un personaje igual entre capítulos:
+
+- **`serie_celador/personaje/`**: los seis retratos del celador, generados una vez.
+- **`serie_celador/figura/`**: la estatua de bronce, montada **gratis** con fotogramas de
+  clips ya aprobados.
+
+Se adjuntan con `referencias` en la ficha, y también sirven para objetos: las dos fotos de la
+Balsa Muisca evitaron que el modelo la repintara.
+
+### Diferencias con Veo que afectan al código
+
+- **Cada clip vuelve con el tamaño que le toca** según su imagen de partida —400×736 y 480×848
+  en el mismo capítulo—, así que `une()` los escala al mayor antes de concatenar.
+- **La API de imagen devuelve JPEG** aunque se pida otra cosa: el tipo se detecta por el
+  contenido, no por la extensión.
+- **No hay cuota diaria** como los 10 de Veo, pero sí errores `429` por saturación: se
+  reintenta y ya.
+- **El montaje para redes es otro**: `serie_placas.py --encima` escribe el título sobre la
+  imagen, sin placas negras, y `--facebook` lo deja visible desde el primer fotograma, que es
+  la miniatura del Reel.
 
 ## Configuración (`config.json`)
 

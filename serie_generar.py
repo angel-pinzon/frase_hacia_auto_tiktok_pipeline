@@ -62,8 +62,12 @@ def prompt_completo(ficha, acto):
     partes = [acto["prompt"]]
     # la descripcion del protagonista se copia en todos los actos, igual que la
     # arquitectura: es lo que mantiene al mismo personaje entre capitulos
-    if ficha.get("personaje"):
-        partes.append(ficha["personaje"])
+    # un acto puede quedarse sin protagonista con "personaje": "": en el
+    # capitulo 2 el celador mira desde fuera, y describirlo hizo que el modelo
+    # lo metiera dentro de la catedral, linterna incluida
+    personaje = acto.get("personaje", ficha.get("personaje"))
+    if personaje:
+        partes.append(personaje)
     partes.append(acto.get("arquitectura", ficha["arquitectura"]))
     luz = acto.get("luz_prompt", ficha.get("luz_prompt"))
     if luz:
@@ -79,7 +83,7 @@ def data_uri(ruta):
     return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
 
 
-def cuerpo_grok(ficha, prompt, imagen, referencias):
+def cuerpo_grok(ficha, prompt, imagen, referencias, acto=None):
     """Peticion para la API de video de xAI.
 
     Los nombres salen de la documentacion: duration (1-15 s), aspect_ratio,
@@ -89,7 +93,9 @@ def cuerpo_grok(ficha, prompt, imagen, referencias):
     cuerpo = {
         "model": ficha["modelo"],
         "prompt": prompt,
-        "duration": ficha.get("duracion_s", 8),
+        # un acto puede durar menos que los demas: el remate de un capitulo no
+        # necesita los mismos segundos que una persecucion
+        "duration": (acto or {}).get("duracion_s", ficha.get("duracion_s", 8)),
         "aspect_ratio": ficha.get("formato", "9:16"),
         "resolution": ficha.get("resolucion", "720p"),
         "generate_audio": ficha.get("audio", True),
@@ -204,11 +210,28 @@ def comprueba_encadenado(fotograma, acto_siguiente, forzar):
              f"que mantenga el sitio visible, o usa --forzar si es a proposito.")
 
 
+def medidas(video):
+    salida = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+         "stream=width,height", "-of", "csv=p=0", str(video)],
+        capture_output=True, text=True, check=True)
+    ancho, alto = salida.stdout.strip().splitlines()[0].split(",")[:2]
+    return int(ancho), int(alto)
+
+
 def une(partes, destino):
     entradas = []
     for p in partes:
         entradas += ["-i", str(p)]
-    filtro = ("".join(f"[{i}:v][{i}:a]" for i in range(len(partes)))
+    # Grok devuelve cada clip con el tamano que le toca segun su imagen de
+    # partida -400x736 y 480x848 en el mismo capitulo-, y concat exige que
+    # todos midan igual: se llevan al tamano del primero antes de unir.
+    # al mayor de los clips, para no perder resolucion
+    ancho, alto = max(medidas(p) for p in partes)
+    escalado = "".join(
+        f"[{i}:v]scale={ancho}:{alto},setsar=1[v{i}];" for i in range(len(partes)))
+    filtro = (escalado
+              + "".join(f"[v{i}][{i}:a]" for i in range(len(partes)))
               + f"concat=n={len(partes)}:v=1:a=1[v][a]")
     subprocess.run(["ffmpeg", "-y", "-v", "error", *entradas, "-filter_complex", filtro,
                     "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "18",
@@ -269,16 +292,20 @@ def main():
 
     load_env()
     es_grok = str(ficha["modelo"]).startswith("grok")
-    referencias = []
-    for patron in ficha.get("referencias", []):
-        encontradas = sorted(ROOT.glob(patron)) if any(c in patron for c in "*?[") else [ROOT / patron]
-        if not encontradas:
-            sys.exit(f"Ninguna imagen de referencia coincide con {patron}: sin ellas el "
-                     f"personaje sale distinto en cada acto.")
-        for imagen in encontradas:
-            if not imagen.exists():
-                sys.exit(f"Falta la imagen de referencia: {imagen}")
-            referencias.append(imagen)
+    def imagenes_de(patrones):
+        encontradas_todas = []
+        for patron in patrones:
+            encontradas = sorted(ROOT.glob(patron)) if any(c in patron for c in "*?[") else [ROOT / patron]
+            if not encontradas:
+                sys.exit(f"Ninguna imagen de referencia coincide con {patron}: sin ellas el "
+                         f"personaje sale distinto en cada acto.")
+            for imagen in encontradas:
+                if not imagen.exists():
+                    sys.exit(f"Falta la imagen de referencia: {imagen}")
+                encontradas_todas.append(imagen)
+        return encontradas_todas
+
+    referencias = imagenes_de(ficha.get("referencias", []))
 
     cliente = None
     if not es_grok:
@@ -287,10 +314,14 @@ def main():
     escenas.mkdir(parents=True, exist_ok=True)
     tmp = Path(tempfile.mkdtemp(prefix="serie_"))
 
-    def genera_acto(prompt, entrada, destino):
+    def genera_acto(prompt, entrada, destino, acto=None):
         if not es_grok:
             return genera(cliente, ficha["modelo"], prompt, entrada, destino)
-        cuerpo = cuerpo_grok(ficha, prompt, entrada, referencias)
+        # un acto sin protagonista tampoco lleva sus fotos: adjuntarlas invita
+        # al modelo a colocarlo en la escena
+        propias = acto.get("referencias") if acto else None
+        del_acto = imagenes_de(propias) if propias is not None else referencias
+        cuerpo = cuerpo_grok(ficha, prompt, entrada, del_acto, acto)
         if args.ver_peticion:
             print(json.dumps(sin_imagenes(cuerpo), ensure_ascii=False, indent=2))
             sys.exit(0)
@@ -298,7 +329,7 @@ def main():
         precio = PRECIO_SEGUNDO.get(cuerpo["resolution"])
         coste = f", unos {segundos * precio:.2f} $" if precio else ""
         print(f"  {segundos}s a {cuerpo['resolution']} en {cuerpo['aspect_ratio']}"
-              f"{', con ' + str(len(referencias)) + ' referencias' if referencias else ''}{coste}",
+              f"{', con ' + str(len(del_acto)) + ' referencias' if del_acto else ''}{coste}",
               flush=True)
         return genera_grok(cuerpo, destino)
 
@@ -332,7 +363,7 @@ def main():
             destino.rename(previo)
             print(f"el anterior se conserva como {previo.name}")
         print(f"[acto {actual['n']}] {actual['nombre']}...", flush=True)
-        genera_acto(prompt_completo(ficha, actual), entrada, destino)
+        genera_acto(prompt_completo(ficha, actual), entrada, destino, actual)
         print(f"  listo: {destino.name}", flush=True)
     else:
         entrada = imagen_propia(ficha["foto"])
@@ -340,7 +371,7 @@ def main():
             if acto.get("entrada"):
                 entrada = imagen_propia(acto["entrada"])
             print(f"[{acto['n']}/{len(actos)}] {acto['nombre']}...", flush=True)
-            salida = genera_acto(prompt_completo(ficha, acto), entrada, archivo(acto))
+            salida = genera_acto(prompt_completo(ficha, acto), entrada, archivo(acto), acto)
             print(f"  listo: {salida.name}", flush=True)
             if i < len(actos) - 1:
                 if not actos[i + 1].get("entrada"):

@@ -1,0 +1,107 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 4,
+  "titulo": "La balsa",
+  "momento": "3 de la madrugada, en el turno del celador",
+  "locacion": "Museo del Oro de Bogota: la sala circular de las ofrendas y la vitrina de la Balsa Muisca",
+  "foto": "serie_celador/assets/editadas/sala_oro.jpg",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 5,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "Cuarto capitulo: el museo donde trabaja el celador. La figura entra en la sala, el oro se enciende a su paso y la Balsa Muisca responde con un pulso azul. Salta la alarma y el celador toma su primera decision: la apaga y deja ir a la figura.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: bronce oscuro con manchas verdosas de oxido, con una capa larga y rigida que le cubre la espalda hasta los tobillos y se mueve en bloque, como metal. Nunca se le ve la cara. Levanta un solo brazo y de su mano sale un haz estrecho de luz blanca y fria.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga, con su linterna grande. Siempre de espaldas o de tres cuartos y a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "Una sala circular de museo del oro, a oscuras, con las paredes curvas cubiertas de cientos de piezas pequenas de oro precolombino tras cristal, una vitrina baja de cristal en el centro bajo un foco cenital y el suelo oscuro y pulido que refleja las luces.",
+  "comun": "Es de madrugada y el museo esta cerrado. La sala esta a oscuras y la unica luz es la del oro, la del foco de la vitrina y el haz de la figura. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "imagenes_previas": [],
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "la sala",
+      "personaje": "La figura de bronce de las imagenes de referencia: la estatua de Bolivar hecha cuerpo, bronce oscuro con manchas verdosas de oxido, con una capa larga y rigida que le cae de los hombros hasta los tobillos en pliegues pesados de metal, como el bronce de un monumento. Siempre de espaldas o de perfil, nunca se le ve la cara, y nunca se deforma: conserva la misma capa, el mismo cuerpo y la misma cabeza. En la vitrina de cristal del centro de la sala esta la pieza de oro de las imagenes de referencia: la Balsa Muisca, una balsa ovalada de hilos de oro con un cacique de pie en el centro y figuras pequenas alrededor. Es esa pieza y ninguna otra.",
+      "referencias": [
+        "serie_celador/assets/Cap4/BalsaOro2_vertical.jpg",
+        "serie_celador/assets/Cap4/BalsaOro1_vertical.jpg",
+        "serie_celador/figura/*.jpg"
+      ],
+      "prompt": "Camara fija, sin ningun movimiento, con el mismo encuadre de la imagen: la sala circular a oscuras y, en el centro, la vitrina de cristal con la balsa de oro dentro bajo su foco. La figura de bronce con capa aparece al fondo de la sala, pequena y entera, junto a la pared curva, y camina despacio hacia la vitrina acercandose desde atras. Nunca pasa entre la camara y la vitrina, nunca se acerca a la camara y nunca tapa la balsa: siempre se la ve detras de la vitrina y a lo lejos. A su paso, las piezas de oro de las paredes se van encendiendo solas, fila por fila, hasta que toda la pared curva brilla dorada y el suelo se llena de reflejos. La vitrina, la balsa y la sala no cambian de forma, y no aparece nadie mas.",
+      "duracion_s": 4
+    },
+    {
+      "n": 2,
+      "nombre": "la balsa",
+      "entrada": "serie_celador/assets/Cap4/BalsaOro1_vertical.jpg",
+      "personaje": "La figura de bronce de las imagenes de referencia: la estatua de Bolivar hecha cuerpo, bronce oscuro con manchas verdosas de oxido, con una capa larga y rigida que le cae de los hombros hasta los tobillos en pliegues pesados de metal, como el bronce de un monumento. Siempre de espaldas o de perfil, nunca se le ve la cara, y nunca se deforma: conserva la misma capa, el mismo cuerpo y la misma cabeza. Ademas, la pieza de oro de las imagenes de referencia es la Balsa Muisca: una balsa ovalada de hilos de oro, con un cacique de pie en el centro con tocado radiado y varias figuras pequenas alrededor. Es siempre exactamente esa pieza y no se convierte en ninguna otra.",
+      "referencias": [
+        "serie_celador/assets/Cap4/BalsaOro1_vertical.jpg",
+        "serie_celador/assets/Cap4/BalsaOro2_vertical.jpg",
+        "serie_celador/figura/*.jpg"
+      ],
+      "arquitectura": "La Balsa Muisca dentro de su vitrina de cristal: una pieza de oro con forma de balsa ovalada, con una figura principal de pie en el centro y varias figuras pequenas alrededor, sobre una peana clara iluminada por un unico foco cenital, en una sala completamente a oscuras. El cristal de la vitrina devuelve algun reflejo.",
+      "comun": "El museo esta cerrado, de madrugada. Lo unico iluminado es la balsa en su foco; todo lo demas esta negro. Realista y cinematografico, sin textos ni letreros.",
+      "prompt": "Camara fija, sin ningun movimiento. La balsa de oro sigue quieta en su foco de luz, en el centro del cuadro, exactamente igual que en la fotografia. Por la derecha entra despacio la figura de bronce con capa y se queda de espaldas en el borde del cuadro, recortada contra la luz, mirando la balsa sin tocarla. Entonces la balsa se enciende por dentro con una luz azul propia y late dos veces, y el azul tine la peana y la oscuridad de alrededor. Lo unico que se mueve es la figura al entrar y la luz al encenderse: la balsa no cambia de forma ni de numero de figuras en ningun momento.",
+      "duracion_s": 4,
+      "leccion": "El primer intento repinto la pieza: de la balsa ovalada paso a una galera dorada con dos filas de figuras. La balsa tiene mucho detalle fino y poco tamano en el cuadro, asi que hay que prohibir el cambio de forma y acortar el clip."
+    },
+    {
+      "n": 3,
+      "nombre": "el latido",
+      "duracion_s": 4,
+      "entrada": "serie_celador/assets/Cap4/BalsaOro2_vertical.jpg",
+      "personaje": "La pieza de oro de las imagenes de referencia: la Balsa Muisca, una balsa ovalada de hilos de oro con un cacique de pie en el centro, tocado radiado, y varias figuras pequenas de pie a su alrededor, todas de oro labrado. Es siempre exactamente esa pieza: el mismo numero de figuras, la misma forma de la balsa y los mismos adornos. No se convierte en ninguna otra pieza ni le crecen partes nuevas.",
+      "referencias": [
+        "serie_celador/assets/Cap4/BalsaOro2_vertical.jpg",
+        "serie_celador/assets/Cap4/BalsaOro1_vertical.jpg"
+      ],
+      "arquitectura": "Primer plano de la Balsa Muisca sobre fondo negro: el cacique de pie en el centro, los remeros y las figuras pequenas alrededor, todo en oro labrado.",
+      "comun": "Fondo negro, plano corto: la balsa ocupa casi todo el cuadro. Realista y cinematografico, sin textos ni letreros.",
+      "prompt": "Plano corto y fijo de la Balsa Muisca sobre fondo negro. La camara no se mueve y la pieza no se mueve: lo unico que cambia es la luz. Dentro del oro se enciende poco a poco una luz azul que sale de la propia pieza, primero en el cacique del centro y despues en las figuras pequenas, y late dos veces, cada vez mas fuerte, hasta que el resplandor azul inunda el cuadro. La pieza conserva en todo momento su forma, su numero de figuras y su oro: no se transforma en nada."
+    },
+    {
+      "n": 4,
+      "nombre": "la alarma",
+      "entrada": "serie_celador/assets/editadas/sala_oro.jpg",
+      "prompt": "Camara fija, el mismo encuadre de la sala circular, ahora con todo el oro de las paredes encendido y la vitrina de cristal iluminada en el centro. De repente salta una alarma: una luz roja giratoria barre las paredes curvas y el suelo, alternandose con el dorado, y los reflejos del suelo se vuelven rojos. El celador entra por el borde derecho del cuadro, de espaldas y a media distancia, y se queda quieto mirando hacia la vitrina, con la linterna apagada en la mano. En la sala no hay nadie mas: ninguna otra figura, ninguna estatua que camine. La vitrina, la balsa y la sala no cambian de forma.",
+      "referencias": [
+        "serie_celador/personaje/*.jpg"
+      ],
+      "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga, con su linterna grande. Siempre de espaldas o de tres cuartos y a media distancia, nunca en primer plano de la cara.",
+      "duracion_s": 4,
+      "leccion": "Con la figura de bronce moviendose bajo la luz roja giratoria, el modelo la redibujaba cada fotograma y salia deformada, con la capa como tela roja. Se saca de este acto: aqui solo estan la alarma y el celador, y la figura se va en el acto siguiente."
+    },
+    {
+      "n": 5,
+      "nombre": "la decision",
+      "duracion_s": 4,
+      "prompt": "Continua la misma escena, camara fija. El celador, de espaldas y a media distancia, se acerca a un panel en la pared de la izquierda y lo apaga: los haces rojos se detienen de golpe y la sala vuelve a quedar dorada y en silencio. El celador se queda quieto, mirando la vitrina. Al fondo, lejos y detras de la vitrina, la figura de bronce con su capa larga y rigida camina despacio hacia la salida, de espaldas, sin volverse y sin acercarse a la camara, y desaparece en la oscuridad. La figura nunca se deforma ni cambia de color, y nadie toca a nadie.",
+      "referencias": [
+        "serie_celador/personaje/*.jpg",
+        "serie_celador/figura/*.jpg"
+      ],
+      "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga, con su linterna grande. Siempre de espaldas o de tres cuartos y a media distancia, nunca en primer plano de la cara. La figura de bronce de las imagenes de referencia: la estatua de Bolivar hecha cuerpo, bronce oscuro con manchas verdosas de oxido, con una capa larga y rigida que le cae de los hombros hasta los tobillos en pliegues pesados de metal. Siempre de espaldas o de perfil, nunca se le ve la cara, y nunca cambia: no es una estatua dorada, ni una mujer, ni ninguna otra figura."
+    }
+  ],
+  "riesgo": "El oro encendiendose es el efecto del capitulo y va en las paredes, que son grandes en el cuadro: eso si lo sostiene el modelo. La balsa es pequena y por eso tiene su propio plano corto, como se aprendio en el capitulo 3. El acto 4 encadena a partir de la misma imagen de la sala, no del acto 1: asi la alarma no hereda lo que el modelo haya cambiado.",
+  "montaje": "PENDIENTE. Para TikTok: serie_placas.py --encima --serie \"\"; cinco actos, unos 23 s.",
+  "revision": [
+    "Una sola figura de bronce, nunca de frente, siempre con capa.",
+    "Acto 1: que el oro se encienda en las paredes y la sala no cambie de forma.",
+    "Acto 3: que el azul salga de la propia balsa y la pieza no se deforme.",
+    "Acto 4 y 5: el mismo celador, y que apague el panel sin primer plano de manos.",
+    "Que la figura y el celador nunca se toquen."
+  ],
+  "creditos": [
+    "BalsaOro1.jpg -Fotografia de la balsa de Oro-: Paoraqp, CC0, via Wikimedia Commons. No exige cita.",
+    "BalsaOro2.jpg -Gold Museum, Bogota-: Pedro Szekely, CC BY-SA 2.0, via Wikimedia Commons. Va en la descripcion del video.",
+    "La sala circular esta generada con Grok desde texto, no es una foto."
+  ],
+  "figura_referencias": "serie_celador/figura/*.jpg",
+  "nota_figura": "La figura de bronce tiene ahora su propia hoja de referencia en serie_celador/figura/, sacada de fotogramas de clips ya aprobados (capitulos 2, 3 y 4). Sin ella, el modelo la redibujaba en cada acto."
+}

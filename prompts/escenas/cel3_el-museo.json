@@ -1,0 +1,154 @@
+{
+  "serie": "celador",
+  "prefijo": "cel",
+  "salida": "serie_celador/output",
+  "capitulo": 3,
+  "titulo": "El museo",
+  "momento": "3 de la madrugada; el ultimo acto, la manana siguiente",
+  "locacion": "Plaza de Bolivar y Palacio de Justicia, fachada y salas del Museo Nacional de Bogota",
+  "foto": "serie_celador/assets/editadas/palacio_noche.jpg",
+  "modelo": "grok-imagine-video-1.5",
+  "formato": "9:16",
+  "resolucion": "480p",
+  "duracion_s": 5,
+  "audio": true,
+  "referencias": [
+    "serie_celador/personaje/*.jpg"
+  ],
+  "nota": "Historia del usuario: otra madrugada, el celador ve a la estatua escabullirse por el lado izquierdo del Palacio de Justicia y la sigue. La ve entrar en el Museo Nacional y entra detras. La estatua recorre pasillos y galerias hasta que unas piezas muiscas laten azul: la pista. El celador se cree escondido, pero la estatua lo descubre, lo alumbra y el vuelve a caer desmayado; despierta al dia siguiente en la Plaza de Bolivar.",
+  "mostrar_menos": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Levanta un solo brazo, y de su mano sale un haz estrecho de luz blanca y fria.",
+  "personaje": "El celador de las imagenes de referencia, la misma cara, el mismo bigote negro, la misma gorra oscura y la misma chaqueta azul marino con dos bandas reflectantes solo en cada manga -ninguna en el pecho ni en la espalda-, con su linterna grande. Siempre de espaldas o de tres cuartos y a media distancia, nunca en primer plano de la cara.",
+  "arquitectura": "Cada acto trae la suya, porque el capitulo cambia de sitio en cada uno: el Palacio de Justicia, la fachada del Museo Nacional, sus galerias y la Plaza de Bolivar.",
+  "comun": "Es de madrugada, sobre las tres. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+  "imagenes_previas": [
+    {
+      "destino": "serie_celador/assets/editadas/palacio_ancho_noche.jpg",
+      "origen": "serie_celador/assets/Cap3/Palacio_ancho_9x16.jpg",
+      "instruccion": "La banda nitida del centro de la imagen es una fotografia del Palacio de Justicia de Bogota: consérvala exactamente igual, con el mismo edificio de piedra clara, sus tres cuerpos, los ventanales y el porche central, la plaza de losas delante y los escalones bajos a la izquierda. No cambies su forma ni su posicion. Las franjas borrosas de arriba y de abajo se sustituyen por la continuacion natural de la escena: arriba, cielo nocturno negro sobre los cerros; abajo, mas plaza de losas de piedra hasta el primer plano. Ademas, es de madrugada: la plaza esta completamente vacia, sin personas, bicicletas ni carritos, los faroles estan encendidos, la fachada iluminada desde abajo y hay niebla fina a ras de suelo."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/museo_fachada_noche.jpg",
+      "origen": "serie_celador/assets/Cap3/Fachada_museo_nacional_vertical.jpg",
+      "instruccion": "La misma fotografia, con el mismo encuadre y la misma arquitectura: la fachada de piedra y ladrillo del Museo Nacional, con su puerta en arco al final de una escalinata ancha. Cambios: es de madrugada, el cielo esta negro, no hay ninguna persona, y se quitan los pendones y carteles colgados de la fachada, que queda limpia. La fachada esta iluminada desde abajo con luz calida y la puerta en arco esta entreabierta, con una franja de luz saliendo por la rendija."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/museo_galeria_noche.jpg",
+      "origen": "serie_celador/assets/Cap3/MuseoGaleria1_vertical.jpg",
+      "instruccion": "La misma fotografia, con el mismo encuadre y la misma arquitectura: una galeria abovedada de museo, con paredes blancas, vitrinas de cristal sobre mesas de madera y piezas de ceramica precolombina dentro. Cambios: el museo esta cerrado, de madrugada: no hay ninguna persona, las luces de sala estan apagadas y solo quedan unas luces tenues dentro de las vitrinas y una luz de emergencia al fondo. Todo lo demas queda en penumbra."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/museo_pasillo_noche.jpg",
+      "origen": "serie_celador/assets/Cap3/Museo_Nacional_Pasillo_vertical.jpg",
+      "instruccion": "La misma fotografia del interior del Museo Nacional, con el mismo encuadre y la misma arquitectura: un pasillo largo de suelo de madera brillante, paredes blancas, una reja de barrotes al fondo bajo un arco y, mas alla, otra sala iluminada. Un unico cambio: el museo esta cerrado, de madrugada. No hay ninguna persona. Las luces de sala estan apagadas y solo quedan unas luces tenues de emergencia en el techo y una luz debil al fondo, detras de la reja. Todo lo demas queda en penumbra."
+    },
+    {
+      "destino": "serie_celador/assets/editadas/museo_vitrina_noche.jpg",
+      "origen": "serie_celador/assets/Cap3/Vasijas_vertical.jpg",
+      "instruccion": "La misma fotografia de una vitrina de museo con vasijas de ceramica precolombina sobre peanas, vista de cerca a traves del cristal, con la misma disposicion de las piezas y la misma sala blanca detras. Un unico cambio: el museo esta cerrado, de madrugada, las luces estan apagadas y todo queda en penumbra; solo una luz tenue de emergencia recorta las piezas. No hay ninguna persona."
+    }
+  ],
+  "por_que_editadas": "Las tres fotos son de dia o con el museo abierto, y el video arranca exactamente en su imagen de partida. Un solo cambio por edicion, salvo la fachada, que ademas pierde los pendones porque llevan texto.",
+  "actos": [
+    {
+      "n": 1,
+      "nombre": "el palacio",
+      "arquitectura": "El costado izquierdo del Palacio de Justicia de Bogota, un edificio moderno de piedra clara con grandes ventanales y un porche de columnas, y delante la plaza de losas de piedra con faroles altos de hierro.",
+      "comun": "Es de madrugada, sobre las tres. El cielo esta negro, los faroles estan encendidos y la fachada esta iluminada desde abajo; hay niebla fina a ras de suelo. La plaza esta vacia. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. En todo el plano hay una sola figura de bronce, que nunca se duplica.",
+      "prompt": "Camara fija y lejana, con el mismo encuadre de la fotografia: el Palacio de Justicia entero al fondo y la gran plaza vacia delante, con los escalones bajos a la izquierda. Una unica figura de bronce con capa esta de espaldas en mitad de la plaza y se aleja de la camara caminando hacia el fondo, hacia la izquierda, de modo que se va haciendo cada vez mas pequena con la distancia. Nunca se gira ni se acerca a la camara: solo se le ve la espalda y la capa. Al final baja los escalones de la izquierda y sale del cuadro por ese lado, ya muy pequena. No lleva ninguna luz ni levanta los brazos. No aparece ningun celador ni ninguna otra persona, ni ninguna calle nueva.",
+      "encuadre": "Plano general y figuras pequenas: en los tres intentos anteriores, quien entraba por el primer plano ocupaba medio cuadro. Se pide tamano explicito -un quinto de la altura- y entrada por el borde derecho, no por abajo.",
+      "entrada": "serie_celador/assets/editadas/palacio_ancho_noche.jpg",
+      "duracion_s": 4,
+      "personaje": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Aqui no lleva ninguna luz: camina a oscuras, con los brazos bajados, y solo la alumbran los faroles de la plaza.",
+      "referencias": [],
+      "idea": "Volver a plantar el gancho: otra madrugada, la estatua anda suelta. De espaldas y alejandose se cumple el 'mostrar menos', se hace pequena por perspectiva y deja el sitio libre para que el celador entre en el acto siguiente."
+    },
+    {
+      "n": 2,
+      "nombre": "la sigue",
+      "duracion_s": 4,
+      "entrada": "serie_celador/assets/editadas/palacio_ancho_noche.jpg",
+      "arquitectura": "El costado izquierdo del Palacio de Justicia de Bogota, un edificio moderno de piedra clara con grandes ventanales y un porche de columnas, y delante la plaza de losas de piedra con faroles altos de hierro.",
+      "comun": "Es de madrugada, sobre las tres. El cielo esta negro, los faroles estan encendidos y la fachada esta iluminada desde abajo; hay niebla fina a ras de suelo. La plaza esta vacia. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. En todo el plano hay una sola figura de bronce, que nunca se duplica.",
+      "prompt": "Camara fija y lejana, con el mismo encuadre de la fotografia: el Palacio de Justicia entero y la plaza vacia, con los escalones bajos a la izquierda. La plaza esta vacia al empezar. El celador entra por el borde derecho del cuadro, pequeno y de cuerpo entero, con la linterna encendida, cruza la plaza de derecha a izquierda mirando hacia delante, baja los escalones de la izquierda y sale del cuadro por ese lado. Camina, no corre, y nunca se acerca a la camara. En el cuadro no hay nadie mas: la figura de bronce ya no se ve."
+    },
+    {
+      "n": 3,
+      "nombre": "el museo",
+      "entrada": "serie_celador/assets/editadas/museo_fachada_noche.jpg",
+      "arquitectura": "La fachada del Museo Nacional de Bogota, de piedra y ladrillo, con una gran puerta en arco en lo alto de una escalinata ancha de piedra, y faroles que la iluminan desde abajo.",
+      "comun": "Es de madrugada. El cielo esta negro y la fachada esta iluminada con luz calida; por la rendija de la puerta entreabierta sale una franja de luz. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+      "prompt": "Camara fija delante de la escalinata del Museo Nacional. Primero, la figura de bronce con su capa larga y rigida sube la escalinata de espaldas, despacio y pesada, empuja la puerta en arco y desaparece dentro; la capa se le ve entera, cubriendole la espalda hasta los tobillos. Cuando ya ha entrado y la escalinata queda vacia, el celador llega desde la calle, sube los escalones y se cuela por la puerta entreabierta. Nunca estan los dos a la vez en los escalones. No aparece nadie mas.",
+      "personaje": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Levanta un solo brazo, y de su mano sale un haz estrecho de luz blanca y fria. La capa es lo que mejor la distingue: larga y rigida, de bronce, le cubre la espalda desde los hombros hasta los tobillos y se mueve en bloque, como metal. No es una persona con ropa oscura ni un hombre con abrigo. Ademas aparece el celador de las imagenes de referencia, con su gorra y su chaqueta azul marino con bandas reflectantes solo en las mangas, siempre de espaldas y a media distancia.",
+      "leccion": "La primera version la puso sin capa, como una persona con ropa oscura: el acto llevaba adjunta la descripcion del celador y ninguna de la figura. Cada acto tiene que describir a quien sale en el."
+    },
+    {
+      "n": 4,
+      "nombre": "los pasillos",
+      "duracion_s": 4,
+      "entrada": "serie_celador/assets/editadas/museo_pasillo_noche.jpg",
+      "personaje": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Levanta un solo brazo, y de su mano sale un haz estrecho de luz blanca y fria.",
+      "referencias": [],
+      "arquitectura": "Un pasillo largo del Museo Nacional, de suelo de madera brillante y paredes blancas, con una reja de barrotes al fondo bajo un arco y otra sala detras.",
+      "comun": "El museo esta cerrado, de madrugada: las luces de sala estan apagadas y solo hay unas luces tenues de emergencia. No hay nadie mas que la figura. Realista y cinematografico, sin textos ni letreros. Hay una sola figura de bronce.",
+      "prompt": "Camara fija al principio del pasillo. La figura de bronce con capa recorre el pasillo de espaldas, alejandose de la camara, y barre las paredes y las puertas con su haz de luz blanca mientras avanza. Se hace mas pequena segun se aleja, cruza la reja del fondo y sigue hacia la sala siguiente. No aparece nadie mas. La arquitectura no cambia."
+    },
+    {
+      "n": 5,
+      "nombre": "las piezas",
+      "entrada": "serie_celador/assets/editadas/museo_galeria_noche.jpg",
+      "personaje": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Levanta un solo brazo, y de su mano sale un haz estrecho de luz blanca y fria.",
+      "referencias": [],
+      "arquitectura": "Una galeria abovedada del Museo Nacional, con paredes blancas, boveda de ladrillo enlucido, vitrinas de cristal sobre mesas de madera y piezas de ceramica precolombina dentro: vasijas y una mascara de piedra.",
+      "comun": "El museo esta cerrado, de madrugada: las luces de sala estan apagadas y solo hay unas luces tenues dentro de las vitrinas. No hay nadie mas que la figura. Realista y cinematografico, como una pelicula de misterio, sin textos, letreros ni logotipos. Ninguna figura toca a otra. Hay una sola figura de bronce.",
+      "prompt": "La figura de bronce avanza sola por la galeria a oscuras y barre las vitrinas con su haz de luz blanca, una tras otra, como buscando algo. Cuando el haz alcanza una vitrina con vasijas de ceramica y una mascara de piedra, todas esas piezas se encienden a la vez con una luz azul que late despacio, dos veces, e ilumina de azul toda la galeria. La figura se detiene en seco delante de ellas."
+    },
+    {
+      "n": 6,
+      "nombre": "el latido",
+      "duracion_s": 4,
+      "entrada": "serie_celador/assets/editadas/museo_vitrina_noche.jpg",
+      "personaje": "La figura es la estatua de Bolivar hecha cuerpo: un cuerpo de metal en movimiento, bronce oscuro con manchas verdosas de oxido, con una capa rigida y pesada que cae como el bronce de un monumento, no como una tela. Nunca se le ve la cara. Levanta un solo brazo, y de su mano sale un haz estrecho de luz blanca y fria.",
+      "referencias": [],
+      "arquitectura": "Una vitrina de museo vista de cerca a traves del cristal: vasijas de ceramica precolombina sobre peanas y, al fondo, la sala en penumbra.",
+      "comun": "El museo esta cerrado, de madrugada, y todo esta en penumbra. Plano corto: las vasijas ocupan casi todo el cuadro. Realista y cinematografico, sin textos ni letreros.",
+      "prompt": "Plano corto y fijo de la vitrina. Un haz de luz blanca entra por la izquierda y recorre las vasijas una a una. Cuando las alcanza, las propias vasijas se encienden por dentro con una luz azul intensa que sale de la ceramica, como si tuvieran algo dentro, y laten dos veces, despacio; el resplandor azul atraviesa el cristal e ilumina la sala en penumbra. Al fondo, desenfocada y a contraluz, se adivina quieta la silueta oscura de la figura de bronce con capa. No aparece nadie mas."
+    },
+    {
+      "n": 7,
+      "nombre": "lo descubre",
+      "prompt": "Continua la misma escena. Detras de una vitrina, al borde del cuadro, asoma el celador, agachado y de espaldas, mirando. La figura de bronce gira despacio la cabeza hacia el -siempre a contraluz, sin que se le vea la cara- y levanta el brazo apuntandole con el haz. La luz blanca crece hasta llenar todo el cuadro y la imagen queda completamente blanca.",
+      "montaje_propio": "El clip generado dura 5 s, pero a partir del segundo 3 el fogonazo blanco borra la galeria y el modelo se inventa otro sitio -columnas, una fachada de noche y la plaza con la Catedral-. Se corta a 2,5 s y se le anade un fundido a blanco de 0,5 s: ffmpeg -i cel3_6_lo-descubre_largo.mp4 -t 2.5 -vf fade=t=out:st=2.0:d=0.5:color=white -af afade=t=out:st=2.2:d=0.3 ..."
+    },
+    {
+      "n": 8,
+      "nombre": "otra vez",
+      "duracion_s": 4,
+      "entrada": "serie_celador/assets/plazaBolivar3_vertical.jpg",
+      "arquitectura": "La Catedral Primada de Bogota de frente, de piedra arenisca, con dos torres de campanario y el porton central de madera; delante, en el centro de la plaza, el monumento a Bolivar con su estatua de bronce en lo alto del pedestal, y palomas por todo el suelo.",
+      "comun": "Es de dia, por la manana, con nubes bajas sobre los cerros. Luz natural, realista y cinematografica, sin textos ni letreros. Ninguna figura toca a otra. Nadie se detiene a mirar al celador.",
+      "prompt": "El celador esta tumbado boca arriba sobre las losas de la plaza, entre las palomas, a media distancia. Abre los ojos, se incorpora despacio hasta quedar sentado y se lleva una mano a la cabeza, mirando hacia el monumento. La estatua de Bolivar esta en lo alto de su pedestal, como siempre. La gente cruza la plaza sin fijarse en el."
+    }
+  ],
+  "riesgo": "Es el capitulo con mas locaciones: cuatro. Cada acto arranca de su propia imagen, asi que solo el 4 encadena del anterior. Las piezas de las vitrinas son pequenas: el efecto se sostiene haciendo que la luz azul ilumine toda la galeria, no solo la vitrina.",
+  "montaje": "PENDIENTE. Para TikTok: serie_placas.py --encima --serie \"\"; cinco actos, 24 s.",
+  "revision": [
+    "Imagenes previas: sin gente, de noche, sin pendones, y la arquitectura igual a la foto.",
+    "Una sola figura de bronce, nunca de frente.",
+    "Acto 3: que el latido azul se vea grande, no un punto en una vitrina.",
+    "Acto 4: que el celador no aparezca de la nada en medio de la galeria, sino asomado al borde.",
+    "Acto 5: el mismo celador y el encuadre de la foto."
+  ],
+  "creditos": [
+    "Palacio_de_Justicia.jpg: Bernard Gagnon, CC BY-SA 4.0, via Wikimedia Commons.",
+    "Fachada_museo_nacional.jpeg: Felipe Restrepo Acosta, CC BY-SA 3.0, via Wikimedia Commons.",
+    "MuseoGaleria1.jpg: NonCarbonBasedLife, CC0, via Wikimedia Commons. No exige cita.",
+    "Museo_Nacional_Pasillo.jpg: MegavasCol, CC BY-SA 3.0 (de reserva, sin usar).",
+    "Museo_Mascara_precolombina.jpeg y Vasijas_de_indigenas.jpeg: PedroDiazS, CC BY-SA 3.0 (de reserva, sin usar).",
+    "plazaBolivar3.jpg: Haakon S. Krohn, CC BY-SA 3.0, via Wikimedia Commons."
+  ],
+  "leccion_acto1": "Cuatro intentos. Lo aprendido: el encuadre lo manda la imagen de partida, no el prompt -pedir 'plano general' sobre un recorte cerrado no aleja la camara-; quien entra por el primer plano sale enorme, asi que conviene hacerle entrar por un borde lateral y dar el tamano explicito; y con un solo clip corto para dos recorridos, las dos figuras acaban juntas. Si hubiera que repetirlo: imagen de partida mas abierta y un clip para cada uno.",
+  "version_elegida": "Acto 1: el intento de la calle -la figura se aleja por una calle con soportales que el modelo invento a partir del costado del palacio-, elegido por el usuario. Descartados: _previo2, donde baja los escalones y sale por la izquierda, y _previo3, el mismo plano mas abierto y con los dos recorridos separados. La calle no existe en la foto, pero el plano tiene profundidad y la figura se desvanece de verdad al fondo.",
+  "nota_estructura": "Ocho actos: plaza (estatua), plaza (celador), museo, pasillos, la sala azul, el latido de las piezas en plano corto, lo descubre y el despertar. Unos 33 s.",
+  "leccion_blanco": "Un fogonazo que borra la escena a mitad de clip deja al modelo sin arquitectura que respetar, y se inventa otro lugar. El blanco tiene que caer al final del clip, o se corta antes y se funde a blanco en el montaje, que sale gratis.",
+  "leccion_piezas": "En plano general el modelo tine toda la sala de azul pero no enciende las piezas: son demasiado pequenas en el cuadro. El latido necesita su propio plano corto, con las vasijas ocupando casi todo."
+}

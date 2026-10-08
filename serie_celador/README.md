@@ -3,7 +3,7 @@
 *Nombre provisional.* Segunda serie corta del proyecto, con **protagonista fijo**, pensada
 para TikTok y producida con **Grok Imagine** en vez de Veo.
 
-La primera serie, *Algo pasa en Soatá*, está en [serie/README.md](../serie/README.md). Casi
+La primera serie, *Algo pasa en Soatá*, está en [serie_soata/README.md](../serie_soata/README.md). Casi
 todo lo aprendido allí se aplica aquí, y está resumido más abajo.
 
 ## Estado
@@ -11,12 +11,12 @@ todo lo aprendido allí se aplica aquí, y está resumido más abajo.
 | | |
 |---|---|
 | Protagonista | decidido: un celador de ronda nocturna. Ficha en [prompts/personajes/celador.json](../prompts/personajes/celador.json) |
-| Hoja de personaje | **generada**: seis retratos en `serie_celador/personaje/`, hombre de unos 32 años. Se hacen con `serie_imagenes.py` |
+| Hoja de personaje | **dos**: el celador, seis retratos en `serie_celador/personaje/`, hechos con `serie_imagenes.py`; y la figura de bronce, cuatro fotogramas de clips aprobados en `serie_celador/figura/` |
 | Locación | **Bogotá**, empezando en la Plaza de Bolívar. Foto en `assets/plazaBolivar1.jpg` y su recorte vertical |
 | Historia | **temporada de 7 capítulos decidida**: el 1 y el 2 son del usuario, del 3 al 7 los propuso Claude y el usuario los aprobó |
 | Producción | orquestada desde el proyecto con la API de xAI, igual que la serie anterior con Veo |
 | Clave | `XAI_API_KEY` en el `.env`, comprobada |
-| Capítulos | **el 1 terminado** y listo para TikTok: `serie_celador/output/cel1_el-pedestal-vacio_tiktok.mp4`. Las fichas del 2 al 7, escritas; del 3 al 7 esperan sus fotos |
+| Capítulos | **del 1 al 4 terminados**, con su versión de TikTok y de Facebook en `serie_celador/output/` y `serie_celador/facebook/`. Fichas del 5 al 7 escritas, esperando sus fotos |
 
 ## Qué es
 
@@ -230,56 +230,97 @@ palomas.
 La propuesta anterior de cinco capítulos (palomas inmóviles, marcas, La Candelaria,
 Monserrate, el relevo) queda **descartada**: no convencía.
 
-## Lo aprendido en el capítulo 1
+## Lo aprendido
 
-El capítulo 1 costó **siete clips para tres actos** ($3,36) y cuatro imágenes de la plaza
-($0,36). Casi todo el gasto de más vino de cosas que ahora se saben.
+Reglas sacadas de la producción de los capítulos 1 a 4, con el error que enseñó cada una.
+El detalle de cada acto está en los campos `leccion_*` y `version_elegida` de su ficha.
 
-### La imagen de partida
+**Antes de escribir un capítulo nuevo, leer esta sección entera.** Cuesta menos que un clip.
 
-- **El video arranca exactamente en su imagen de partida.** Todo lo que no deba verse en el
-  primer fotograma —la estatua, la gente, el día— hay que quitarlo antes, editando la imagen.
-  Si no, desaparece de golpe delante del espectador.
-- **Todo lo que el acto vaya a mostrar tiene que estar ya en la imagen.** La niebla tapaba las
-  escaleras de la Catedral y, al acercarse la cámara, el modelo las hizo aparecer de la nada.
-  Se arregló con una imagen donde ya se veían.
+### La imagen de partida manda
+
+- **El video arranca exactamente en su imagen.** Lo que no deba verse en el primer fotograma
+  —la estatua, la gente, el día— hay que quitarlo antes, editando la imagen. Si no, desaparece
+  de golpe delante del espectador.
+- **Lo que el acto vaya a mostrar tiene que estar ya ahí.** La niebla tapaba las escaleras de
+  la Catedral y, al acercarse la cámara, el modelo las hizo aparecer de la nada.
+- **El encuadre también lo manda la imagen, no el prompt.** Pedir "plano general" sobre un
+  recorte cerrado no aleja la cámara: en el capítulo 3 hicieron falta cuatro intentos hasta
+  entender que había que rehacer la imagen. Para abrir el plano, se monta la foto completa
+  dentro del cuadro vertical y se le pide a Grok que rellene cielo y suelo.
+- **Para que dos planos compartan un mueble o un objeto**, el plano amplio se genera a partir
+  de un fotograma del plano corto: así la vitrina del capítulo 4 es la misma en los dos.
 - **Al editar una imagen, un solo cambio cada vez.** Pedir a la vez "quita la estatua" y
-  "despeja las escaleras" borró el monumento entero dos veces. Editar sobre la imagen nocturna
-  que ya estaba bien, pidiendo solo "menos niebla", salió a la primera.
-- **Quitar algo encoge lo que lo sostenía**: sin la estatua, el pedestal quedó más bajo. Hay
-  que mirar la imagen editada antes de gastar en video.
-- **Revisar las imágenes editadas es barato** ($0,06) y cada error que se queda en ellas se
-  repite en todos los videos que salen de ahí.
+  "despeja las escaleras" borró el monumento entero dos veces.
+- **Quitar algo encoge lo que lo sostenía:** sin la estatua, el pedestal quedó más bajo.
+  Revisar la imagen editada antes de gastar en video; cuesta $0,06 frente a $0,32-0,48.
 
-### El prompt del video
+### Quién sale y cómo se mantiene
 
+- **Cada acto describe a quien sale en él.** Si solo va la descripción del celador, al resto
+  el modelo lo simplifica: la figura subió al museo sin capa y, en la alarma, apareció una
+  estatua dorada de mujer que no tenía nada que ver.
+- **Cada personaje recurrente necesita su hoja de referencia.** El celador la tuvo desde el
+  principio (`serie_celador/personaje/`); la figura de bronce no, y cambiaba en cada acto.
+  La suya (`serie_celador/figura/`) se montó gratis con fotogramas de clips ya aprobados.
+- **Un acto sin un personaje no lleva ni su descripción ni sus fotos.** Adjuntarlas invita al
+  modelo a colocarlo en escena: el celador apareció dentro de la Catedral, linterna incluida,
+  cuando debía estar fuera.
+- **La ropa no se sostiene si choca con lo que el modelo "sabe".** "Celador" con "bandas
+  reflectantes" se convierte, de frente, en un chaleco de alta visibilidad, por mucho que el
+  texto y las seis referencias digan que van solo en las mangas.
+- **De espaldas o de tres cuartos** evita la mayoría de problemas de cara y de ropa.
+
+### Tamaño y encuadre de las figuras
+
+- **Quien entra por el primer plano sale enorme.** Hay que hacerlo entrar por un borde lateral
+  o por el fondo, y dar el tamaño explícito ("no más de un quinto de la altura del cuadro").
+- **Caminar alejándose encoge a la figura solo**, por perspectiva, y de paso no se le ve la
+  cara.
+- **Un clip corto no da para dos recorridos**: en el capítulo 3, con la estatua y el celador
+  en el mismo clip, siempre acababan juntos. Se arregló con un clip para cada uno.
+
+### Objetos pequeños y efectos
+
+- **Lo pequeño no carga la acción.** En plano general el modelo tiñe la sala entera de azul
+  antes que encender unas vasijas que ocupan una décima parte del cuadro. El latido necesita
+  su propio plano corto, con el objeto llenando el cuadro.
+- **Un objeto con mucho detalle se conserva con tres cosas a la vez**: plano corto, sus fotos
+  adjuntas como `referencias` —no solo como fotograma de partida— y que **lo único que cambie
+  sea la luz**. Con eso la Balsa Muisca dejó de convertirse en otra pieza.
 - **Si la acción necesita espacio que el cuadro no tiene, el modelo cambia el escenario.**
   "El haz sube por el pedestal hasta arriba", con lo alto ya en cuadro, convirtió el pedestal
-  en un obelisco. Se arregla pidiendo la acción sobre lo que ya se ve ("alumbra lo alto") y
-  prohibiendo el cambio ("el pedestal no cambia de forma ni de altura").
-- **Un personaje que no está en la imagen aparece donde más estorba.** El celador surgió
-  pegado al pedestal justo antes de que saliera la figura, y parecía fundirse con él. Hay que
-  decir por dónde entra ("por la esquina inferior izquierda") y dónde está el otro ("ya al otro
-  lado del monumento").
+  en un obelisco. Se pide la acción sobre lo que ya se ve y se prohíbe el cambio de forma.
+- **Figura en movimiento más luz de color girando = deformación.** En la alarma del capítulo 4
+  la capa se volvió tela roja y el cuerpo se deshizo. Si hace falta la luz, que la figura esté
+  quieta o no esté.
+- **Un fogonazo blanco a mitad de clip** deja al modelo sin arquitectura que respetar y se
+  inventa otro lugar. El blanco va al final del clip, o se corta antes y se funde a blanco en
+  el montaje, que sale gratis.
+
+### Geografía y continuidad
+
 - **La geografía que no se describe, se acorta.** Con "el monumento justo delante del portón",
-  la figura fue en línea recta y se saltó la plaza y las escaleras. Hay que nombrar los tramos
-  intermedios.
+  la figura fue en línea recta y se saltó la plaza y las escaleras.
+- **No pedir sitios que no estén en la imagen.** Pedir "se va por la calle del costado" hizo
+  que el modelo inventara una calle entera con soportales. Si algo debe quedar fuera, que el
+  personaje salga por el borde del cuadro.
 - **Los colores se contagian.** "Brillo verdoso de bronce" en la figura volvió verde el haz de
-  la linterna. Cada luz lleva su color, y si hace falta, el que no puede tener ("amarillo,
-  nunca verde").
-- **El contacto sigue saliendo mal**: la figura apoya la mano en el borde del portón en casi
-  todos los intentos. Si importa, que la puerta se abra antes de que llegue.
+  la linterna; hay que decir el color de cada luz y, si hace falta, el que no puede tener.
+- **El contacto sigue saliendo mal:** la figura apoya la mano en el portón en casi todos los
+  intentos. Si importa, que la puerta se abra antes de que llegue.
 
-### El personaje
+### Montaje y formato
 
-- **La hoja de personaje funciona para la cara y la silueta**: es el mismo hombre en los tres
-  actos. Generar el retrato 1 del texto y los demás como edición del 1 mantuvo la cara.
-- **La ropa no se sostiene si choca con lo que el modelo "sabe".** "Celador" con "bandas
-  reflectantes" se convierte, de frente, en un chaleco de alta visibilidad, aunque las seis
-  referencias y el texto digan que las bandas van solo en las mangas. De espaldas y lejos pasa
-  menos. **Próximo intento**: describir la chaqueta sin la palabra "reflectantes" —"azul marino
-  lisa, con dos franjas grises en los antebrazos"—.
-- **Mantenerlo de espaldas o de tres cuartos** evita la mayoría de problemas de cara y ropa.
+- **Grok devuelve cada clip con el tamaño que le toca** según su imagen de partida —400×736 y
+  480×848 en el mismo capítulo—, y `concat` exige que todos midan igual: `une()` los escala al
+  mayor.
+- **Los actos pueden durar distinto.** 4 s para un remate, 5 s para una acción.
+- **Para TikTok**, `serie_placas.py --encima`: título sobre los primeros 3 s, «CONTINUARÁ»
+  sobre los últimos, sin negros, a 1080×1920. Con `--facebook`, el título ya está en el primer
+  fotograma, que es la miniatura del Reel y no se puede cambiar después.
+- **Se guardan todos los intentos** (`_previo`, `_previo2`...): en el acto 3 del capítulo 1 el
+  usuario eligió primero una toma anterior y luego una posterior.
 
 ### Grok frente a Veo
 
@@ -287,30 +328,29 @@ El capítulo 1 costó **siete clips para tres actos** ($3,36) y cuatro imágenes
 |---|---|---|
 | Formato | vertical nativo 9:16, a 480p | apaisado, recortado después |
 | Arquitectura | respeta bien la de la imagen, incluso con la cámara moviéndose | la reinventaba al oscurecer |
+| Objetos con detalle | los repinta si son pequeños; se salvan con referencias | — |
 | Cámara | tiende a acercarse, y a veces da un salto de plano | más quieta |
-| Sonido | lo genera, a volumen razonable | también |
-| Tiempo | unos 3 minutos por clip de 6 s | similar |
-| Precio | $0,48 por clip de 6 s a 480p | COP 1.500 por clip de 8 s |
-| Límite | ninguno visto | 10 al día |
+| Imágenes | genera y edita, $0,06 cada una | no se usó |
+| Precio | $0,08 por segundo a 480p | COP 1.500 por clip de 8 s |
+| Límite | ninguno visto; algún 429 por saturación | 10 al día |
 
-### Forma de trabajo que funcionó
+### Lo que han costado los capítulos
 
-1. **Primero la imagen, después el video.** Enseñar la imagen editada antes de gastar $0,48.
-2. **Un acto cada vez** con `--solo-acto`, y revisarlo en una tira de fotogramas cada medio
+| Cap. | Coste | Dónde se fue |
+|---|---|---|
+| 1 · El pedestal vacío | $3,70 | cuatro intentos del acto 3 |
+| 2 · La luz | $2,52 | el celador aparecía dentro de la Catedral |
+| 3 · El museo | $4,68 | seis intentos del acto 1; el latido en plano corto |
+| 4 · La balsa | $4,52 | la balsa repintada; la vitrina y la figura deformadas |
+
+Unos **$3,80 por capítulo**, frente a los $1,44 que calculé al principio.
+
+### Forma de trabajo
+
+1. **Primero la imagen, después el video.** Enseñar la imagen editada antes de gastar en clip.
+2. **Un acto cada vez** con `--solo-acto`, revisado en una tira de fotogramas cada medio
    segundo antes del siguiente.
-3. **No se borra ningún intento**: `serie_generar.py` guarda `_previo`, `_previo2`,
-   `_previo3`... El usuario eligió un intento anterior en el acto 3, y luego uno posterior.
-4. **Cada error se apunta en la ficha** (`leccion_acto2`, `leccion_acto3`, `leccion_chaqueta`,
-   `leccion_imagen_escaleras`) y la versión elegida en `version_elegida`.
-
-### Para publicar
-
-- `serie_placas.py --encima`: título sobre los primeros 3 s, «CONTINUARÁ» sobre los últimos,
-  sin negros, a 1080×1920.
-- En la descripción, el crédito de la foto: *Foto base: Haakon S. Krohn, CC BY-SA 3.0, vía
-  Wikimedia Commons*. La foto 4 es CC0 y no lo exige.
-- Activar en TikTok el interruptor de **contenido generado por IA**.
-- La serie **todavía no tiene nombre**; cuando lo tenga, `--serie "NOMBRE"`.
+3. **Cada error se apunta en la ficha**, y lo que sirva para toda la serie, aquí.
 
 ## Fotos y créditos
 
